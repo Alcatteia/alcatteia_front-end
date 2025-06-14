@@ -2,6 +2,8 @@
 
 import "./styles.css";
 
+import AccountAccess from "./pages/AccountAccess/AccountAccess";
+
 // React Router
 
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -15,7 +17,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
-                    {/* <Route path="/" element={<Home />} /> */}
+                    <Route path="/" element={<AccountAccess />} />
 
 
                     {/* Rota para página Sobre  */}
