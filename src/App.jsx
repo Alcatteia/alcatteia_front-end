@@ -2,11 +2,14 @@
 
 import "./styles.css";
 
-import AccountAccess from "./pages/AccountAccess/AccountAccess";
-
 // React Router
 
 import { BrowserRouter, Route, Routes } from "react-router";
+
+// Components
+
+import AccountAccess from "./pages/AccountAccess/AccountAccess";
+import About from "./pages/About/About";
 
 
 function App() {
@@ -21,7 +24,7 @@ function App() {
 
 
                     {/* Rota para página Sobre  */}
-                    {/* <Route path="/about" element={<Home />} /> */}
+                    <Route path="/about" element={<About />} />
 
 
                     {/* Rota para página Dashboard */}
