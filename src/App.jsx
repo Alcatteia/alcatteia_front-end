@@ -8,8 +8,8 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 // Components
 
-import AccountAccess from "./pages/AccountAccess/AccountAccess";
 import About from "./pages/About/About";
+import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
 
 function App() {
@@ -25,6 +25,10 @@ function App() {
 
                     {/* Rota para página Sobre  */}
                     <Route path="/about" element={<About />} />
+
+
+                    {/* Rota para página Entrar/Cadastrar  */}
+                    <Route path="/account-access" element={<AccountAccess />} />
 
 
                     {/* Rota para página Dashboard */}
