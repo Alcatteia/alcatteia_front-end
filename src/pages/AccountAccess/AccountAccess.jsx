@@ -13,12 +13,7 @@ import { BsLinkedin } from "react-icons/bs";
 
 import Input from "./Input";
 
-
-// import InstaIcon from "./assets/social_media/instagram-icon.svg";
-// import FaceIcon from "./assets/social_media/facebook-icon.svg";
-// import LinkedinIcon from "./assets/social_media/linkedin-icon.svg";
-
-// import Lobo from "./assets/lobo.svg";
+import Lobo from "../../assets/login/logo_login.svg";
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -62,6 +57,18 @@ const AccountAccess = () => {
                             icon={<FaLock />}
                         />
 
+                        {!isLogin && (
+                            <>
+                                <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione uma opção</label>
+                                <select id="countries" className="peer dark:text-white pl-2 h-[40px] min-h-[40px] pr-[40px] leading-normal appearance-none resize-none box-border text-base w-full text-inherit block text-left border border-zinc-500 border-solid dark:bg-[#140e1b] rounded-[10px] m-0 p-0 outline-0 focus-visible:outline-0 focus-visible:border-[#9160cb] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[##9060cb45 dark:focus-visible:ring-[#9060cb18]">
+                                    <option selected>Selecione seu cargo</option>
+                                    <option value="RH">Recursos Humanos (RH)</option>
+                                    <option value="LI">Líder</option>
+                                    <option value="FUN">Funcionário</option>
+                                </select>
+                            </>
+                        )}
+
                         <button
                             type="submit"
                             className="bg-purple-700 text-white py-2 rounded-md mt-8 hover:bg-purple-800 transition"
@@ -72,11 +79,11 @@ const AccountAccess = () => {
                 </div>
 
                 <div
-                    className={`absolute top-0 w-1/2 h-full bg-black text-white flex flex-col items-center justify-center p-10 transition-transform duration-700 ease-in-out 
+                    className={`absolute top-0 w-1/2 h-full bg-black z-50 text-white flex flex-col items-center justify-center p-10 transition-transform duration-700 ease-in-out
                         ${isLogin ? "translate-x-full" : "translate-x-0"}
                     `}
                 >
-                    {/* <img src={Lobo} alt="Nosso Icon" /> */}
+                    <img src={Lobo} alt="Nosso Icon" />
                     <h2 className="text-3xl font-bold mb-4">
                         {isLogin ? "Bem-vindo de volta!" : "Já tem uma conta?"}
                     </h2>
