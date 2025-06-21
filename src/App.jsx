@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
+import Kanban from "./pages/Kanban/AppKanban";
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
 
 
                     {/* Rota para página Kanban */}
-                    {/* <Route path="/kanban" element={<Componente />} /> */}
+                     <Route path="/kanban" element={<Kanban />} />
 
 
                     {/* Rota para página Check-in */}
