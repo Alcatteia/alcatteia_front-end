@@ -26,7 +26,7 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
 
   const [{ isDragging }, dragRef] = useDrag({
     type: ITEM_TYPES.TASK,
-    item: { id: task.id, status: task.status },
+    item: { id: task.id, status: task.status, categoryId },
     collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })

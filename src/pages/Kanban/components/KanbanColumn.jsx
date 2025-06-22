@@ -20,7 +20,7 @@ export default function KanbanColumn({
     drop: (item) => {
       // Verifica se a tarefa está sendo movida para outra coluna
       if (item.status !== status) {
-        onMoveTask(item.id, item.status, status);
+        onMoveTask(item.id, item.status, status, item.categoryId);
       }
     },
     collect: (monitor) => ({

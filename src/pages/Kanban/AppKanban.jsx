@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import KanbanProvider, { KanbanContext } from '../../contexts/KanbanContext';
+import { AuthProviderKanban, useAuthKanban } from '../../contexts/AuthContextKanban';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import CategoryPanel from './components/CategoryPanel';
@@ -15,8 +16,11 @@ const isTouchDevice = () => {
 
 export default function Kanban() {
   const backend = useMemo(() => {
-    return isTouchDevice() ? TouchBackend : HTML5Backend;
+    return isTouchDevice() ? HTML5Backend : HTML5Backend;
   }, []);
+  
+  console.log('Usando backend:', backend);
+  console.log('Dispositivo touch:', isTouchDevice()); 
 
   // Consome o contexto para notificações
   const {

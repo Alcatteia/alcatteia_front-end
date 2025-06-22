@@ -1,4 +1,4 @@
-import { FiCheckCircle } from 'react-icons/fi';
+
 
 export const STATUS_CONFIG = {
   todo: {
@@ -25,12 +25,11 @@ export const STATUS_CONFIG = {
     color: 'border-green-500',
     bgColor: 'bg-green-500',
     textColor: 'text-green-100',
-    icon: <FiCheckCircle className="text-green-400" />,
+    icon: "",
     prevStatus: 'doing',
     borderHex: '#00BE63'
   }
 };
-
 /**
  * Ordem de exibição das colunas no Kanban
  * @type {Array<string>}
@@ -79,7 +78,6 @@ export const ITEM_TYPES = {
  * @type {Object}
  */
 export const DEFAULT_TASK = {
-  id: '', // Será gerado automaticamente
   title: 'Nova Tarefa',
   description: '',
   status: 'todo',
@@ -88,8 +86,7 @@ export const DEFAULT_TASK = {
   dueDate: null,
   assignedTo: null,
   comments: [],
-  createdAt: new Date(),
-  category: 'default'
+  createdAt: new Date()
 };
 
 /**
@@ -97,10 +94,13 @@ export const DEFAULT_TASK = {
  * @type {Object}
  */
 export const DEFAULT_CATEGORY = {
-  id: '', // Será gerado automaticamente
   name: 'Nova Categoria',
-  color: '#3B82F6', // Cor azul padrão
-  isOpen: true
+  isOpen: true,
+  tasks: {
+    todo: [],
+    doing: [],
+    done: []
+  }
 };
 
 /**
@@ -124,43 +124,5 @@ export const ACTION_TYPES = {
   DELETE_TASK: 'DELETE_TASK',
   MOVE_TASK: 'MOVE_TASK',
   ADD_CATEGORY: 'ADD_CATEGORY',
-  DELETE_CATEGORY: 'DELETE_CATEGORY',
-  TOGGLE_CATEGORY: 'TOGGLE_CATEGORY'
-};
-
-/**
- * Filtros disponíveis para tarefas
- * @type {Object}
- */
-export const FILTER_OPTIONS = {
-  ALL: 'all',
-  COMPLETED: 'completed',
-  PENDING: 'pending',
-  HIGH_PRIORITY: 'high'
-};
-
-/**
- * Configuração inicial do Kanban
- * @type {Object}
- */
-export const INITIAL_KANBAN_STATE = {
-  tasks: [],
-  categories: [],
-  currentFilter: FILTER_OPTIONS.ALL,
-  history: [],
-  historyIndex: -1
-};
-
-// Exportação padrão para compatibilidade
-export default {
-  STATUS_CONFIG,
-  STATUS_ORDER,
-  PRIORITY_CONFIG,
-  ITEM_TYPES,
-  DEFAULT_TASK,
-  DEFAULT_CATEGORY,
-  AVATAR_COLORS,
-  ACTION_TYPES,
-  FILTER_OPTIONS,
-  INITIAL_KANBAN_STATE
+  DELETE_CATEGORY: 'DELETE_CATEGORY'
 };
