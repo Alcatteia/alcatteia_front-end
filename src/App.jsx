@@ -10,12 +10,10 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
-import Kanban from "./pages/Kanban/AppKanban";
+import Kanban from "./pages/Kanban/Kanban";
 
 
 function App() {
-
-
     return (
         <>
             <BrowserRouter>

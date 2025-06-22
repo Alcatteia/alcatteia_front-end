@@ -7,7 +7,7 @@ import { AuthProviderKanban, useAuthKanban } from '../../contexts/AuthContextKan
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import CategoryPanel from './components/CategoryPanel';
-import NotificationModal from '../Kanban/components/NotificationModal';
+import NotificationModal from './components/NotificationModal';
 
 // Detecta se é um dispositivo touch
 const isTouchDevice = () => {
