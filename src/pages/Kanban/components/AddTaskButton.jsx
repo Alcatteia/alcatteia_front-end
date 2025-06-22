@@ -183,7 +183,10 @@ export default function AddTaskButton({ status, category }) {
                           <button
                             key={user.id}
                             type="button"
-                            onClick={() => toggleUser(user.name)}
+                            onClick={() => {
+                              toggleUser(user.name);
+                              setDropdownOpen(false); // Fecha o modal ao escolher participante
+                            }}
                             className="flex items-center gap-2 w-full px-3 py-2 hover:bg-[#2A1C3A] text-sm text-white"
                           >
                             <div

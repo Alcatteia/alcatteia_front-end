@@ -17,7 +17,7 @@ export default function Sidebar() {
       {/* Botão menu visível só no mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="sm:hidden fixed top-18 left-90 z-50 p-2 bg-[#2A1C3A] rounded-lg text-white"
+        className="sm:hidden fixed top-18 left-85 z-50 p-2 bg-[#2A1C3A] rounded-lg text-white"
       >
         <FiMenu size={20} />
       </button>
