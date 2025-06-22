@@ -10,11 +10,10 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
+import MeetingsPage from "./pages/MeetingsPage/MeetingsPage";
 
 
 function App() {
-
-
     return (
         <>
             <BrowserRouter>
@@ -36,6 +35,7 @@ function App() {
 
 
                     {/* Rota para página Reuniões */}
+                    <Route path="/meetings-page" element={<MeetingsPage />} />
                     {/* <Route path="/meetings" element={<Componente />} /> */}
 
 
