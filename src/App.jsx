@@ -10,11 +10,10 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
+import Meetings from "./pages/Meetings/Meetings";
 
 
 function App() {
-
-
     return (
         <>
             <BrowserRouter>
@@ -36,7 +35,7 @@ function App() {
 
 
                     {/* Rota para página Reuniões */}
-                    {/* <Route path="/meetings" element={<Componente />} /> */}
+                    <Route path="/meetings" element={<Meetings />} />
 
 
                     {/* Rota para página Kanban */}
