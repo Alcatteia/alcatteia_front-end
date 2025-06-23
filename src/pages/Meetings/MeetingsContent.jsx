@@ -9,11 +9,11 @@ import ScheduledMeetings from "./ScheduledMeetings";
 import { SectionContext } from "../../context/SectionContext";
 
 
-function MeetingsPage() {
+function MeetingsContent() {
     const { sectionActive } = useContext(SectionContext);
 
     return (
-        <>
+        <div className="w-[100% - 256px]">
             <Hero />
             {sectionActive == "calendar" ?
                 (
@@ -25,8 +25,8 @@ function MeetingsPage() {
                     </div>
                 )
             }
-        </>
+        </div>
     )
 }
 
-export default MeetingsPage
+export default MeetingsContent;

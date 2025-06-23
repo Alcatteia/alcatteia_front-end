@@ -42,7 +42,7 @@ export default function CategoryPanel() {
   };
 
   return (
-    <div className="p-4 sm:p-6 space-y-8 text-white">
+    <div className="space-y-8 text-white">
       {/* Header + botão adicionar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl font-bold">Categorias</h2>

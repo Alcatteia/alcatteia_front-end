@@ -707,7 +707,7 @@ export default function LeaderDashboard() {
                   lowestAttributeKey &&
                   metrics[lowestAttributeKey].percent !== null
                 ) {
-                  // setModalData(metrics[lowestAttributeKey]);
+                  setModalData(metrics[lowestAttributeKey]);
                   setActiveModal("recommendations-modal");
                 }
               }}

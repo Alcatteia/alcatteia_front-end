@@ -25,7 +25,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed sm:relative top-0 left-0 h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
+        className={`fixed  h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
           }`}
       >
         {/* Cabeçalho */}

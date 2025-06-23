@@ -9,17 +9,21 @@ import { BrowserRouter, Route, Routes } from "react-router";
 // Components
 
 import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
 
 // Pages
 
 import About from "./pages/About/About";
+
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
+
 import Kanban from "./pages/Kanban/Kanban";
-import MeetingsPage from "./pages/MeetingsPage/MeetingsPage";
+
 import AppDashboard from "./pages/Dashboard/AppDashboard";
-import Topbar from "./components/Topbar";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
+import Meetings from "./pages/Meetings/Meetings";
+
 
 
 
@@ -29,7 +33,7 @@ function LayoutWithSidebar({ children }) {
             <Topbar />
             <div className="flex">
                 <Sidebar />
-                <div style={{ flex: 1 }}>{children}</div>
+                <div className="flex-1 ml-[240px]">{children}</div>
             </div>
         </div>
     );
@@ -80,6 +84,7 @@ function App() {
                         }
                     />
                     
+
                     {/* Rota para página Kanban */}
                     <Route
                         path="/kanban"
@@ -90,17 +95,17 @@ function App() {
                         }
                     />
 
-                    
-
-
-
-
-                    {/* Rota para página Dashboard */}
-                    {/* <Route path="/dashboard" element={<Componente />} /> */}
-
 
                     {/* Rota para página Reuniões */}
-                    <Route path="/meetings-page" element={<MeetingsPage />} />
+                    <Route
+                        path="/meetings"
+                        element={
+                            <LayoutWithSidebar>
+                               <Meetings />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
                     {/* <Route path="/meetings" element={<Componente />} /> */}
 
 

@@ -4,7 +4,7 @@ import { IoPeopleSharp } from "react-icons/io5";
 
 const InProgress = () => {
     return (
-        <section className="mt-24 max-w-[1221px] mx-auto px-8">
+        <section className="mt-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
             <div className="bg-[#7c50aa9a] p-5 flex items-center gap-5 rounded-xl w-full">
                 <div className="h-9 w-9 rounded-full bg-yellow-400"></div>
                 <span className="text-white text-xl font-semibold md:text-2xl">Reuniões em andamento:</span>

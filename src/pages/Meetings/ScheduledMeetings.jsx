@@ -6,7 +6,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 
 const ScheduledMeetings = () => {
     return (
-        <section className="mt-24 max-w-[1221px] mx-auto px-8">
+        <section className="mt-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
             <div className="bg-[#43009a9d] p-5 flex items-center gap-5 rounded-xl w-full">
                 <FaCalendarAlt className="text-3xl text-white" />
                 <span className="text-white text-xl font-semibold md:text-2xl">Reuniões agendadas:</span>
