@@ -15,7 +15,7 @@ import Sidebar from "./components/Sidebar";
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
 import Kanban from "./pages/Kanban/Kanban";
-
+import MeetingsPage from "./pages/MeetingsPage/MeetingsPage";
 import AppDashboard from "./pages/Dashboard/AppDashboard";
 import Topbar from "./components/Topbar";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
@@ -100,6 +100,7 @@ function App() {
 
 
                     {/* Rota para página Reuniões */}
+                    <Route path="/meetings-page" element={<MeetingsPage />} />
                     {/* <Route path="/meetings" element={<Componente />} /> */}
 
 
