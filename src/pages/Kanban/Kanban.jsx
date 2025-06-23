@@ -1,9 +1,7 @@
 import { useMemo, useContext } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { TouchBackend } from 'react-dnd-touch-backend';
 import KanbanProvider, { KanbanContext } from '../../contexts/KanbanContext';
-import { AuthProviderKanban, useAuthKanban } from '../../contexts/AuthContextKanban';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import CategoryPanel from './components/CategoryPanel';
