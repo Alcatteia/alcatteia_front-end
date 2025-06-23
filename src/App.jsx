@@ -41,7 +41,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
-                    <Route path="/" element={<AccountAccess />} /> 
+                    {/* <Route path="/" element={<AccountAccess />} />  */}
 
 
                     {/* Rota para página Sobre  */}
