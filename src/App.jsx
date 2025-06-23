@@ -11,6 +11,16 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
 import Kanban from "./pages/Kanban/Kanban";
+import Sidebar from "./components/Sidebar";
+
+function LayoutWithSidebar({ children }) {
+    return (
+        <div style={{ display: "flex" }}>
+            <Sidebar />
+            <div style={{ flex: 1 }}>{children}</div>
+        </div>
+    );
+}
 
 
 function App() {
@@ -30,6 +40,18 @@ function App() {
                     <Route path="/account-access" element={<AccountAccess />} />
 
 
+                    <Route
+                        path="/kanban"
+                        element={
+                            <LayoutWithSidebar>
+                                <Kanban />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+
+
+
                     {/* Rota para página Dashboard */}
                     {/* <Route path="/dashboard" element={<Componente />} /> */}
 
@@ -39,7 +61,7 @@ function App() {
 
 
                     {/* Rota para página Kanban */}
-                     <Route path="/kanban" element={<Kanban />} />
+                    {/* <Route path="/kanban" element={<Kanban />} /> */}
 
 
                     {/* Rota para página Check-in */}
