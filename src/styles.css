@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* 
 body {
     background-color: #191122;
 }
@@ -114,3 +114,4 @@ body {
 .card{
   background-color: #2889ff7a;
 }
+

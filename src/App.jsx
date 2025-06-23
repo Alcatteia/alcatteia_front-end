@@ -16,6 +16,7 @@ import Topbar from "./components/Topbar";
 import About from "./pages/About/About";
 
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
+import Calls from "./pages/Calls/Calls";
 
 import Kanban from "./pages/Kanban/Kanban";
 
@@ -83,7 +84,7 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
-                    
+
 
                     {/* Rota para página Kanban */}
                     <Route
@@ -101,16 +102,19 @@ function App() {
                         path="/meetings"
                         element={
                             <LayoutWithSidebar>
-                               <Meetings />
+                                <Meetings />
                             </LayoutWithSidebar>
                         }
                     />
 
-                    {/* <Route path="/meetings" element={<Componente />} /> */}
+                    <Route path="/calls" element={<Calls />} />
+
+
 
 
                     {/* Rota para página Check-in */}
                     {/* <Route path="/check-in" element={<Componente />} /> */}
+
                 </Routes>
             </BrowserRouter>
         </>
