@@ -25,7 +25,7 @@ export function getUrlParams(
   return new URLSearchParams(urlStr);
 }
 
-export default function Meetings() {
+export default function Calls() {
   const roomID = "salinha";
   let myMeeting = async (element) => {
     // generate Kit Token
