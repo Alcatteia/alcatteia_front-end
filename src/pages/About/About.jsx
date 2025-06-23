@@ -4,7 +4,7 @@ import Team from "./Team"
 
 const About = () => {
     return (
-        <main className="max-w-[1221px] mx-auto ">
+        <main className="max-w-[1221px] mx-auto">
             <Hero />
             <Mission />
             <Team />
