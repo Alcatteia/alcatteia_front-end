@@ -24,7 +24,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed sm:relative top-0 left-0 h-full z-40 w-64 bg-[#160F23] p-4 transition-transform duration-300 transform ${
+        className={`fixed sm:relative top-0 left-0 h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
         }`}
       >
@@ -42,7 +42,7 @@ export default function Sidebar() {
               href="#"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                 active
-                  ? "bg-[#2A1C3A] text-white font-semibold"
+                  ? "bg-[#433157] text-white font-semibold"
                   : "text-gray-300 hover:bg-[#2A1C3A] hover:text-white"
               }`}
               aria-current={active ? "page" : undefined}

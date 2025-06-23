@@ -1,9 +1,40 @@
-/* Adicione ao seu CSS */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos Específicos do Kanban - INICÍO */
+
 .drag-over {
   background-color: rgba(75, 85, 99, 0.3);
 }
 
-/* No seu arquivo CSS global */
 .react-datepicker {
   background-color: #2A1C3A;
   border-color: #6B46C1;
@@ -28,7 +59,6 @@
   color: white;
 }
 
-/* No seu arquivo CSS global */
 .react-datepicker {
   background-color: #2A1C3A;
   border-color: #6B46C1;
@@ -53,7 +83,6 @@
   color: white;
 }
 
-/* No seu arquivo CSS global */
 .react-datepicker {
   background-color: #2A1C3A;
   border-color: #6B46C1;
@@ -77,7 +106,7 @@
   background-color: #6B46C1;
   color: white;
 }
-/* Para o scroll da coluna */
+
 .kanban-column-tasks {
   scrollbar-width: thin;
   scrollbar-color: #c7d2fe #f5f3ff;
@@ -95,7 +124,7 @@
   background-color: #c7d2fe;
   border-radius: 3px;
 }
-/* Para o efeito de arrasto */
+
 .task-card {
   transition: all 0.2s ease;
 }
@@ -109,3 +138,5 @@
 .card{
   background-color: #2889ff7a;
 }
+
+/* Estilos Específicos do Kanban - FINAL */
