@@ -15,7 +15,7 @@ export default function Sidebar({ isMobile, isSidebarOpen, toggleSidebar }) {
     { name: 'Kanban', icon: FiClipboard, path: '/kanban' },
     { name: 'Dashboard', icon: FiHome, path: '/' },
     { name: 'Chamada', icon: FiPhone, path: '/call' },
-    { name: 'Área da Equipe', icon: FiUsers, path: '/equipe' },
+    { name: 'Área da Equipe', icon: FiUsers, path: '/dashboard/equipe' },
   ];
 
   return (
@@ -23,11 +23,7 @@ export default function Sidebar({ isMobile, isSidebarOpen, toggleSidebar }) {
       {/* Overlay para mobile quando a sidebar está aberta. */}
       {isMobile && isSidebarOpen && (
         <div
-          // 'fixed inset-0': Cobre toda a viewport.
-          // 'bg-black bg-opacity-50': Fundo escurecido.
-          // 'z-30': Z-index abaixo da Sidebar e Topbar.
-          // 'lg:hidden': Oculta em telas maiores.
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30  lg:hidden"
           onClick={toggleSidebar} // Fecha a sidebar ao clicar no overlay.
         ></div>
       )}
@@ -38,9 +34,9 @@ export default function Sidebar({ isMobile, isSidebarOpen, toggleSidebar }) {
           flex-shrink-0 bg-[#160F23] text-gray-200 h-full overflow-y-auto custom-scrollbar
           transform transition-transform duration-300 ease-in-out
           ${isMobile
-            ? // Estilo mobile: fixo, cobre a altura total, largura de 64, z-40 e transição de slide.
+            ? 
               `fixed inset-y-0 left-0 w-64 z-40 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
-            : // Estilo desktop: estático, largura de 64.
+            : 
               'static w-64'
           }
           lg:static lg:translate-x-0 lg:w-64 // Garante visibilidade e largura em desktop.
@@ -58,7 +54,7 @@ export default function Sidebar({ isMobile, isSidebarOpen, toggleSidebar }) {
             {navItems.map((item) => (
               <li key={item.name} className="mb-2">
                 <NavLink
-                  to={item.path}
+                  to={item.path} 
                   // Classes aplicadas dinamicamente para destacar o item ativo.
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-6 py-3 transition-colors duration-200

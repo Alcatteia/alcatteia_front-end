@@ -1,86 +1,62 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+// Remova o import de BrowserRouter aqui (se existir)
+import { Routes, Route, useNavigate } from "react-router-dom"; // Mantenha apenas Routes, Route, useNavigate
 
-// Componentes de layout globais
 import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
 
-// Importação dos Dashboards e Áreas de Equipe específicos por perfil.
-// - Dashboards estão em 'pages/Dashboard/'
-// - LeaderTeamArea está diretamente em 'pages/'
 import LeaderDashboard from "./LeaderDashboard";
 import HrDashboard from "./HrDashboard";
 import MemberDashboard from "./MemberDashboard";
 import LeaderTeamArea from "./LeaderTeamArea";
 
-// Dados mockados para simulação de notificações e usuário.
 const notificacoes = [
   { id: 1, texto: "Reunião às 10h", lida: false },
   { id: 2, texto: "Nova tarefa atribuída", lida: true },
 ];
 const user = {
   nome: "Heverton Souza",
-  foto: "/assets/perfil.png", // Caminho da imagem do perfil do usuário
+  foto: "/assets/perfil.png",
 };
 
-/**
- * Componente principal que gerencia o estado da aplicação e define a estrutura do layout.
- */
-function AppContent() {
-  // Estado para simular o perfil do usuário logado ('leader', 'hr', 'member').
+// Renomeie a exportação padrão para AppDashboard em vez de App
+// ou ajuste a função AppContent para ser o componente principal exportado
+export default function Dashboard() { // Mude o nome da função aqui se necessário
   const [profile, setProfile] = useState("leader");
-  // Hook de navegação do React Router DOM.
   const navigate = useNavigate();
 
-  // Estados para controlar a responsividade e visibilidade da Sidebar.
-  const [isMobile, setIsMobile] = useState(false); // true se a tela é mobile.
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // true se a Sidebar está aberta (em mobile).
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  /**
-   * Hook para detectar o tamanho da tela e atualizar 'isMobile'.
-   * Garante que a Sidebar feche automaticamente em telas maiores.
-   */
   useEffect(() => {
-    // Breakpoint para telas de tablet/desktop (1024px, comum para 'lg' no Tailwind).
     const tabletBreakpoint = 1024;
 
     const handleResize = () => {
       const currentIsMobile = window.innerWidth < tabletBreakpoint;
       setIsMobile(currentIsMobile);
 
-      // Fecha a Sidebar se a tela não for mais mobile.
       if (!currentIsMobile) {
         setIsSidebarOpen(false);
       }
     };
 
-    handleResize(); // Executa ao montar o componente.
-    window.addEventListener("resize", handleResize); // Adiciona listener para redimensionamento.
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize); // Limpa o listener ao desmontar.
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  /**
-   * Alterna o estado de abertura/fechamento da Sidebar.
-   */
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
   };
 
-  /**
-   * Simula a mudança de perfil do usuário e navega para o dashboard principal.
-   * @param {string} newProfile - O novo perfil a ser definido.
-   */
   const handleProfileChange = (newProfile) => {
-    setProfile(newProfile);
-    navigate("/"); // Redireciona para o dashboard.
-  };
+  setProfile(newProfile);
+  navigate(".");              
+};
 
-  /**
-   * Renderiza o Dashboard apropriado com base no perfil do usuário.
-   */
   const CurrentDashboard = () => {
     if (profile === "leader") return <LeaderDashboard />;
     if (profile === "hr") return <HrDashboard />;
@@ -88,10 +64,7 @@ function AppContent() {
     return <p className="text-white text-center text-xl mt-20">Selecione um perfil para visualizar o dashboard.</p>;
   };
 
-  /**
-   * Componente que controla o acesso e renderização da Área da Equipe.
-   * Apenas o perfil 'leader' tem acesso completo.
-   */
+ 
   const CurrentTeamArea = () => {
     if (profile === "leader") {
       return <LeaderTeamArea />;
@@ -104,7 +77,7 @@ function AppContent() {
             Por favor, retorne ao seu dashboard.
           </p>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/")} // Navega para a raiz do contexto atual (/dashboard)
             className="mt-6 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-lg transition-colors font-semibold"
           >
             Voltar para o Dashboard
@@ -114,10 +87,9 @@ function AppContent() {
     }
   };
 
+
   return (
-    // Contêiner principal da aplicação.
     <div className="flex flex-col h-screen bg-[#0B0011]">
-      {/* Seletor de perfil (simulação para desenvolvimento). */}
       <div className="bg-gray-900 text-white px-4 py-2 flex gap-4 items-center">
         <span>Perfil Ativo (Simulação):</span>
         <button
@@ -140,7 +112,6 @@ function AppContent() {
         </button>
       </div>
 
-      {/* Topbar do layout. */}
       <Topbar
         notificacoes={notificacoes}
         user={user}
@@ -149,36 +120,23 @@ function AppContent() {
         toggleSidebar={toggleSidebar}
       />
 
-      {/* Área de conteúdo principal (Sidebar + Rotas). */}
       <div className="flex flex-1 min-h-0">
-        {/* Sidebar do layout. */}
         <Sidebar
           isMobile={isMobile}
           isSidebarOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
         />
-        {/* Área onde as páginas são renderizadas via React Router. */}
-        <main className="flex-1 overflow-y-auto">
-          {/* Definição das rotas da aplicação. */}
+         <main className="flex-1 overflow-y-auto">
           <Routes>
-            <Route path="/Dashboard" element={<CurrentDashboard />} />
-            
+            <Route path="/" element={<CurrentDashboard />} />
+            {/* <Route path="/kanban" element={<KanbanPage />} /> */}
+            {/* <Route path="/call" element={<CallPage />} /> */}
             <Route path="/equipe" element={<CurrentTeamArea />} />
+
             <Route path="*" element={<p className="text-white text-center text-xl mt-20">404 - Página Não Encontrada.</p>} />
           </Routes>
         </main>
       </div>
     </div>
-  );
-}
-
-/**
- * Componente que envolve o AppContent com o BrowserRouter.
- */
-export default function App() {
-  return (
-    <Router>
-      <AppContent />
-    </Router>
   );
 }

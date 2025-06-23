@@ -10,18 +10,16 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
-import Dashboard from "./pages/Dashboard/AppDashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 
 function App() {
-
-
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    {/* Rota para Home */}
-                    <Route path="/" element={<AccountAccess />} /> 
+                    {/* Rota para Home 
+                    <Route path="/" element={<Home/>} /> */}
 
 
                     {/* Rota para página Sobre  */}
@@ -33,7 +31,7 @@ function App() {
 
 
                     {/* Rota para página Dashboard */}
-                    <Route path="/dashboard" element={<Dashboard />} /> 
+                    <Route path="/dashboard/*" element={<Dashboard />} /> 
 
 
                     {/* Rota para página Reuniões */}
