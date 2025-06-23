@@ -40,6 +40,17 @@ function App() {
                     <Route path="/account-access" element={<AccountAccess />} />
 
 
+                    {/* Rota para página Dashboard */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <LayoutWithSidebar>
+                                {/* <Kanban /> */}
+                            </LayoutWithSidebar>
+                        }
+                    />
+                    
+                    {/* Rota para página Kanban */}
                     <Route
                         path="/kanban"
                         element={
@@ -48,6 +59,8 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
+
+                    
 
 
 
@@ -58,10 +71,6 @@ function App() {
 
                     {/* Rota para página Reuniões */}
                     {/* <Route path="/meetings" element={<Componente />} /> */}
-
-
-                    {/* Rota para página Kanban */}
-                    {/* <Route path="/kanban" element={<Kanban />} /> */}
 
 
                     {/* Rota para página Check-in */}
