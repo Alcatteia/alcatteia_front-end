@@ -1,5 +1,6 @@
 import { FaRegClock } from "react-icons/fa";
 import { IoPeopleSharp } from "react-icons/io5";
+import { Link } from "react-router";
 
 
 const InProgress = () => {
@@ -39,7 +40,12 @@ const InProgress = () => {
                     </div>
 
                     <div className="mt-7">
-                        <button className="py-2 w-full font-semibold bg-[#F4C712] rounded-full text-2xl text-black">Juntar-se a reunião</button>
+                        <Link
+                            to="/calls"
+                            className="py-2 w-full block text-center font-semibold bg-[#F4C712] rounded-full text-2xl text-black"
+                        >
+                            Juntar-se a reunião
+                        </Link>
                     </div>
                 </div>
             </div>

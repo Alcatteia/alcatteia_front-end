@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import Calendar from "./Calendar";
 
@@ -12,8 +12,13 @@ import { SectionContext } from "../../context/SectionContext";
 function MeetingsContent() {
     const { sectionActive } = useContext(SectionContext);
 
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Rola a página para o topo ao carregar o componente.
+    }, []);
+
     return (
-        <div className="w-[100% - 256px]">
+        <div>
             <Hero />
             {sectionActive == "calendar" ?
                 (

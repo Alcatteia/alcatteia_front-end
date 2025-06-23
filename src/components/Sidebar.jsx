@@ -18,14 +18,14 @@ export default function Sidebar() {
       {/* Botão menu visível só no mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="sm:hidden fixed top-18 left-85 z-50 p-2 bg-[#2A1C3A] rounded-lg text-white"
+        className="lg:hidden fixed top-24 left-7 z-50 p-2 bg-[#2A1C3A] rounded-lg text-white"
       >
         <FiMenu size={20} />
       </button>
 
       {/* Sidebar */}
       <aside
-        className={`fixed  h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
+        className={`fixed h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
       >
         {/* Cabeçalho */}

@@ -25,7 +25,7 @@ const Calendar = () => {
     };
 
     return (
-        <div className="p-4 bg-gradient-to-br bg-[#291A39] text-white rounded-lg mt-24 max-w-[1221px] mx-auto">
+        <div className="p-4 bg-gradient-to-br bg-[#291A39] text-white rounded-lg mt-24 max-w-[971px] mx-auto">
             <h2 className="text-xl font-bold mb-4 lg:text-3xl">Maio</h2>
             <div className="grid grid-cols-7 gap-2">
                 {["Dom.", "Seg.", "Ter.", "Qua.", "Qui.", "Sex.", "Sáb."].map((d, i) => (

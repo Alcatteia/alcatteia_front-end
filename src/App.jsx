@@ -35,7 +35,7 @@ function LayoutWithSidebar({ children }) {
             <Topbar />
             <div className="flex">
                 <Sidebar />
-                <div className="flex-1 ml-[240px]">{children}</div>
+                <div className="flex-1 pt-14 lg:ml-[240px]">{children}</div>
             </div>
         </div>
     );
@@ -108,7 +108,14 @@ function App() {
                         }
                     />
 
-                    <Route path="/calls" element={<Calls />} />
+                    <Route
+                        path="/calls"
+                        element={
+                            <LayoutWithSidebar>
+                               <Calls />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
 
 

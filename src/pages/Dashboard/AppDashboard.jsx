@@ -14,6 +14,7 @@ import MemberDashboard from "./MemberDashboard";
 import LeaderTeamArea from "./LeaderTeamArea";
 import Kanban from "../Kanban/Kanban";
 import { Link } from "react-router";
+import { useEffect } from "react";
 
 // Dados mockados para simulação de notificações e usuário.
 // const notificacoes = [
@@ -102,34 +103,14 @@ function AppDashboard() {
   //   }
   // };
 
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Rola a página para o topo ao carregar o componente.
+  }, []);
+
   return (
     // Contêiner principal da aplicação.
-    <div className="flex flex-col h-screen bg-[#0B0011]">
-      {/* Seletor de perfil (simulação para desenvolvimento). */}
-      {/* <div className="bg-gray-900 text-white px-4 py-2 flex gap-4 items-center">
-        <span>Perfil Ativo (Simulação):</span>
-        <Link
-          to="/dashboard/leader"
-          className={`px-3 py-1 rounded transition ${profile === "leader" ? "bg-purple-600 font-bold" : "bg-gray-700 hover:bg-gray-600"}`}
-        >
-          Líder
-        </Link>
-
-        <Link
-          to="/dashboard/recursos-humanos"
-          className={`px-3 py-1 rounded transition ${profile === "hr" ? "bg-teal-600 font-bold" : "bg-gray-700 hover:bg-gray-600"}`}
-        >
-          RH
-        </Link>
-
-        <Link
-          to="/dashboard/member"
-          className={`px-3 py-1 rounded transition ${profile === "member" ? "bg-blue-600 font-bold" : "bg-gray-700 hover:bg-gray-600"}`}
-        >
-          Membro
-        </Link>
-      </div> */}
-
+    <div className="flex flex-col h-screen">
       <div className="flex flex-1 min-h-0">
         <LeaderDashboard />
       </div>

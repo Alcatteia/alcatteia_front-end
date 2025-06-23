@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import "./styles.css";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
@@ -27,18 +28,23 @@ export function getUrlParams(
 
 export default function Calls() {
   const roomID = "salinha";
-  let myMeeting = async (element) => {
-    // generate Kit Token
+  const containerRef = useRef(null);
+
+  useEffect(() => {
     const appID = 1314647224;
     const serverSecret = "535f4eac9eb427a2a1b43e7b5295da51";
-    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, Date.now().toString(), "salinha");
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+      appID,
+      serverSecret,
+      roomID,
+      Date.now().toString(),
+      "salinha"
+    );
 
-
-    // Create instance object from Kit Token.
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-    // start the call
+
     zp.joinRoom({
-      container: element,
+      container: containerRef.current,
       sharedLinks: [
         {
           name: 'Personal link',
@@ -50,19 +56,24 @@ export default function Calls() {
         },
       ],
       scenario: {
-        mode: ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+        mode: ZegoUIKitPrebuilt.GroupCall,
       },
     });
-  };
 
+    return () => {
+      zp.destroy();
+    };
+  }, []);
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0); // Rola a página para o topo ao carregar o componente.
+  }, []);
 
   return (
     <div
-      className="myCallContainer"
-      ref={myMeeting}
-      style={{ width: '100vw', height: '100vh' }}
+      ref={containerRef}
+      className="myCallContainer px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-6"
+      style={{ height: '100vh' }}
     ></div>
   );
 }
