@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import KanbanProvider, { KanbanContext } from '../../contexts/KanbanContext';
 import Sidebar from '../../components/Sidebar';
-import Topbar from './components/Topbar';
+import Topbar from '../../components/Topbar';
 import CategoryPanel from './components/CategoryPanel';
 import NotificationModal from './components/NotificationModal';
 
@@ -43,11 +43,6 @@ export default function Kanban() {
         <div className="flex h-screen bg-[#160F23] text-white overflow-hidden">
           {/* <Sidebar /> */}
           <div className="flex-1 flex flex-col overflow-hidden">
-            <Topbar
-              participationRequests={participationRequests}
-              acceptParticipation={acceptParticipation}
-              rejectParticipation={rejectParticipation}
-            />
             <main className="flex-1  overflow-auto p-6 scrollbar-thin scrollbar-thumb-[#2D1B4F] scrollbar-track-transparent">
               <CategoryPanel />
             </main>

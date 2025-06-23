@@ -1,6 +1,6 @@
 import { FiBell, FiMoon, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
-import NotificationModal from './NotificationModal';
+import NotificationModal from '../pages/Kanban/components/NotificationModal';
 
 export default function Topbar({ participationRequests = [], acceptParticipation, rejectParticipation }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);

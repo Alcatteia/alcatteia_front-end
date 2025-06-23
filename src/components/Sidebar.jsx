@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { FiClipboard, FiBarChart2, FiPhone, FiUsers, FiMenu } from 'react-icons/fi';
 import logoAlcatteia from '../assets/Kanban/Logo1.png';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const items = [
-    { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard" },
+    { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard/leader" },
     { label: "Kanban", icon: <FiClipboard />, active: true, link: "/kanban" },
     { label: "Reuniões", icon: <FiPhone />, link: "/meetings" },
   ];
@@ -39,9 +40,9 @@ export default function Sidebar() {
             <Link
               key={label}
               to={link}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${active
-                  ? "bg-[#433157] text-white font-semibold"
-                  : "text-gray-300 hover:bg-[#2A1C3A] hover:text-white"
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${location.pathname === link
+                ? "bg-[#433157] text-white font-semibold"
+                : "text-gray-300 hover:bg-[#2A1C3A] hover:text-white"
                 }`}
               aria-current={active ? "page" : undefined}
             >
