@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FiClipboard, FiBarChart2, FiPhone, FiUsers, FiMenu } from 'react-icons/fi';
-import logoAlcatteia from '../assets/Kanban/Logo1.png';
 import { Link, useLocation } from 'react-router';
 
 export default function Sidebar() {
@@ -28,12 +27,6 @@ export default function Sidebar() {
         className={`fixed h-full z-40 w-64 bg-[#160F23] border-[#220731] border-r-4 p-4 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
       >
-        {/* Cabeçalho */}
-        <div className="mb-8 flex items-center gap-3">
-          <img src={logoAlcatteia} alt="Logo Alcatteia" className="w-20 h-20 object-contain" />
-          <h1 className="text-2xl font-bold text-white">Alcatteia</h1>
-        </div>
-
         {/* Navegação */}
         <nav className="space-y-2">
           {items.map(({ label, icon, active, link }) => (

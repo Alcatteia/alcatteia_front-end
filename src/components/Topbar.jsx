@@ -1,6 +1,8 @@
 import { FiBell, FiMoon, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
 import NotificationModal from '../pages/Kanban/components/NotificationModal';
+import logoAlcatteia from '../assets/Kanban/Logo1.png';
+
 
 export default function Topbar({ participationRequests = [], acceptParticipation, rejectParticipation }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -10,11 +12,19 @@ export default function Topbar({ participationRequests = [], acceptParticipation
   const currentRequest = participationRequests[0];
 
   return (
-    <header className="sticky top-0 z-10 bg-[#160F23]/90 flex justify-end border-b-4 border-[#220731] items-center p-4 backdrop-blur-md">
+    <header className="sticky top-0 z-10 bg-[#160F23]/90 flex justify-between border-b-4 border-[#220731] items-center p-4 
+    backdrop-blur-md">
+      {/* Cabeçalho */}
+      <div className="flex items-center gap-3">
+        <img src={logoAlcatteia} alt="Logo Alcatteia" className="w-20 h-20 object-contain" />
+        <h1 className="text-2xl font-bold text-white">Alcatteia</h1>
+      </div>
+
       {/* Controles do usuário */}
-      <div className="flex gap-2 md:gap-4 items-center">
+      <div className="flex gap-2 md:gap-4 items-center"
+      >
         {/* Notificações */}
-        <button 
+        <button
           className="p-2 rounded-full hover:bg-[#2A1C3A] transition-colors duration-200 relative"
           aria-label="Notificações"
           onClick={() => setShowNotification((prev) => !prev)}
@@ -49,17 +59,17 @@ export default function Topbar({ participationRequests = [], acceptParticipation
         )}
 
         {/* Tema */}
-        <button 
+        <button
           className="p-2 rounded-full hover:bg-[#2A1C3A] transition-colors duration-200"
           aria-label="Alternar tema"
-          onClick={() => {/* Lógica de tema */}}
+          onClick={() => {/* Lógica de tema */ }}
         >
           <FiMoon size={25} className="text-gray-300 hover:text-white" />
         </button>
 
         {/* Avatar + Menu */}
         <div className="relative">
-          <button 
+          <button
             className="bg-purple-800 w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white hover:ring-2 hover:ring-purple-500 transition-all"
             aria-label="Menu do usuário"
             onClick={() => setIsProfileOpen(!isProfileOpen)}

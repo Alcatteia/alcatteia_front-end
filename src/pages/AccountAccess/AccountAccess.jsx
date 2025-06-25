@@ -17,6 +17,39 @@ const AccountAccess = () => {
     const [inputPassword, setInputPassword] = useState("");
     const [inputRole, setInputRole] = useState("");
 
+    console.log(inputName, inputEmail);
+
+
+    // const handleRegister = async (e) => {
+    //     e.preventDefault(); 
+
+    //     const data = {
+    //         name: inputName,
+    //         email: inputEmail,
+    //         password: inputPassword,
+    //         role: inputRole,
+    //     };
+
+    //     try {
+    //         const response = await fetch("http://localhost:8080/api/usuarios", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(data),
+    //         });
+
+    //         if (response.ok) {
+    //             const result = await response.json();
+    //             console.log("Usuário cadastrado com sucesso!", result);
+    //         } else {
+    //             console.error("Erro ao cadastrar:", response.status);
+    //         }
+    //     } catch (error) {
+    //         console.error("Erro na requisição:", error);
+    //     }
+    // };
+
 
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4">
@@ -73,10 +106,15 @@ const AccountAccess = () => {
                                     onChange={(e) => setInputRole(e.target.value)}
                                 >
                                     <option selected>Selecione seu cargo</option>
-                                    <option value="RH">Recursos Humanos (RH)</option>
-                                    <option value="LIDER
-                                    ">Líder</option>
-                                    <option value="FUNCIONARIO">Funcionário</option>
+                                    <option value="RH">
+                                        Recursos Humanos (RH)
+                                    </option>
+                                    <option value="LIDER">
+                                        Líder
+                                    </option>
+                                    <option value="MEMBRO">
+                                        Membro
+                                    </option>
                                 </select>
                             </>
                         )}
