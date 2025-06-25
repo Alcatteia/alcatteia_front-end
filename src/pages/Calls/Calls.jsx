@@ -14,7 +14,7 @@ function randomID(len) {
   for (i = 0; i < len; i++) {
     result += chars.charAt(Math.floor(Math.random() * maxPos));
   }
-  return result;
+  return result
 }
 
 

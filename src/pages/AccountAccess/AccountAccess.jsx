@@ -18,6 +18,14 @@ import Lobo from "../../assets/login/logo_login.svg";
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
 
+    const [inputName, setInputName] = useState("");
+    const [inputEmail, setInputEmail] = useState("");
+    const [inputPassword, setInputPassword] = useState("");
+    const [inputRole, setInputRole] = useState("");
+
+    console.log(inputName, inputEmail, inputPassword, inputRole);
+    
+
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4">
             <div className="relative w-full max-w-4xl h-[500px] bg-[#1F132E] rounded-xl overflow-hidden shadow-2xl transition-all duration-700">
@@ -42,6 +50,8 @@ const AccountAccess = () => {
                                 text="Nome"
                                 type="name"
                                 icon={<IoMdPerson />}
+                                inputValue={inputName}
+                                setInpuValue={setInputName}
                             />
                         )}
 
@@ -49,22 +59,32 @@ const AccountAccess = () => {
                             text="Email"
                             type="email"
                             icon={<FiAtSign />}
+                            inputValue={inputEmail}
+                            setInpuValue={setInputEmail}
                         />
 
                         <Input
                             text="Senha"
                             type="password"
                             icon={<FaLock />}
+                            inputValue={inputPassword}
+                            setInpuValue={setInputPassword}
                         />
 
                         {!isLogin && (
                             <>
                                 <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione uma opção</label>
-                                <select id="countries" className="peer dark:text-white pl-2 h-[40px] min-h-[40px] pr-[40px] leading-normal appearance-none resize-none box-border text-base w-full text-inherit block text-left border border-zinc-500 border-solid dark:bg-[#140e1b] rounded-[10px] m-0 p-0 outline-0 focus-visible:outline-0 focus-visible:border-[#9160cb] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[##9060cb45 dark:focus-visible:ring-[#9060cb18]">
+                                <select
+                                    id="countries"
+                                    className="peer dark:text-white pl-2 h-[40px] min-h-[40px] pr-[40px] leading-normal appearance-none resize-none box-border text-base w-full text-inherit block text-left border border-zinc-500 border-solid dark:bg-[#140e1b] rounded-[10px] m-0 p-0 outline-0 focus-visible:outline-0 focus-visible:border-[#9160cb] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[##9060cb45 dark:focus-visible:ring-[#9060cb18]"
+                                    value={inputRole}
+                                    onChange={(e) => setInputRole(e.target.value)}
+                                >
                                     <option selected>Selecione seu cargo</option>
                                     <option value="RH">Recursos Humanos (RH)</option>
-                                    <option value="LI">Líder</option>
-                                    <option value="FUN">Funcionário</option>
+                                    <option value="LIDER
+                                    ">Líder</option>
+                                    <option value="FUNCIONARIO">Funcionário</option>
                                 </select>
                             </>
                         )}

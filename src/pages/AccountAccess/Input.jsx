@@ -1,17 +1,19 @@
 
 
-const Input = ({ text, type, icon }) => {
+const Input = ({ text, type, icon, inputValue, setInpuValue }) => {
     return (
         <div
             className="[--clr:#1f1f1f] dark:[--clr:#999999] relative flex flex-row items-center mb-8"
         >
             <input
+                value={inputValue}
                 name={type}
                 required=""
                 aria-invalid="false"
                 placeholder=""
                 spellCheck="false"
                 autoComplete="off"
+                onChange={(e) => setInpuValue(e.target.value)}
                 id={type}
                 type={type}
                 className="peer dark:text-white pl-2 h-[40px] min-h-[40px] pr-[40px] leading-normal appearance-none resize-none box-border text-base w-full text-inherit block text-left border border-zinc-500 border-solid dark:bg-[#140e1b] rounded-[10px] m-0 p-0 outline-0 focus-visible:outline-0 focus-visible:border-[#9160cb] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[##9060cb45 dark:focus-visible:ring-[#9060cb18]"
