@@ -1,19 +1,13 @@
 import { useState } from "react";
-
-// Icons
-
 import { FaLock } from "react-icons/fa";
 import { IoMdPerson } from "react-icons/io";
 import { FiAtSign } from "react-icons/fi";
 import { BsFacebook } from "react-icons/bs";
 import { BsInstagram } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
-
-// Components
-
 import Input from "./Input";
-
 import Lobo from "../../assets/login/logo_login.svg";
+
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -23,8 +17,6 @@ const AccountAccess = () => {
     const [inputPassword, setInputPassword] = useState("");
     const [inputRole, setInputRole] = useState("");
 
-    console.log(inputName, inputEmail, inputPassword, inputRole);
-    
 
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4">
