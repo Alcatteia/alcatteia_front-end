@@ -15,7 +15,7 @@ import {
 } from "react-icons/fi";
 import FeedbackConfirmationCard from "./components/FeedbackConfirmationCard";
 import tom from "./assets/tom.png";
-import { addFeedback } from "./services/feedbackService";
+import { addFeedback } from "../../services/feedbackService";
 const initialMembers = [
   {
     id: 1,

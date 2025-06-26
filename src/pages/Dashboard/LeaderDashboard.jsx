@@ -24,7 +24,7 @@ import {
 } from "react-icons/fi";
 
 // Importação das traduções com base na estrutura de pastas: src/locales/translations
-import { translations } from "./locales/translations";
+import { translations } from "../../locales/translations";
 
 /**
  * Hook personalizado para facilitar a tradução de textos.
@@ -357,7 +357,7 @@ export default function LeaderDashboard() {
   /**
    * Estado para os dados a serem exibidos no modal.
    */
-  const [modalData, setModalData] = useState(null);
+  // const [modalData, setModalData] = useState(null);
   /**
    * Estado para a data e hora da última atualização dos dados.
    */
@@ -601,8 +601,8 @@ export default function LeaderDashboard() {
   ];
 
   return (
-    <main className="flex-1 bg-[#0B0011] text-gray-200 font-poppins flex justify-center overflow-y-auto">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 h-full">
+    <main className="flex-1 text-gray-200 font-poppins flex justify-center overflow-y-auto">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-6 flex flex-col gap-4 h-full">
         {/* Seção de Título, Subtítulo e Botões de Ação (Atualizar e Trocar Idioma) */}
         <div className="pt-2 pb-4 border-b border-gray-700 mb-2 flex items-center justify-between">
           <div>

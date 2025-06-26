@@ -14,7 +14,8 @@ import {
 import Modal from "./components/Modal";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 // Importação do objeto de traduções
-import { translations } from "./locales/translations";
+import { translations } from "../../locales/translations";
+import { Link } from "react-router";
 
 // --- FUNÇÕES UTILITÁRIAS ---
 
@@ -63,13 +64,13 @@ const formatDateTime = (date) => {
  * @param {Function} t - Função de tradução.
  * @returns {{status: string}} Objeto contendo a string de status traduzida.
  */
-const getStatusText = (percent, t) => {
-  if (percent === null) return { status: t("noData") }; // Sem dados disponíveis
-  if (percent >= 80) return { status: t("excellent") }; // Excelente
-  if (percent >= 60) return { status: t("good") };     // Bom
-  if (percent >= 40) return { status: t("attention") }; // Atenção
-  return { status: t("critical") };                     // Crítico
-};
+// const getStatusText = (percent, t) => {
+//   if (percent === null) return { status: t("noData") }; // Sem dados disponíveis
+//   if (percent >= 80) return { status: t("excellent") }; // Excelente
+//   if (percent >= 60) return { status: t("good") };     // Bom
+//   if (percent >= 40) return { status: t("attention") }; // Atenção
+//   return { status: t("critical") };                     // Crítico
+// };
 
 // --- COMPONENTES REUTILIZÁVEIS ---
 
@@ -206,7 +207,7 @@ export default function HrDashboard() {
   const t = useTranslation(lang);
 
   // Estado para armazenar a data e hora da última "atualização" simulada.
-  const [lastUpdateDateTime, setLastUpdateDateTime] = useState(new Date());
+  // const [lastUpdateDateTime, setLastUpdateDateTime] = useState(new Date());
 
   // Dados estáticos simulados para as métricas gerais da equipe de RH.
   const [teamMetrics] = useState({
@@ -305,6 +306,7 @@ export default function HrDashboard() {
 
   return (
     // Contêiner principal do dashboard, com flexbox para layout e scroll vertical.
+    
     <main className="flex-1 bg-[#0B0011] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
       {/* Contêiner interno que centraliza e adiciona padding responsivo ao conteúdo. */}
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
@@ -331,7 +333,7 @@ export default function HrDashboard() {
             </div>
             {/* Exibe a data e hora da última "atualização" simulada. */}
             <p className="text-gray-500 text-sm mt-2">
-              {t("lastUpdate")}: {formatDateTime(lastUpdateDateTime)}
+              {/* {t("lastUpdate")}: {formatDateTime(lastUpdateDateTime)} */}
             </p>
           </div>
         </div>

@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
-body {
-    background-color: #191122;
+:root {
+  background-color: #191022;
+  /* overflow-x: hidden; */
 }
+
+
 /* Adicione ao seu CSS */
 .drag-over {
   background-color: rgba(75, 85, 99, 0.3);

@@ -42,10 +42,10 @@ export default function CategoryPanel() {
   };
 
   return (
-    <div className="p-4 sm:p-6 space-y-8 text-white">
+    <div className="space-y-8 text-white">
       {/* Header + botão adicionar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-2xl font-bold">Categorias</h2>
+        <h2 className="text-3xl md:text-4xl font-extrabold">Categorias</h2>
         <button
           onClick={() => setIsAdding(prev => !prev)}
           className="flex items-center justify-center bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-300 transition w-full sm:w-auto"

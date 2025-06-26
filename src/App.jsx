@@ -12,12 +12,34 @@ import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
 import Kanban from "./pages/Kanban/Kanban";
 import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+
+// Pages
+
+import About from "./pages/About/About";
+
+import AccountAccess from "./pages/AccountAccess/AccountAccess";
+
+import Kanban from "./pages/Kanban/Kanban";
+
+import AppDashboard from "./pages/Dashboard/AppDashboard";
+import HrDashboard from "./pages/Dashboard/HrDashboard";
+import MemberDashboard from "./pages/Dashboard/MemberDashboard";
+
+import Meetings from "./pages/Meetings/Meetings";
+import Calls from "./pages/Calls/Calls";
+
+
+
 
 function LayoutWithSidebar({ children }) {
     return (
-        <div style={{ display: "flex" }}>
-            <Sidebar />
-            <div style={{ flex: 1 }}>{children}</div>
+        <div>
+            <Topbar />
+            <div className="flex">
+                <Sidebar />
+                <div className="flex-1 pt-14 lg:ml-[240px]">{children}</div>
+            </div>
         </div>
     );
 }
@@ -29,7 +51,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
-                    <Route path="/" element={<AccountAccess />} /> 
+                    {/* <Route path="/" element={<AccountAccess />} />  */}
 
 
                     {/* Rota para página Sobre  */}
@@ -42,14 +64,33 @@ function App() {
 
                     {/* Rota para página Dashboard */}
                     <Route
-                        path="/dashboard"
+                        path="/dashboard/leader"
                         element={
                             <LayoutWithSidebar>
-                                {/* <Kanban /> */}
+                                <AppDashboard />
                             </LayoutWithSidebar>
                         }
                     />
-                    
+
+                    <Route
+                        path="/dashboard/rh"
+                        element={
+                            <LayoutWithSidebar>
+                                <HrDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+                    <Route
+                        path="/dashboard/member"
+                        element={
+                            <LayoutWithSidebar>
+                                <MemberDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+
                     {/* Rota para página Kanban */}
                     <Route
                         path="/kanban"
@@ -70,11 +111,30 @@ function App() {
 
 
                     {/* Rota para página Reuniões */}
-                    {/* <Route path="/meetings" element={<Componente />} /> */}
+                    <Route
+                        path="/meetings"
+                        element={
+                            <LayoutWithSidebar>
+                                <Meetings />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+                    <Route
+                        path="/calls"
+                        element={
+                            <LayoutWithSidebar>
+                               <Calls />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+
 
 
                     {/* Rota para página Check-in */}
                     {/* <Route path="/check-in" element={<Componente />} /> */}
+
                 </Routes>
             </BrowserRouter>
         </>

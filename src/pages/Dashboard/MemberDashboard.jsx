@@ -14,7 +14,7 @@ import tom from "./assets/tom.png";
 import {
   getFeedbacksForMember,
   markFeedbackAsRead,
-} from "./services/feedbackService";
+} from "../../services/feedbackService";
 
 // Dados simulados do membro logado
 const loggedInMemberData = {
