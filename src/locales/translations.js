@@ -61,8 +61,11 @@ export const translations = {
     empenhoAttr: "Empenho", // Chave para o atributo "Empenho" no Leader Dashboard
     saudeEquipeAttr: "Saúde da Equipe",
     saudeEmocionalAttr: "Saúde Emocional", // Chave para o título do cartão de Saúde Emocional no Leader Dashboard
-    recommendationsFor: "Recomendações para",
-    recommendations: "Recomendações",
+    ReportButton: "Relatório",
+
+    
+    // Antigo recommendationsFor: "Recomendações para",
+    recommendations: "Recomendações", // Título do cartão de recomendação
     loadingRecommendations: "Carregando recomendações...",
 
     // Chaves adicionais para componentes de cartão e outras partes do Leader Dashboard
@@ -70,7 +73,13 @@ export const translations = {
     loadingData: "Carregando dados...",
     generalStatus: "Status Geral",
     suggestionsForImprovement: "Sugestões para melhorar",
-    viewMore: "Ver mais",
+    viewMore: "Ver mais", // Manter se for usado em outro lugar, mas não mais no RecommendationCard para "ver mais sugestões"
+
+    // Novas chaves para o RecommendationCard
+    noAttributeDetected: "N/A", // Ou "Não Detectado", ou "Atributo Indefinido"
+    noRecommendationAvailable: "Nenhuma recomendação disponível no momento. Aguardando dados ou métrica de menor desempenho.", // Mensagem quando não há atributo baixo
+    clickOnMetricForMore: "Clique em um cartão de métrica para ver mais sugestões.",
+
 
     // Status emocionais detalhados e suas descrições/ações para o Leader Dashboard (Modal ou Detalhes)
     goodEmotionalStatus: "Bom",
@@ -183,8 +192,8 @@ export const translations = {
     useTimeManagementTools:
       "Utilizar ferramentas de gerenciamento de tempo para otimizar o fluxo.",
     nextWeek: "Próxima Semana",
-    loadingOrNoData: "Carregando ou sem dados.", // Para mensagens de fallback
-
+    loadingOrNoData: "Carregando ou sem dados.", 
+    ReportButton: "Relatório",
   },
   en: {
     // --- HR Dashboard Translations ---
@@ -220,6 +229,7 @@ export const translations = {
     noTrendData: "No trend data",
     noData: "No data",
     trend: "Trend",
+    ReportButton: "Report",
 
     // --- Leader Dashboard Translations ---
     leaderDashboardTitle: "Leader Dashboard",
@@ -241,8 +251,9 @@ export const translations = {
     empenhoAttr: "Commitment", // Attribute for Leader Dashboard
     saudeEquipeAttr: "Team Health",
     saudeEmocionalAttr: "Emotional Health", // Title for Emotional Health card in Leader Dashboard
-    recommendationsFor: "Recommendations for",
-    recommendations: "Recommendations",
+    
+    // Antigo recommendationsFor: "Recommendations for",
+    recommendations: "Recommendations", // Card title
     loadingRecommendations: "Loading recommendations...",
 
     // Additional keys for card components and other parts of the Leader Dashboard
@@ -250,7 +261,12 @@ export const translations = {
     loadingData: "Loading data...",
     generalStatus: "Overall Status",
     suggestionsForImprovement: "Suggestions for improving",
-    viewMore: "View more",
+    viewMore: "View more", // Keep if used elsewhere, but not for RecommendationCard's "view more suggestions"
+
+    // New keys for RecommendationCard
+    noAttributeDetected: "N/A", // Or "Not Detected", or "Undefined Attribute"
+    noRecommendationAvailable: "No recommendations available at the moment. Awaiting data or lowest performing metric.",
+    clickOnMetricForMore: "Click on a metric card to see more suggestions.",
 
     // Detailed emotional statuses and their descriptions/actions for the Leader Dashboard
     goodEmotionalStatus: "Good",
@@ -400,6 +416,7 @@ export const translations = {
     noTrendData: "Sin datos de tendencia",
     noData: "Sin datos",
     trend: "Tendencia",
+    ReportButton: "Informe",
 
     // --- Traducao do Dashboard del Líder ---
     leaderDashboardTitle: "Panel del Líder",
@@ -421,8 +438,9 @@ export const translations = {
     empenhoAttr: "Compromiso", // Atributo para el Leader Dashboard
     saudeEquipeAttr: "Salud del Equipo",
     saudeEmocionalAttr: "Salud Emocional", // Título para el card de Salud Emocional en Leader Dashboard
-    recommendationsFor: "Recomendaciones para",
-    recommendations: "Recomendaciones",
+    
+    // Antigo recommendationsFor: "Recomendaciones para",
+    recommendations: "Recomendaciones", // Card title
     loadingRecommendations: "Cargando recomendaciones...",
 
     // Chaves adicionais para componentes de tarjeta y otras partes del Leader Dashboard
@@ -430,8 +448,13 @@ export const translations = {
     loadingData: "Cargando datos...",
     generalStatus: "Estado General",
     suggestionsForImprovement: "Sugerencias para mejorar",
-    viewMore: "Ver más",
+    viewMore: "Ver más", // Keep if used elsewhere, but not for RecommendationCard's "view more suggestions"
 
+    // New keys for RecommendationCard
+    noAttributeDetected: "N/A", // Or "Not Detected", or "Undefined Attribute"
+    noRecommendationAvailable: "No hay recomendaciones disponibles en este momento. Esperando datos o la métrica de menor rendimiento.",
+    clickOnMetricForMore: "Haz clic en una tarjeta de métrica para ver más sugerencias.",
+    
     // Detailed emotional statuses and their descriptions/actions for the Leader Dashboard
     goodEmotionalStatus: "Bueno",
     goodEmotionalDescription:
@@ -480,7 +503,7 @@ export const translations = {
     teamHealthDescription:
       "Equilibrio general del equipo, ligado a Unión, Compromiso, Comunicación y Enfoque.",
 
-    // Nombres del clima detallado (deben corresponder a los 'name's en detailedClimateData en LeaderDashboard.jsx)
+    // Nomes do clima detalhado (devem corresponder a los 'name's en detailedClimateData en LeaderDashboard.jsx)
     "Ótimo": "Excelente",
     "Bem": "Bien",
     "Cansado": "Cansado",

@@ -1,67 +1,84 @@
 // src/services/feedbackService.js
 
-let feedbacks = [
-  // Exemplo de feedbacks para Talita Vitória (o mesmo email no MemberDashboard.jsx)
-  {
-    id: 1,
-    from: "Débora Paixão",
-    to: "Talita Vitória",
-    toEmail: "talita.vitoria@proa.com",
-    subject: "Excelente trabalho no módulo de autenticação!",
-    message: "Talita, seu empenho no desenvolvimento do módulo de autenticação foi excepcional. A clareza do código e a robustez da solução são admiráveis. Continue assim!",
-    date: "15/06/2025, 10:30:00",
-    read: false, // Inicialmente não lido
-  },
-  {
-    id: 2,
-    from: "Seu Nome (Líder)", // Exemplo de um feedback do líder
-    to: "Talita Vitória",
-    toEmail: "talita.vitoria@proa.com",
-    subject: "Feedback Geral - Junho",
-    message: "Parabéns pela proatividade e colaboração no último sprint. Sua capacidade de resolver problemas complexos é um grande ativo para a equipe.",
-    date: "10/06/2025, 14:00:00",
-    read: false, // Inicialmente não lido
-  },
-  {
-    id: 3,
-    from: "Gabriel Cabral", // Exemplo de um feedback de um colega
-    to: "Talita Vitória",
-    toEmail: "talita.vitoria@proa.com",
-    subject: "Apoio no deploy",
-    message: "Obrigado pela sua ajuda no deploy da última feature. Sua experiência foi crucial para o sucesso da operação.",
-    date: "05/06/2025, 09:15:00",
-    read: true, // Este já veio lido
-  },
-  // Adicione outros feedbacks para diferentes membros, se desejar testar
-  {
-    id: 4,
-    from: "Seu Nome (Líder)",
-    to: "Gabriel Cabral",
-    toEmail: "gabriel.cabral@proa.com",
-    subject: "Design do Dashboard",
-    message: "Gabriel, o novo design do dashboard ficou incrível, muito limpo e intuitivo! Parabéns pelo trabalho.",
-    date: "17/06/2025, 11:00:00",
-    read: false,
-  },
-];
+/**
+ * @file Serviço para gerenciamento de feedbacks.
+ * @description
+ * Este arquivo contém funções para interagir com a API de feedbacks.
+ * Ele permite adicionar novos feedbacks, recuperar feedbacks enviados para membros específicos
+ * e marcar feedbacks como lidos.
+ *
+ * **Perfis de Usuário Relevantes:**
+ * - **Líder (Leader):** Principalmente para *enviar* feedbacks a membros da equipe (`addFeedback`)
+ * e para *visualizar* o histórico de feedbacks da equipe (`getFeedbacksForMember`).
+ * - **Membro (Member):** Principalmente para *receber* e *visualizar* seus próprios feedbacks
+ * (`getFeedbacksForMember`) e *marcar* como lido (`markFeedbackAsRead`).
+ * - **Recursos Humanos (HR):** Pode *visualizar* feedbacks para acompanhamento e gestão
+ * de desempenho (`getFeedbacksForMember`).
+ */
 
-export const addFeedback = (newFeedback) => {
-  feedbacks.push(newFeedback);
-  console.log("Feedback adicionado (simulado):", newFeedback);
-  console.log("Todos os feedbacks atuais:", feedbacks);
-};
+import axios from 'axios';
 
-export const getFeedbacksForMember = (memberEmail) => {
-  // Retorna feedbacks onde o 'toEmail' corresponde ao email do membro logado
-  return feedbacks.filter(feedback => feedback.toEmail === memberEmail);
-};
+const API_BASE_URL = 'http://localhost:3001/api';
 
-export const markFeedbackAsRead = (feedbackId) => {
-  const index = feedbacks.findIndex(f => f.id === feedbackId);
-  if (index !== -1) {
-    feedbacks[index].read = true;
-    console.log(`Feedback ${feedbackId} marcado como lido.`);
+export const addFeedback = async (newFeedback) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/feedbacks`, newFeedback);
+    return response.data;
+  } catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      console.warn("Aguardando dados de feedback (POST): Backend (API de feedback) não está respondendo. Simulando sucesso.");
+      // Simula sucesso no envio de feedback
+      return { ...newFeedback, id: `mock-${Date.now()}` };
+    }
+    console.error("Erro ao adicionar feedback:", error);
+    throw error;
   }
 };
 
-// Você pode adicionar mais funções aqui, como getSentFeedbacks, deleteFeedback, etc.
+export const getFeedbacksForMember = async (memberId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/members/${memberId}/feedbacks`);
+    return response.data;
+  } catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      console.warn(`Aguardando feedbacks para o membro ${memberId}: Backend (API de feedbacks) não está respondendo. Retornando dados mockados.`);
+      // Retorna feedbacks mockados para o membro (ex: alguns feedbacks fictícios)
+      return [
+        {
+          id: 1,
+          from: "Líder Alpha",
+          to: "Membro Teste",
+          subject: "Ótimo trabalho no projeto X!",
+          message: "Seu empenho e foco foram cruciais para o sucesso.",
+          date: "2025-06-20T10:00:00Z",
+          read: false,
+        },
+        {
+          id: 2,
+          from: "Líder Beta",
+          to: "Membro Teste",
+          subject: "Sugestão de melhoria",
+          message: "Poderíamos melhorar a comunicação em reuniões de equipe.",
+          date: "2025-06-18T15:30:00Z",
+          read: true,
+        },
+      ];
+    }
+    console.error(`Erro ao buscar feedbacks para o membro ${memberId}:`, error);
+    throw error;
+  }
+};
+
+export const markFeedbackAsRead = async (feedbackId) => {
+  try {
+    await axios.patch(`${API_BASE_URL}/feedbacks/${feedbackId}/read`);
+    return true;
+  } catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      console.warn(`Aguardando marcação de feedback ${feedbackId} como lido: Backend não está respondendo. Simulando sucesso.`);
+      return true; // Simula sucesso
+    }
+    console.error(`Erro ao marcar feedback ${feedbackId} como lido:`, error);
+    throw error;
+  }
+};

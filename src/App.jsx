@@ -19,12 +19,11 @@ import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
 import Kanban from "./pages/Kanban/Kanban";
 
-import AppDashboard from "./pages/Dashboard/AppDashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
+import Team from "./pages/Dashboard/LeaderTeamArea"
 import Meetings from "./pages/Meetings/Meetings";
-
-
 
 
 function LayoutWithSidebar({ children }) {
@@ -61,7 +60,7 @@ function App() {
                         path="/dashboard/leader"
                         element={
                             <LayoutWithSidebar>
-                                <AppDashboard />
+                                <Dashboard />
                             </LayoutWithSidebar>
                         }
                     />
@@ -80,6 +79,16 @@ function App() {
                         element={
                             <LayoutWithSidebar>
                                 <MemberDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+                    {/* Rota para página equipe do lider */}
+                    <Route
+                        path="/team/leader"
+                        element={
+                            <LayoutWithSidebar>
+                                <Team />
                             </LayoutWithSidebar>
                         }
                     />
