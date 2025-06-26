@@ -96,13 +96,13 @@ const UserProfile = () => {
                 <div className="bg-[#16032C] mt-6 rounded-2xl flex-1/2 p-6 col-span-1">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-4">Reuniões</h3>
                     <div className="space-y-3">
-                        <div className="bg-pink-700 rounded-xl p-4 flex justify-between items-center">
+                        <div className="bg-pink-600 rounded-xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="font-semibold text-base lg:text-lg">Daily Standup</p>
                                 <p className="text-xs lg:text-sm text-pink-300">Hoje às 09:00</p>
                             </div>
                         </div>
-                        <div className="bg-pink-700 rounded-xl p-4 flex justify-between items-center">
+                        <div className="bg-pink-600 rounded-xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="font-semibold text-base lg:text-lg">Sprint Review</p>
                                 <p className="text-xs lg:text-sm text-pink-300">Amanhã às 14:00</p>
