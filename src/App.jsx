@@ -26,6 +26,8 @@ import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
+import UserProfile from "./pages/UserProfile/UserProfile";
+
 
 
 
@@ -94,6 +96,17 @@ function App() {
                         element={
                             <LayoutWithSidebar>
                                 <Kanban />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+
+                    {/* Rota para página Perfil do Usuário */}
+                    <Route
+                        path="/user-profile"
+                        element={
+                            <LayoutWithSidebar>
+                                <UserProfile />
                             </LayoutWithSidebar>
                         }
                     />
