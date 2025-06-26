@@ -8,9 +8,6 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 // Components
 
-import About from "./pages/About/About";
-import AccountAccess from "./pages/AccountAccess/AccountAccess";
-import Kanban from "./pages/Kanban/Kanban";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 
