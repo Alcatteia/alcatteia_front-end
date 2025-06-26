@@ -26,6 +26,9 @@ import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
+import Check from "./pages/Ckeck-in/Check";
+import { CheckProvider } from "./context/CheckContext";
+
 
 
 
@@ -98,7 +101,7 @@ function App() {
                         }
                     />
 
-                    
+
 
 
 
@@ -121,7 +124,7 @@ function App() {
                         path="/calls"
                         element={
                             <LayoutWithSidebar>
-                               <Calls />
+                                <Calls />
                             </LayoutWithSidebar>
                         }
                     />
@@ -130,7 +133,17 @@ function App() {
 
 
                     {/* Rota para página Check-in */}
-                    {/* <Route path="/check-in" element={<Componente />} /> */}
+                    <Route path="/check-in" element={
+                        <LayoutWithSidebar>
+                            <CheckProvider>
+
+                                <Check />
+
+                            </CheckProvider>
+                        </LayoutWithSidebar>
+                    } />
+
+
 
                 </Routes>
             </BrowserRouter>
