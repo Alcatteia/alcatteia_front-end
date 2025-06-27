@@ -1,19 +1,23 @@
 // src/pages/Dashboard/LeaderTeamArea.jsx
 import React, { useState, useCallback } from "react";
 import {
-  FiUserPlus,
-  FiInfo,
-  FiMail,
+  FiUser, // Adicionado de volta para consistência, embora não usado diretamente
   FiMessageCircle,
   FiTrash2,
   FiCopy,
+  FiUserPlus,
+  FiX, // Adicionado de volta para consistência, embora não usado diretamente
+  FiSend, // Adicionado de volta para consistência, embora não usado diretamente
+  FiCheckCircle, // Adicionado de volta para consistência, embora não usado diretamente
+  FiInfo,
+  FiMail, // Adicionado de volta para consistência, embora não usado diretamente
 } from "react-icons/fi";
 
 // Importações de componentes e serviços
-import TeamAreaFeedbackConfirmationCard from "./components/TeamAreaFeedbackConfirmationCard"; 
-import { useTeamMembers } from "../../hooks/useTeamMembers"; 
+import TeamAreaFeedbackConfirmationCard from "./components/TeamAreaFeedbackConfirmationCard";
+import { useTeamMembers } from "../../hooks/useTeamMembers";
 
-// Importações dos componentes de Modal
+// Importações dos componentes de Modal (mantidos separados)
 import TeamAreaAddModal from "./components/TeamAreaAddModal";
 import TeamAreaMemberDetailsModal from "./components/TeamAreaMemberDetailsModal";
 import TeamAreaSendFeedbackModal from "./components/TeamAreaSendFeedbackModal";
@@ -23,7 +27,7 @@ import TeamAreaConfirmRemoveModal from "./components/TeamAreaConfirmRemoveModal"
 const roles = ["Todos", "Back-end", "Front-end", "Full-stack", "Teacher"];
 
 // Variável para simular o nome do líder logado (ajuste conforme sua autenticação real)
-const loggedInLeaderName = "Seu Nome de Líder"; 
+const loggedInLeaderName = "Seu Nome de Líder";
 
 // --- Componente Principal ---
 export default function LeaderTeamArea() {
@@ -32,15 +36,15 @@ export default function LeaderTeamArea() {
     members,
     alcatteiaAvailableUsers,
     isLoading,
-    operationStatus, 
+    operationStatus,
     fetchAlcatteiaUsers,
     addMemberToTeam,
     removeMemberFromTeam,
     sendFeedback, // função de feedback do hook
-    resetOperationStatus, 
+    resetOperationStatus,
   } = useTeamMembers();
 
-  // Estados Locais do Componente (não gerenciados pelo hook) 
+  // Estados Locais do Componente (não gerenciados pelo hook)
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("Todos");
   const [copiedEmail, setCopiedEmail] = useState(null);
@@ -57,16 +61,15 @@ export default function LeaderTeamArea() {
   const [alcatteiaSearch, setAlcatteiaSearch] = useState("");
   const [alcatteiaRoleFilter, setAlcatteiaRoleFilter] = useState("Todos");
 
-
   // --- Funções de Manipulação de UI e Dados (delegando ao hook) ---
 
   /**
-   * Abre o modal de adição de membros e inicia a busca por usuários da Alcatéia.
+   * Abre o modal de adição de membros e inicia a busca por usuários da Alcatteia.
    */
   const handleOpenAddModal = useCallback(() => {
-    fetchAlcatteiaUsers(); 
-    setAlcatteiaSearch(""); 
-    setAlcatteiaRoleFilter("Todos"); 
+    fetchAlcatteiaUsers();
+    setAlcatteiaSearch("");
+    setAlcatteiaRoleFilter("Todos");
     setShowAddModal(true);
   }, [fetchAlcatteiaUsers]);
 
@@ -75,9 +78,12 @@ export default function LeaderTeamArea() {
    * Delega a lógica ao hook `useTeamMembers`.
    * @param {object} memberData - Dados do membro a ser adicionado.
    */
-  const handleAddAlcatteiaMember = useCallback(async (memberData) => {
-    await addMemberToTeam(memberData);
-  }, [addMemberToTeam]);
+  const handleAddAlcatteiaMember = useCallback(
+    async (memberData) => {
+      await addMemberToTeam(memberData);
+    },
+    [addMemberToTeam]
+  );
 
   /**
    * Abre o modal de detalhes de um membro específico.
@@ -93,15 +99,18 @@ export default function LeaderTeamArea() {
    * Fecha o modal de detalhes se estiver aberto.
    * @param {string} memberId - O ID do membro a ser removido.
    */
-  const handleOpenConfirmRemove = useCallback((memberId) => {
-    const member = members.find((m) => m.id === memberId);
-    if (member) {
-      setSelectedMember(member); // Usado para exibir informações no modal de remoção
-      setMemberToRemove(member);
-      setShowConfirmRemoveModal(true);
-    }
-    setShowDetailsModal(false); 
-  }, [members]);
+  const handleOpenConfirmRemove = useCallback(
+    (memberId) => {
+      const member = members.find((m) => m.id === memberId);
+      if (member) {
+        setSelectedMember(member); // Usado para exibir informações no modal de remoção
+        setMemberToRemove(member);
+        setShowConfirmRemoveModal(true);
+      }
+      setShowDetailsModal(false);
+    },
+    [members]
+  );
 
   /**
    * Confirma e executa a remoção do membro selecionado.
@@ -109,10 +118,10 @@ export default function LeaderTeamArea() {
    */
   const handleConfirmRemoveMember = useCallback(async () => {
     if (memberToRemove) {
-      await removeMemberFromTeam(memberToRemove.id); 
+      await removeMemberFromTeam(memberToRemove.id);
       setShowConfirmRemoveModal(false);
       setMemberToRemove(null);
-      setSelectedMember(null); 
+      setSelectedMember(null);
     }
   }, [memberToRemove, removeMemberFromTeam]);
 
@@ -121,7 +130,7 @@ export default function LeaderTeamArea() {
    * Fecha o modal de detalhes antes de abrir o de feedback.
    */
   const handleOpenFeedbackForm = useCallback(() => {
-    setShowDetailsModal(false); 
+    setShowDetailsModal(false);
     setShowFeedbackModal(true);
   }, []);
 
@@ -131,26 +140,23 @@ export default function LeaderTeamArea() {
    * @param {string} subject - Assunto do feedback.
    * @param {string} message - Mensagem do feedback.
    */
-  const handleSendFeedbackSubmit = useCallback(async (subject, message) => {
-    if (selectedMember) {
-      const feedbackData = {
-        from: loggedInLeaderName, 
-        to: selectedMember.name,
-        toEmail: selectedMember.email,
-        subject: subject,
-        message: message,
-      };
-      await sendFeedback(feedbackData); 
-      setShowFeedbackModal(false);
-    }
-  }, [selectedMember, sendFeedback]);
+  const handleSendFeedbackSubmit = useCallback(
+    async (subject, message) => {
+      if (selectedMember) {
+        const feedbackData = {
+          from: loggedInLeaderName,
+          to: selectedMember.name,
+          toEmail: selectedMember.email,
+          subject: subject,
+          message: message,
+        };
+        await sendFeedback(feedbackData);
+        setShowFeedbackModal(false);
+      }
+    },
+    [selectedMember, sendFeedback]
+  );
 
-
-  /**
-   * Copia o e-mail de um membro para a área de transferência.
-   * Exibe uma mensagem temporária de "Copiado!".
-   * @param {string} email - O e-mail a ser copiado.
-   */
   const handleCopy = useCallback((email) => {
     navigator.clipboard.writeText(email);
     setCopiedEmail(email);
@@ -206,7 +212,7 @@ export default function LeaderTeamArea() {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="w-full md:w-1/2 rounded px-4 py-2 bg-[#232046] text-white border border-gray-600 focus:outline-none focus:border-purple-400"
+            className="w-full md:w-48 rounded px-4 py-2 bg-[#232046] text-white border border-gray-600 focus:outline-none focus:border-purple-400"
           >
             {roles.map((role) => (
               <option key={role}>{role}</option>
@@ -214,16 +220,118 @@ export default function LeaderTeamArea() {
           </select>
         </div>
 
-        {/* --- Exibição de Membros (Cards para Mobile) --- */}
+        {/* --- Exibição para Desktop (Tabela) --- */}
+        <div className="hidden sm:block overflow-x-auto rounded-xl shadow-lg bg-[#18162a]">
+          <table className="min-w-full text-left text-gray-200">
+            <thead>
+              <tr className="bg-[#232046]">
+                <th className="py-3 px-4 font-semibold">Avatar</th>
+                <th className="py-3 px-4 font-semibold">Nome</th>
+                <th className="py-3 px-4 font-semibold">Função</th>
+                <th className="py-3 px-4 font-semibold">E-mail</th>
+                <th className="py-3 px-4 font-semibold">Empenho</th>
+                <th className="py-3 px-4 font-semibold">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredMembers.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="text-center py-6 text-gray-400">
+                    Nenhum membro encontrado. (Mas não desanima, tem mais gente
+                    vindo!)
+                  </td>
+                </tr>
+              )}
+              {filteredMembers.map((m) => (
+                <tr
+                  key={m.id}
+                  className="hover:bg-[#232046]/60 transition group"
+                >
+                  <td className="py-3 px-4">
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      className="w-10 h-10 rounded-full border-2 border-purple-400 object-cover"
+                    />
+                  </td>
+                  <td
+                    className="py-3 px-4 font-bold cursor-pointer hover:text-purple-300"
+                    onClick={() => handleOpenMemberDetails(m)}
+                  >
+                    {m.name}
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-1 rounded bg-purple-700 text-purple-100 text-xs font-semibold">
+                      {m.role}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4 flex items-center gap-2 max-w-[200px] truncate">
+                    <span className="truncate">{m.email}</span>
+                    <button
+                      className="text-purple-400 hover:text-purple-200 transition flex-shrink-0"
+                      title={
+                        copiedEmail === m.email ? "Copiado! Eita!" : "Copiar e-mail"
+                      }
+                      onClick={() => handleCopy(m.email)}
+                    >
+                      <FiCopy className="w-4 h-4" />
+                    </button>
+                    {copiedEmail === m.email && (
+                      <span className="text-green-400 text-xs ml-1 animate-pulse">
+                        Copiado! 🙏
+                      </span>
+                    )}
+                  </td>
+                  {/* Métrica de Empenho */}
+                  <td className="py-3 px-4 w-40">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-gray-700 rounded-full h-3">
+                        <div
+                          className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all"
+                          style={{ width: `${m.empenho}%` }}
+                        ></div>
+                      </div>
+                      <span className="text-xs text-gray-300 w-8 text-right">
+                        {m.empenho}%
+                      </span>
+                    </div>
+                  </td>
+                  {/* Ações na tabela */}
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button
+                        className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded transition"
+                        title="Enviar Feedback ao membro"
+                        onClick={() => {
+                          setSelectedMember(m);
+                          handleOpenFeedbackForm();
+                        }}
+                      >
+                        <FiMessageCircle className="w-4 h-4" /> Feedback
+                      </button>
+                      <button
+                        className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded transition cursor-pointer"
+                        title="Remover membro"
+                        onClick={() => handleOpenConfirmRemove(m.id)} // Ativado!
+                      >
+                        <FiTrash2 className="w-4 h-4" /> Remover
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* --- Exibição para Mobile (Cards) --- */}
         <div className="block sm:hidden grid grid-cols-1 gap-4">
-          {/* Mensagem se nenhum membro for encontrado */}
           {filteredMembers.length === 0 && (
             <div className="text-center py-6 text-gray-400 bg-[#18162a] rounded-xl shadow-lg p-4">
-              Nenhum membro encontrado. Adicione novos membros usando o botão
-              acima.
+              Nenhum membro encontrado. (Mas não desanima, tem mais gente
+              vindo!)
             </div>
           )}
-          {/* Renderiza cada membro em um card */}
           {filteredMembers.map((m) => (
             <div
               key={m.id}
@@ -240,7 +348,7 @@ export default function LeaderTeamArea() {
                   <p className="text-purple-300 text-sm">{m.role}</p>
                 </div>
                 <button
-                  className="absolute top-4 right-4 text-gray-400 hover:text-purple-400 cursor-pointer"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-purple-400"
                   onClick={() => handleOpenMemberDetails(m)}
                   title="Ver detalhes"
                 >
@@ -248,11 +356,10 @@ export default function LeaderTeamArea() {
                 </button>
               </div>
 
-              {/* E-mail no Card (com botão de copiar) */}
               <div className="text-gray-400 text-sm mb-3 truncate max-w-[calc(100%-40px)]">
                 {m.email}
                 <button
-                  className="ml-2 text-purple-400 hover:text-purple-200 transition cursor-pointer"
+                  className="ml-2 text-purple-400 hover:text-purple-200 transition"
                   title={copiedEmail === m.email ? "Copiado!" : "Copiar e-mail"}
                   onClick={() => handleCopy(m.email)}
                 >
@@ -260,12 +367,12 @@ export default function LeaderTeamArea() {
                 </button>
                 {copiedEmail === m.email && (
                   <span className="text-green-400 text-xs ml-1 animate-pulse">
-                    Copiado!
+                    Copiado! 🙏
                   </span>
                 )}
               </div>
 
-              {/* Barra de Empenho no Card */}
+              {/* Empenho no card */}
               <div className="mb-4">
                 <span className="block text-sm text-gray-300 mb-1">Empenho:</span>
                 <div className="flex items-center gap-2">
@@ -279,7 +386,7 @@ export default function LeaderTeamArea() {
                 </div>
               </div>
 
-              {/* Botões de Ação no Card */}
+              {/* Ações no card */}
               <div className="flex justify-end gap-2 text-sm">
                 <button
                   className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center"
@@ -294,7 +401,7 @@ export default function LeaderTeamArea() {
                 <button
                   className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center cursor-pointer"
                   title="Remover membro"
-                  onClick={() => handleOpenConfirmRemove(m.id)}
+                  onClick={() => handleOpenConfirmRemove(m.id)} 
                 >
                   <FiTrash2 className="w-4 h-4" /> Remover
                 </button>
@@ -303,131 +410,8 @@ export default function LeaderTeamArea() {
           ))}
         </div>
 
-        {/* --- Tabela de Membros (para Desktop) --- */}
-        <div className="hidden sm:block overflow-hidden bg-[#18162a] rounded-xl shadow-lg border border-gray-700">
-          <table className="min-w-full divide-y divide-gray-700">
-            <thead className="bg-[#232046]">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                >
-                  Membro
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                >
-                  Email
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                >
-                  Função
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                >
-                  Empenho
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
-                >
-                  Ações
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-[#18162a] divide-y divide-gray-700">
-              {filteredMembers.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="px-6 py-4 whitespace-nowrap text-center text-gray-400">
-                    Nenhum membro encontrado.
-                  </td>
-                </tr>
-              ) : (
-                filteredMembers.map((m) => (
-                  <tr key={m.id} className="hover:bg-[#232046] transition-colors duration-200">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded-full object-cover border-2 border-purple-400"
-                            src={m.photo}
-                            alt={m.name}
-                          />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-white">
-                            {m.name}
-                          </div>
-                          <div className="text-sm text-gray-400">
-                            {m.description || "Sem descrição"}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-300 flex items-center group">
-                        {m.email}
-                        <button
-                          className="ml-2 text-purple-400 hover:text-purple-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                          title={copiedEmail === m.email ? "Copiado!" : "Copiar e-mail"}
-                          onClick={() => handleCopy(m.email)}
-                        >
-                          <FiCopy className="w-4 h-4" />
-                        </button>
-                        {copiedEmail === m.email && (
-                          <span className="text-green-400 text-xs ml-1 animate-pulse">
-                            Copiado!
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-purple-300">
-                      {m.role}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-700 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full"
-                            style={{ width: `${m.empenho}%` }}
-                          ></div>
-                        </div>
-                        <span>{m.empenho}%</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex justify-end gap-3">
-                        <button
-                          className="text-blue-500 hover:text-blue-700 transition"
-                          title="Ver detalhes"
-                          onClick={() => handleOpenMemberDetails(m)}
-                        >
-                          <FiInfo className="w-5 h-5" />
-                        </button>
-                        <button
-                          className="text-red-500 hover:text-red-700 transition"
-                          title="Remover membro"
-                          onClick={() => handleOpenConfirmRemove(m.id)}
-                        >
-                          <FiTrash2 className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        {/* --- Modais (mantidos como componentes separados) --- */}
 
-        {/* --- Modais --- */}
-
-        {/* Modal para Adicionar Membro (Usuários da Alcatéia) */}
         <TeamAreaAddModal
           show={showAddModal}
           onClose={() => setShowAddModal(false)}
@@ -455,19 +439,17 @@ export default function LeaderTeamArea() {
           onClose={() => setShowFeedbackModal(false)}
           member={selectedMember}
           onSendFeedbackSubmit={handleSendFeedbackSubmit}
-          operationStatus={operationStatus} 
+          operationStatus={operationStatus}
         />
 
-        {/* Card de Confirmação de Feedback (flutua sobre o conteúdo) */}
         {operationStatus && operationStatus.type && (
           <TeamAreaFeedbackConfirmationCard
             status={operationStatus.type}
-            message={operationStatus.message} 
-            onClose={resetOperationStatus} 
+            message={operationStatus.message}
+            onClose={resetOperationStatus}
           />
         )}
 
-        {/* Modal de Confirmação de Remoção */}
         <TeamAreaConfirmRemoveModal
           show={showConfirmRemoveModal}
           onClose={() => setShowConfirmRemoveModal(false)}

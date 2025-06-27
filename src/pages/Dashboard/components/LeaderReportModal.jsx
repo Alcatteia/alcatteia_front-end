@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-
-// Ícones
+import React, { useEffect, useCallback } from "react";
 import {
   FiUsers,
   FiHeart,
@@ -10,25 +8,11 @@ import {
   FiX,
   FiClipboard,
 } from "react-icons/fi";
+import useReportData from "../../../hooks/useReportData"; 
 
-// Importa axios para a api.
-// import axios from 'axios';
+export default function LeaderReportModal({ isOpen, onClose, teamId }) { // Adicione teamId se for necessário para a API
+  const { reportData, loading, error } = useReportData(teamId, isOpen); // Passa o teamId e se deve buscar
 
-/**
- * Componente ReportModal:
- * Um modal para exibir o relatório detalhado e profissional da equipe.
- * Prepara a estrutura para integração com uma API real.
- *
- * @param {object} props - As propriedades do componente.
- * @param {boolean} props.isOpen - Se o modal está aberto ou fechado.
- * @param {function} props.onClose - Função a ser chamada quando o modal for fechado.
- */
-export default function LeaderReportModal({ isOpen, onClose }) {
-  const [reportData, setReportData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Fecha o modal ao pressionar ESC
   const handleEscape = useCallback(
     (event) => {
       if (event.key === "Escape") {
@@ -38,72 +22,25 @@ export default function LeaderReportModal({ isOpen, onClose }) {
     [onClose]
   );
 
-  // Gerencia o listener de ESC e o scroll do body
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden"; // Bloqueia o scroll do body
+      document.body.style.overflow = "hidden";
     } else {
       document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "unset"; // Restaura o scroll
+      document.body.style.overflow = "unset";
     }
-    // Função de limpeza: remove event listeners e estilos ao desmontar ou fechar
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "unset";
     };
   }, [isOpen, handleEscape]);
 
-  // Função para buscar os dados do relatório da API
-  useEffect(() => {
-    const fetchReportData = async () => {
-      setLoading(true);
-      setError(null);
-      setReportData(null); // Limpa dados anteriores antes de carregar novos
-
-      try {
-        // --- INÍCIO: Estrutura para chamada de API com Axios (descomente e ajuste) ---
-        // Certifique-se de ter o axios instalado: npm install axios ou yarn add axios
-        // E substitua '/api/report/team-performance' pelo seu endpoint real
-        // E 'suaTeamIdAqui' pelo ID da equipe ou outros parâmetros necessários,
-        // por exemplo, se o teamId vier de props: props.teamId
-        //
-        // const response = await axios.get('/api/report/team-performance', {
-        //   params: {
-        //     teamId: 'suaTeamIdAqui', // Substitua pelo ID real da equipe
-        //     // period: 'monthly', // Exemplo de parâmetro de período, se necessário
-        //   }
-        // });
-        // setReportData(response.data);
-        // --- FIM: Estrutura para chamada de API com Axios ---
-
-        // AVISO: Simulação de atraso e dados vazios para DEV.
-        // REMOVER estas linhas quando o axios for ativado e a API estiver pronta.
-        await new Promise((resolve) => setTimeout(resolve, 800)); // Simula um atraso de carregamento
-        setReportData(null); // Define dados como nulos para mostrar "Nenhum dado disponível" por padrão sem API
-        // FIM DO AVISO
-      } catch (err) {
-        console.error("Erro ao carregar dados do relatório:", err);
-        setError(
-          "Não foi possível carregar o relatório. Verifique sua conexão ou tente novamente."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (isOpen) {
-      fetchReportData();
-    }
-  }, [isOpen]); // Recarrega dados apenas quando o modal abre
-
-  // Não renderiza o modal se não estiver aberto
   if (!isOpen) {
     return null;
   }
 
   let modalContent;
-  // Exibe loading se os dados estiverem sendo carregados
   if (loading) {
     modalContent = (
       <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-purple-300">
@@ -131,14 +68,12 @@ export default function LeaderReportModal({ isOpen, onClose }) {
         </p>
       </div>
     );
-    // Exibe mensagem de erro
   } else if (error) {
     modalContent = (
       <div className="flex items-center justify-center h-full min-h-[300px] text-red-500 text-center p-4">
         <p className="text-lg font-medium">{error}</p>
       </div>
     );
-    // Exibe mensagem se não houver dados
   } else if (!reportData || Object.keys(reportData).length === 0) {
     modalContent = (
       <div className="flex items-center justify-center h-full min-h-[300px] text-gray-400 text-center p-4">
@@ -147,9 +82,7 @@ export default function LeaderReportModal({ isOpen, onClose }) {
         </p>
       </div>
     );
-    // Exibe o relatório com os dados carregados
   } else {
-    // Define a cor da tendência (certifique-se que reportData.teamHealthTrend existe na sua API)
     const trendColor =
       reportData.teamHealthTrend &&
       reportData.teamHealthTrend.includes("Melhora")
@@ -160,9 +93,7 @@ export default function LeaderReportModal({ isOpen, onClose }) {
         : "text-blue-400";
 
     modalContent = (
-      // Conteúdo principal do relatório com scroll
       <div className="p-4 sm:p-8 md:p-10 lg:p-12 text-gray-100 font-sans max-h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar bg-[#160F23]">
-        {/* Título Principal */}
         <h2 className="text-4xl font-extrabold text-white mb-4 text-center leading-tight">
           Relatório de Desempenho da Equipe{" "}
           <span className="text-purple-400">
@@ -170,13 +101,11 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           </span>
         </h2>
 
-        {/* Seção Sumário Executivo */}
         <section className="mb-10 pb-6 border-b border-gray-700">
           <div className="flex items-center mb-5">
             <FiUsers className="text-3xl text-purple-400 mr-3" />
             <h3 className="text-2xl font-bold text-white">Sumário Executivo</h3>
           </div>
-          {/* Grid responsivo para sumário */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-8 text-lg">
             <div className="flex flex-col col-span-1">
               <span className="text-sm font-light text-purple-300">
@@ -214,7 +143,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           </p>
         </section>
 
-        {/* Seção Análise de Sentimento e Humor */}
         <section className="mb-10 pb-6 border-b border-gray-700">
           <div className="flex items-center mb-5">
             <FiHeart className="text-3xl text-purple-400 mr-3" />
@@ -222,7 +150,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
               Análise de Sentimento e Humor
             </h3>
           </div>
-          {/* Assumindo que a API retornará moodDistribution no formato { mood: string, count: number, percent: string } */}
           {reportData.moodDistribution &&
           reportData.moodDistribution.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-8">
@@ -265,7 +192,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           </p>
         </section>
 
-        {/* Seção Níveis de Engajamento e Produtividade */}
         <section className="mb-10 pb-6 border-b border-gray-700">
           <div className="flex items-center mb-5">
             <FiActivity className="text-3xl text-purple-400 mr-3" />
@@ -273,7 +199,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
               Níveis de Engajamento e Produtividade
             </h3>
           </div>
-          {/* Assumindo que a API retornará activityLevels no formato { activity: string, count: number, color: string } */}
           {reportData.activityLevels && reportData.activityLevels.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
               {reportData.activityLevels.map((item, index) => (
@@ -304,7 +229,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           )}
         </section>
 
-        {/* Seção Análise de Desafios & Recomendações */}
         <section className="mb-10 pb-6 border-b border-gray-700">
           <div className="flex items-center mb-5">
             <FiAlertCircle className="text-3xl text-yellow-400 mr-3" />
@@ -312,7 +236,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
               Análise de Desafios & Recomendações
             </h3>
           </div>
-          {/* Assumindo que a API retornará challengesAndRecommendations no formato { title: string, description: string, recommendation: string } */}
           {reportData.challengesAndRecommendations &&
           reportData.challengesAndRecommendations.length > 0 ? (
             <div className="space-y-6">
@@ -343,7 +266,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           )}
         </section>
 
-        {/* Seção Plano de Ação Sugerido */}
         <section className="mb-6">
           <div className="flex items-center mb-5">
             <FiClipboard className="text-3xl text-teal-400 mr-3" />
@@ -351,7 +273,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
               Plano de Ação Sugerido
             </h3>
           </div>
-          {/* Assumindo que a API retornará suggestedActionPlan como um array de strings */}
           {reportData.suggestedActionPlan &&
           reportData.suggestedActionPlan.length > 0 ? (
             <ul className="list-disc list-inside bg-[#1d273a] p-6 rounded-md border border-gray-800 text-lg space-y-2">
@@ -368,7 +289,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
           )}
         </section>
 
-        {/* Rodapé: Última Atualização */}
         <div className="flex items-center justify-end text-gray-400 text-base pt-6 border-t border-gray-800 mt-10">
           <FiClock className="mr-2" />
           <span>
@@ -379,23 +299,19 @@ export default function LeaderReportModal({ isOpen, onClose }) {
     );
   }
 
-  // Estrutura do modal autocontido
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black bg-opacity-50 backdrop-blur-sm overflow-y-auto">
-      {/* Container principal do modal */}
       <div
         className={`bg-[#160F23] rounded-lg shadow-xl relative transform transition-all duration-300
-                      w-full sm:w-11/12 md:w-[67vw] lg:max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto
-                      border border-purple-700/50 my-auto`}
+                     w-full sm:w-11/12 md:w-[67vw] lg:max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1600px] mx-auto
+                     border border-purple-700/50 my-auto`}
       >
         {" "}
-        {/* Cabeçalho do modal*/}
         <div className="flex items-center justify-between p-4 sm:p-5 border-b border-gray-700">
           <h3 className="text-xl sm:text-2xl font-semibold text-white">
             Relatório Detalhado da Equipe
           </h3>
           <div className="flex items-center space-x-4">
-            {/* Botão para fechar o modal */}
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-200 transition-colors"
@@ -405,7 +321,6 @@ export default function LeaderReportModal({ isOpen, onClose }) {
             </button>
           </div>
         </div>
-        {/* Corpo do modal*/}
         <div className="p-0">{modalContent}</div>
       </div>
     </div>

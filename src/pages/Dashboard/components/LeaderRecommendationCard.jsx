@@ -1,65 +1,59 @@
-// src/pages/Dashboard/components/RecommendationCard.jsx
+// src/pages/Dashboard/components/LeaderRecommendationCard.jsx
+
 import React from 'react';
-import { MdLightbulb } from 'react-icons/md'; // Usando MdLightbulb conforme o original
+import { MdLightbulb } from 'react-icons/md';
 
-/**
- * Componente para exibir um cartão de recomendação.
- * @param {object} props - As propriedades do componente.
- * @param {string|null} props.lowestAttributeKey - A chave do atributo (e.g., "foco", "empenho") para o qual a recomendação se aplica. Pode ser null.
- * @param {object} props.suggestionsByAttribute - Objeto contendo listas de sugestões por atributo.
- * @param {function(string): string} props.t - Função de tradução que recebe uma chave e retorna a string traduzida.
- */
-export default function RecommendationCard({ lowestAttributeKey, suggestionsByAttribute, t }) {
-  // Acessa as sugestões com base em lowestAttributeKey, garantindo que seja um array vazio se não houver
-  const currentSuggestions = (lowestAttributeKey && suggestionsByAttribute[lowestAttributeKey])
-    ? suggestionsByAttribute[lowestAttributeKey]
-    : [];
+export default function LeaderRecommendationCard({ suggestions, t, onOpenSingleSuggestionModal, onOpenAllSuggestionsModal }) {
+  const hasSuggestions = suggestions && suggestions.length > 0;
+  // Apenas as duas primeiras sugestões serão exibidas no card principal para evitar rolagem
+  const displaySuggestions = hasSuggestions ? suggestions.slice(0, 6) : [];
+  // O botão "Ver completo" aparece se houver mais de 2 sugestões
+  const hasMoreSuggestionsThanDisplayed = hasSuggestions && suggestions.length > 2;
 
-  // Define o nome do atributo para exibição
-  const attributeDisplayName = lowestAttributeKey ? t(`${lowestAttributeKey}Attr`) : t("noAttributeDetected"); // Usaremos 'noAttributeDetected' se lowestAttributeKey for nulo
+  const cardClasses = "flex-1 min-w-[200px] bg-gray-800 rounded-xl p-4 shadow flex flex-col justify-between border border-white h-48";
 
-  // A função onVerMais não será passada como prop externa, pois a lógica de detalhes
-  // é acionada ao clicar no MetricCard no LeaderDashboard.
-  // Aqui, vamos apenas exibir uma mensagem se houver mais de 2 sugestões.
-  const hasMoreSuggestions = currentSuggestions.length > 2;
-  
-  // Condição para renderizar o cartão
-  if (!lowestAttributeKey || currentSuggestions.length === 0) {
-    // Se não houver atributo de menor desempenho ou sem sugestões,
-    // podemos renderizar um estado alternativo ou não renderizar nada.
-    // Para manter o layout, vamos renderizar o card com uma mensagem de "sem recomendação".
+  if (!hasSuggestions) {
     return (
-      <div className="flex-1 min-w-[200px] bg-gray-800 rounded-xl p-6 shadow flex flex-col justify-between border border-white">
-        <div className="flex items-center gap-3 mb-4">
-          <MdLightbulb className="w-7 h-7 text-yellow-400" />
-          <span className="text-lg font-semibold text-yellow-300">{t("recommendations")}</span>
+      <div className={`${cardClasses} cursor-pointer`} onClick={() => onOpenAllSuggestionsModal()}>
+        <div className="flex items-center gap-2 mb-2">
+          <MdLightbulb className="w-6 h-6 text-yellow-400" /> {/* Lâmpada sem animação */}
+          <span className="text-lg font-semibold text-yellow-300">{t("recommendations")}</span> {/* Título maior */}
         </div>
-        <div>
-          <p className="text-gray-300">{t("noRecommendationAvailable")}</p>
+        <div className="flex-grow flex items-center justify-center">
+          <p className="text-gray-300 text-sm text-center">{t("noRecommendationAvailable")}</p>
         </div>
-        {/* Remove o botão "Ver mais" se não houver sugestões válidas ou atributo */}
       </div>
     );
   }
 
   return (
-    <div className="flex-1 min-w-[200px] bg-gray-800 rounded-xl p-6 shadow flex flex-col justify-between border border-white">
-      <div className="flex items-center gap-3 mb-4">
-        <MdLightbulb className="w-7 h-7 text-yellow-400" /> {/* Ícone de lâmpada. */}
-        <span className="text-lg font-semibold text-yellow-300">{t("recommendations")}</span> {/* Título do cartão traduzido. */}
+    <div className={cardClasses}>
+      <div className="flex items-center gap-2 mb-2">
+        <MdLightbulb className="w-6 h-6 text-yellow-400" /> {/* Lâmpada sem animação */}
+        <span className="text-lg font-semibold text-yellow-300">{t("recommendations")}</span> {/* Título maior */}
       </div>
-      <div>
-        <span className="text-gray-300">{t("suggestionsForImprovement")} <b>{attributeDisplayName}</b>:</span> {/* Texto introdutório traduzido. */}
-        <ul className="list-disc list-inside mt-2 text-gray-200">
-          {currentSuggestions.slice(0, 2).map((s, idx) => ( // Exibe apenas as duas primeiras sugestões.
-            <li key={idx}>{s}</li>
-          ))}
-        </ul>
+      <div className="flex-grow flex flex-wrap gap-2 justify-start content-start"> {/* flex-wrap para horizontal, sem scrollbar */}
+        {displaySuggestions.map((sug, idx) => (
+          <button
+            key={idx}
+            className="flex items-center bg-yellow-600 hover:bg-purple-700 transition-colors duration-200 rounded-md px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            onClick={() => onOpenSingleSuggestionModal(sug)}
+          >
+            <MdLightbulb className="w-4 h-4 mr-2 text-white flex-shrink-0" />
+            <span className="text-white text-sm font-semibold whitespace-nowrap">
+              {t("suggestionToImprove")}: {t(sug.attributeKey)}
+            </span>
+          </button>
+        ))}
       </div>
-      {hasMoreSuggestions && (
-        <p className="mt-2 text-sm text-yellow-400 self-start">
-          {t("clickOnMetricForMore")} {/* Nova chave de tradução */}
-        </p>
+   
+      {hasMoreSuggestionsThanDisplayed && (
+        <button
+          className="mt-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg text-sm cursor-pointer transition-colors duration-200 w-full"
+          onClick={() => onOpenAllSuggestionsModal()}
+        >
+          {t("clickOnMetricForMore")} 
+        </button>
       )}
     </div>
   );

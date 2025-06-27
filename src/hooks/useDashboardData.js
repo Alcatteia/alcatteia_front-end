@@ -1,31 +1,49 @@
 // src/hooks/useDashboardData.js
 
-/**
- * @file Hook personalizado para gerenciar dados e lógica do dashboard.
- * @description
- * Este hook encapsula a busca, o processamento e o estado dos dados exibidos nos dashboards (Líder e RH),
- * incluindo métricas de desempenho (união, empenho, comunicação, foco), clima organizacional,
- * métricas gerais da equipe (saúde e engajamento), lista de colaboradores e tendências.
- * Ele integra dados iniciais e expõe um conjunto de estados e funções para fácil consumo por componentes React.
- */
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchDashboardData } from "../services/dashboardService";
 import { translations } from "../locales/translations";
-import { initialMetrics, detailedClimateData, suggestionsByAttribute } from "../data/metricasData";
+import { suggestionsByAttribute } from "../data/metricasData";
+import { simulatedDashboardStates } from "../data/simulatedDashboardData";
 
 import { FiSmile, FiMeh, FiFrown, FiBarChart2, FiUsers, FiZap, FiMessageSquare, FiTarget } from "react-icons/fi";
 
+export const ACTION_TYPE = {
+  TEXT: 'text',
+  MODAL: 'modal',
+  REDIRECT: 'redirect',
+};
+
+export const MODAL_ID = {
+  KARAOKE: 'karaoke-modal',
+};
+
+export const REDIRECT_PATH = {
+  KANBAN: '/kanban',
+};
+
+const REAL_API_ACTIVE = false;
+
 export const useDashboardData = (lang) => {
-  const [metrics, setMetrics] = useState(initialMetrics);
-  const [climate, setClimate] = useState(detailedClimateData);
-  const [collaborators, setCollaborators] = useState([]);
-  const [lastUpdateDateTime, setLastUpdateDateTime] = useState(null);
+  const [metrics, setMetrics] = useState(simulatedDashboardStates[0].metrics);
+  const [climate, setClimate] = useState(simulatedDashboardStates[0].climate);
+  const [collaborators, setCollaborators] = useState(simulatedDashboardStates[0].collaborators || []);
+  const [lastUpdateDateTime, setLastUpdateDateTime] = useState(new Date(simulatedDashboardStates[0].lastUpdate));
   const [isLoading, setIsLoading] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(0);
 
-  const previousMetricsRef = useRef(initialMetrics);
-  const previousClimateRef = useRef(detailedClimateData);
+  // previousMetricsRef e previousClimateRef armazenam o estado anterior antes da atualização
+  const previousMetricsRef = useRef(simulatedDashboardStates[0].metrics);
+  const previousClimateRef = useRef(simulatedDashboardStates[0].climate);
+
+  // Este useEffect garante que previousMetricsRef.current e previousClimateRef.current sejam
+  // sempre o estado *atual* no momento da renderização, antes de uma nova atualização.
+  // Ele é executado após cada render, então o ref estará sempre atualizado.
+  useEffect(() => {
+    previousMetricsRef.current = metrics;
+    previousClimateRef.current = climate;
+  }, [metrics, climate]);
+
 
   const getEmotionalHealthGuidelines = useCallback(
     (currentLang) => ({
@@ -98,7 +116,7 @@ export const useDashboardData = (lang) => {
     let lowestPercent = Infinity;
 
     const availableMetrics = attributesToCheck.filter(
-      (attr) => currentMetrics[attr] && currentMetrics[attr].percent !== null
+      (attr) => currentMetrics[attr] && typeof currentMetrics[attr].percent === 'number' && !isNaN(currentMetrics[attr].percent)
     );
 
     if (availableMetrics.length === 0) {
@@ -121,15 +139,9 @@ export const useDashboardData = (lang) => {
   }, []);
 
   const calculateAverageTeamHealth = useCallback((currentMetrics) => {
-    // Lógica de cálculo para métrica da saúde geral da equipe:
-    // A "saúde geral da equipe" é calculada como a média aritmética simples
-    // das métricas de "união", "comunicação", "empenho" e "foco".
-    // Cada um desses atributos contribui igualmente para a saúde geral nesta versão.
-    // Esta lógica pode ser revisada pela equipe de produção para definir pesos diferentes
-    // ou incluir outros atributos relevantes.
     const attributesForTeamHealth = ["uniao", "comunicacao", "empenho", "foco"];
     const validMetrics = attributesForTeamHealth.filter(
-      (m) => currentMetrics[m] && currentMetrics[m].percent !== null
+      (m) => currentMetrics[m] && typeof currentMetrics[m].percent === 'number' && !isNaN(currentMetrics[m].percent)
     );
     const totalHealthPercent = validMetrics.reduce(
       (sum, m) => sum + currentMetrics[m].percent,
@@ -137,7 +149,7 @@ export const useDashboardData = (lang) => {
     );
     const averageHealth =
       validMetrics.length > 0
-        ? (totalHealthPercent / validMetrics.length).toFixed(0)
+        ? parseFloat((totalHealthPercent / validMetrics.length).toFixed(0))
         : null;
     return averageHealth;
   }, []);
@@ -146,9 +158,11 @@ export const useDashboardData = (lang) => {
     if (
       currentValue === null ||
       previousValue === null ||
-      previousValue === undefined
+      previousValue === undefined ||
+      isNaN(currentValue) ||
+      isNaN(previousValue)
     ) {
-      return "---";
+      return null;
     }
 
     const diff = currentValue - previousValue;
@@ -162,62 +176,71 @@ export const useDashboardData = (lang) => {
     }
   }, []);
 
-
   const updateDashboardData = useCallback(async () => {
     setIsLoading(true);
-    try {
-      // Captura os valores atuais dos estados ANTES de buscar novos dados.
-      // Estes valores são atualizados diretamente na ref, e as refs não são dependências
-      // do useCallback, tornando updateDashboardData estável.
-      previousMetricsRef.current = metrics;
-      previousClimateRef.current = climate;
+    let dataToUse = null;
 
-      const data = await fetchDashboardData();
+    if (REAL_API_ACTIVE) {
+      console.log("Aguardando dados da API real...");
+      try {
+        dataToUse = await fetchDashboardData();
+        console.log("Dados da API real carregados com sucesso!");
+      } catch (error) {
+        console.error("Falha ao buscar dados da API real, usando dados pré-setados:", error);
+        dataToUse = simulatedDashboardStates[0];
+      }
+    } else {
+      console.log("REAL_API_ACTIVE é FALSE. Usando dados pré-setados simulados.");
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const nextIndex = updateTrigger % simulatedDashboardStates.length;
+      dataToUse = simulatedDashboardStates[nextIndex];
+      console.log(`Carregando estado simulado [${nextIndex}]`);
+    }
 
-      const newMetrics = { ...data.metrics };
+    if (dataToUse) {
+      // previousMetricsRef.current e previousClimateRef.current já são atualizados pelo useEffect separado
+      // antes desta função ser executada para a nova rodada de renderização.
+
+      const newMetrics = { ...dataToUse.metrics };
 
       const totalCurrentPositiveClimatePercent =
-        (data.climate.find((item) => item.name === "Ótimo")?.percent || 0) +
-        (data.climate.find((item) => item.name === "Bem")?.percent || 0);
+        (dataToUse.climate.find((item) => item.name === "Ótimo")?.percent || 0) +
+        (dataToUse.climate.find((item) => item.name === "Bem")?.percent || 0);
 
       newMetrics.saudeEmocional = {
         ...newMetrics.saudeEmocional,
-        percent: totalCurrentPositiveClimatePercent > 0 ? totalCurrentPositiveClimatePercent : null,
+        percent: totalCurrentPositiveClimatePercent > 0 ? Math.min(totalCurrentPositiveClimatePercent, 100) : null,
       };
 
       setMetrics(newMetrics);
-      setClimate(data.climate);
-      setCollaborators(data.collaborators || []);
-      setLastUpdateDateTime(data.lastUpdate ? new Date(data.lastUpdate) : null);
-    } catch (error) {
-      console.error("Falha ao buscar dados do dashboard:", error);
-    } finally {
-      setIsLoading(false);
+      setClimate(dataToUse.climate);
+      setCollaborators(dataToUse.collaborators || []);
+      setLastUpdateDateTime(dataToUse.lastUpdate ? new Date(dataToUse.lastUpdate) : null);
     }
-  }, []); // CORREÇÃO: Array de dependências vazio para `updateDashboardData`
+    setIsLoading(false);
+  }, [updateTrigger, lang]); // Removido 'metrics' e 'climate' das dependências
 
-
+  // useEffect que dispara a atualização quando updateTrigger ou lang mudam
   useEffect(() => {
     updateDashboardData();
-  }, [updateTrigger, lang, updateDashboardData]);
+  }, [updateTrigger, lang, updateDashboardData]); // updateDashboardData é uma dependência porque é uma função de callback
 
   const handleUpdateDashboard = () => {
     setUpdateTrigger((prev) => prev + 1);
   };
 
-  // Cálculos que dependem dos estados (metrics, climate, collaborators)
   const currentEmotionalStatus = getEmotionalHealthStatus(climate, lang);
   const lowestAttributeKey = calculateLowestAttribute(metrics);
   const averageTeamHealth = calculateAverageTeamHealth(metrics);
   const teamHealthTrend = calculateTrend(
-    parseFloat(averageTeamHealth),
+    averageTeamHealth,
+    // Acessa o valor anterior do ref, que é atualizado pelo useEffect dedicado
     parseFloat(calculateAverageTeamHealth(previousMetricsRef.current))
   );
 
-  // Métricas gerais para o Dashboard de RH (saúde e engajamento)
   const hrTeamMetrics = {
     saudeGeral: {
-      percent: averageTeamHealth ? parseFloat(averageTeamHealth) : null,
+      percent: averageTeamHealth,
       trend: teamHealthTrend
     },
     engajamento: {
@@ -249,7 +272,7 @@ export const useDashboardData = (lang) => {
       percent: metrics.empenho.percent,
       trend: calculateTrend(
         metrics.empenho.percent,
-        previousMetricsRef.current.empenho.percent
+        previousMetricsRef.current.empenho?.percent
       ),
       barColor: "bg-pink-500",
       borderColor: "border-pink-500",
@@ -261,7 +284,7 @@ export const useDashboardData = (lang) => {
       percent: metrics.comunicacao.percent,
       trend: calculateTrend(
         metrics.comunicacao.percent,
-        previousMetricsRef.current.comunicacao.percent
+        previousMetricsRef.current.comunicacao?.percent
       ),
       barColor: "bg-orange-500",
       borderColor: "border-orange-500",
@@ -273,12 +296,71 @@ export const useDashboardData = (lang) => {
       percent: metrics.foco.percent,
       trend: calculateTrend(
         metrics.foco.percent,
-        previousMetricsRef.current.foco.percent
+        previousMetricsRef.current.foco?.percent
       ),
       barColor: "bg-yellow-500",
       borderColor: "border-yellow-500",
     },
   ];
+
+  const dynamicSuggestionsForCard = useCallback(() => {
+    let suggestions = [];
+
+    if (lowestAttributeKey && suggestionsByAttribute[lowestAttributeKey]) {
+      suggestionsByAttribute[lowestAttributeKey].forEach(textKey => {
+        suggestions.push({
+          textKey: textKey,
+          type: ACTION_TYPE.TEXT,
+          attributeKey: lowestAttributeKey,
+        });
+      });
+    } else if (isLoading) {
+      suggestions.push({ textKey: "loadingRecommendations", type: ACTION_TYPE.TEXT, attributeKey: null });
+    } else {
+      suggestions.push({ textKey: "noRecommendationAvailable", type: ACTION_TYPE.TEXT, attributeKey: null });
+    }
+
+
+    if (currentEmotionalStatus.status === 'ruim' && !suggestions.some(s => s.modalId === MODAL_ID.KARAOKE)) {
+      suggestions.unshift({
+        textKey: "karaokeSuggestionText",
+        type: ACTION_TYPE.MODAL,
+        modalId: MODAL_ID.KARAOKE,
+        attributeKey: "saudeEmocionalAttr",
+        contextTextKey: "toImproveEmotionalClimate",
+      });
+    }
+
+    if (metrics.empenho?.percent !== null && metrics.empenho.percent < 50 &&
+        !suggestions.some(s => s.redirectPath === REDIRECT_PATH.KANBAN)) {
+      suggestions.unshift({
+        textKey: "kanbanSuggestionText",
+        type: ACTION_TYPE.REDIRECT,
+        redirectPath: REDIRECT_PATH.KANBAN,
+        attributeKey: "empenhoAttr",
+        contextTextKey: "toTrackProgress",
+      });
+    }
+
+    const uniqueSuggestions = [];
+    const seenTextKeys = new Set();
+    suggestions.forEach(sug => {
+        const uniqueId = `${sug.textKey}-${sug.attributeKey || ''}`;
+        if (!seenTextKeys.has(uniqueId)) {
+            uniqueSuggestions.push(sug);
+            seenTextKeys.add(uniqueId);
+        }
+    });
+
+    return uniqueSuggestions;
+  }, [
+    lowestAttributeKey,
+    // suggestionsByAttribute é uma constante, não precisa ser dependência se não mudar
+    currentEmotionalStatus.status,
+    metrics.empenho?.percent,
+    isLoading,
+    metrics // 'metrics' é crucial para a reatividade dos dados
+  ]);
 
   return {
     metrics,
@@ -292,7 +374,7 @@ export const useDashboardData = (lang) => {
     averageTeamHealth,
     teamHealthTrend,
     hrTeamMetrics,
-    suggestionsByAttribute,
+    suggestions: dynamicSuggestionsForCard(),
     metricCards,
   };
 };

@@ -2,16 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FiUsers, FiHeart, FiActivity, FiAlertCircle, FiClock, FiX, FiClipboard } from 'react-icons/fi';
 
-/**
- * Componente ReportModalTest:
- * Um modal autocontido para visualizar o relatório detalhado e profissional da equipe.
- * Utiliza dados MOCKADOS para fins de teste e visualização do layout.
- *
- * @param {object} props - As propriedades do componente.
- * @param {boolean} props.isOpen - Se o modal está aberto ou fechado.
- * @param {function} props.onClose - Função a ser chamada quando o modal for fechado.
- */
-export default function ReportModalTest({ isOpen, onClose }) {
+export default function LeaderReportModalTest({ isOpen, onClose }) {
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +14,6 @@ export default function ReportModalTest({ isOpen, onClose }) {
     }
   }, [onClose]);
 
-  // Gerencia o listener de ESC e o scroll do body
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);

@@ -1,30 +1,7 @@
 // src/components/TeamAreaFeedbackConfirmationCard.jsx
-
 import React from 'react';
 import { FiCheckCircle, FiLoader, FiXCircle } from 'react-icons/fi';
 
-/**
- * @typedef {'loading' | 'success' | 'error'} TeamAreaOperationStatus
- */
-
-/**
- * Componente TeamAreaFeedbackConfirmationCard
- *
- * Este componente é um card de notificação/confirmação projetado especificamente
- * para exibir o status de operações (como adicionar, remover membro ou enviar feedback)
- * dentro da Área de Equipe (LeaderTeamArea).
- *
- * Ele oferece feedback visual ao usuário com ícones, mensagens e cores distintas
- * para indicar o sucesso, falha ou o progresso de uma operação.
- * O card pode ser fechado automaticamente (via temporizador no hook)
- * ou manualmente pelo usuário.
- *
- * @param {object} props - As propriedades do componente.
- * @param {TeamAreaOperationStatus} props.status - O status atual da operação (e.g., 'loading', 'success', 'error').
- * @param {function} props.onClose - Função de callback para ser executada quando o card for fechado (ex: ao clicar no botão 'Fechar').
- * @param {string} [props.message] - Mensagem opcional a ser exibida no card. Se fornecida,
- * ela substitui a mensagem padrão definida para cada status.
- */
 export default function TeamAreaFeedbackConfirmationCard({ status, onClose, message: customMessage }) {
   let icon;
   let defaultMessage; // Mensagem padrão baseada no status
@@ -55,8 +32,6 @@ export default function TeamAreaFeedbackConfirmationCard({ status, onClose, mess
       return null; // Não renderiza o componente se o status não for reconhecido.
   }
 
-  // A mensagem a ser exibida no card: prioriza a 'customMessage' se presente,
-  // caso contrário, usa a 'defaultMessage' definida pelo switch.
   const displayMessage = customMessage || defaultMessage;
 
   return (

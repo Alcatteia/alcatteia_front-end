@@ -93,25 +93,6 @@ export const fetchDashboardData = async () => {
                   contactHistory: "Interesse em programas de desenvolvimento de liderança técnica. Participa ativamente de comunidades de desenvolvimento."
                 },
               },
-              {
-                id: "carlos-santos-id-test",
-                name: "Carlos Santos",
-                role: "Product Owner",
-                foco: 90,
-                empenho: 92,
-                saudeEmocional: 85,
-                email: "carlos.santos@proa.com",
-                insights: {
-                  foco: "Líder natural, mantém a equipe alinhada e focada nos objetivos.",
-                  empenho: "Excepcional empenho, sempre buscando otimizar o backlog e as entregas.",
-                  saudeEmocional: "Resiliente e motivador, um pilar de apoio para o time.",
-                },
-                hrInsights: {
-                  performance: "Excelente capacidade de comunicação e priorização. Responsável por grandes avanços nos produtos.",
-                  absenteeism: "Registro perfeito. Sempre presente e engajado.",
-                  contactHistory: "Proativo em discussões sobre estratégia de produto e mentoring de novos talentos."
-                },
-              },
             ],
             lastUpdate: new Date().toISOString(),
           });

@@ -5,9 +5,9 @@ import { FiX, FiMessageCircle, FiTrash2 } from 'react-icons/fi';
 const TeamAreaMemberDetailsModal = ({
   show,
   onClose,
-  member, // O membro selecionado
-  onSendFeedback, // Callback para abrir o modal de feedback
-  onRemoveMember, // Callback para abrir o modal de confirmação de remoção
+  member, 
+  onSendFeedback, 
+  onRemoveMember, 
 }) => {
   if (!show || !member) return null;
 

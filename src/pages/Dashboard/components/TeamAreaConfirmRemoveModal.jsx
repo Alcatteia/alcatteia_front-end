@@ -1,32 +1,7 @@
 // src/components/TeamAreaConfirmRemoveModal.jsx
-
 import React from 'react';
 import { FiAlertTriangle, FiX } from 'react-icons/fi';
 
-/**
- * @typedef {object} TeamMember
- * @property {string} id - ID único do membro.
- * @property {string} name - Nome do membro.
- * @property {string} email - E-mail do membro.
- * @property {string} role - Função/cargo do membro.
- * @property {string} photo - URL da foto de perfil do membro.
- * @property {number} empenho - Nível de empenho do membro.
- * @property {string} [description] - Descrição opcional do membro.
- */
-
-/**
- * Componente TeamAreaConfirmRemoveModal
- *
- * Modal de confirmação para remover um membro da equipe.
- * Exibe uma mensagem de alerta e requer a confirmação do usuário antes de prosseguir
- * com a remoção, evitando ações acidentais.
- *
- * @param {object} props - As propriedades do componente.
- * @param {boolean} props.show - Se o modal deve ser exibido.
- * @param {function} props.onClose - Função de callback para fechar o modal.
- * @param {TeamMember | null} props.member - O objeto do membro a ser removido. Pode ser null se nenhum membro estiver selecionado.
- * @param {function(): Promise<void>} props.onConfirm - Função de callback a ser executada quando a remoção for confirmada.
- */
 export default function TeamAreaConfirmRemoveModal({ show, onClose, member, onConfirm }) {
   if (!show || !member) return null; // Não renderiza se não estiver visível ou se não houver membro
 

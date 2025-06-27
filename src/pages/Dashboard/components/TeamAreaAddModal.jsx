@@ -1,36 +1,7 @@
 // src/components/TeamAreaAddModal.jsx
-
 import React, { useState, useEffect } from 'react';
 import { FiX, FiSearch, FiUserPlus } from 'react-icons/fi';
 
-/**
- * @typedef {object} AlcatteiaUser
- * @property {string} id - ID único do usuário.
- * @property {string} name - Nome do usuário.
- * @property {string} email - E-mail do usuário.
- * @property {string} role - Função/cargo do usuário (ex: "Front-end", "Back-end").
- * @property {string} photo - URL da foto de perfil do usuário.
- * @property {string} [description] - Descrição opcional do usuário.
- */
-
-/**
- * Componente TeamAreaAddModal
- *
- * Modal para adicionar novos membros à equipe, selecionando-os de uma lista
- * de usuários disponíveis (ex: usuários da "Alcatéia"). Permite buscar e filtrar
- * os usuários para facilitar a seleção.
- *
- * @param {object} props - As propriedades do componente.
- * @param {boolean} props.show - Se o modal deve ser exibido.
- * @param {function} props.onClose - Função de callback para fechar o modal.
- * @param {AlcatteiaUser[]} props.alcatteiaAvailableUsers - Lista de usuários disponíveis para adicionar.
- * @param {string} props.alcatteiaSearch - Termo de busca atual para filtrar usuários.
- * @param {function} props.setAlcatteiaSearch - Função para atualizar o termo de busca.
- * @param {string} props.alcatteiaRoleFilter - Filtro de função/cargo atual.
- * @param {function} props.setAlcatteiaRoleFilter - Função para atualizar o filtro de função.
- * @param {boolean} props.alcatteiaLoading - Indica se a lista de usuários está sendo carregada.
- * @param {function(AlcatteiaUser): Promise<void>} props.onAddMember - Função de callback para adicionar um membro à equipe.
- */
 export default function TeamAreaAddModal({
   show,
   onClose,
