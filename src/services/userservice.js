@@ -1,32 +1,33 @@
-// Funções para consumir a API de usuários
+import axios from "axios";
 
-export async function getAllUsers() {
-  const response = await fetch("/api/users");
-  if (!response.ok) throw new Error("Erro ao buscar usuários");
-  return response.json();
-}
+const API_BASE = "http://localhost:8080/usuarios";
 
-export async function getTeamMembers() {
-  const response = await fetch("/api/team-members");
-  if (!response.ok) throw new Error("Erro ao buscar membros da equipe");
-  return response.json();
-}
+// 🔹 CRIAR USUÁRIO (CADASTRO)
+export const criarUsuario = (usuarioData) =>
+  axios.post(`${API_BASE}/criar`, usuarioData);
 
-export async function addTeamMember(user) {
-  const response = await fetch("/api/team-members", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user),
-  });
-  if (!response.ok) throw new Error("Erro ao adicionar membro");
-  return response.json();
-}
+// 🔹 LOGIN DE USUÁRIO
+export const loginUsuario = (credenciais) =>
+  axios.post(`${API_BASE}/login`, credenciais);
 
-export async function removeTeamMember(id) {
-  const response = await fetch(`/api/team-members/${id}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) throw new Error("Erro ao remover membro");
-  return response.json();
-}
+// 🔹 BUSCAR USUÁRIO POR EMAIL
+export const buscarUsuarioPorEmail = (email) =>
+  axios.post(`${API_BASE}/buscar`, { email });
 
+// 🔹 ATUALIZAR USUÁRIO
+export const atualizarUsuario = (id, atualizacoes) =>
+  axios.put(`${API_BASE}/${id}`, atualizacoes);
+
+// 🔹 DELETAR USUÁRIO
+export const deletarUsuario = (id) =>
+  axios.delete(`${API_BASE}/${id}`);
+
+const userService = {
+  criarUsuario,
+  loginUsuario,
+  buscarUsuarioPorEmail,
+  atualizarUsuario,
+  deletarUsuario,
+};
+
+export default userService;

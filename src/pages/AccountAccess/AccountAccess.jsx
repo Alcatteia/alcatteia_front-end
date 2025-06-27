@@ -7,7 +7,7 @@ import { BsInstagram } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import Input from "./Input";
 import Lobo from "../../assets/login/logo_login.svg";
-
+import userService from "../../services/userservice";
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -17,6 +17,33 @@ const AccountAccess = () => {
     const [inputPassword, setInputPassword] = useState("");
     const [inputRole, setInputRole] = useState("");
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await userService.loginUsuario({
+                email: inputEmail,
+                senha: inputPassword,
+            });
+            console.log("Logado!", response.data);
+        } catch (erro) {
+            console.error("Erro ao logar:", erro);
+        }
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await userService.criarUsuario({
+                nome: inputName,
+                email: inputEmail,
+                senha: inputPassword,
+                tipo_usuario: inputRole,
+            });
+            console.log("Cadastrado!", response.data);
+        } catch (erro) {
+            console.error("Erro ao cadastrar:", erro);
+        }
+    };
 
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4">
@@ -36,7 +63,7 @@ const AccountAccess = () => {
                         </div>
                     )}
 
-                    <form className="flex flex-col w-9/12">
+                    <form className="flex flex-col w-9/12" onSubmit={(e) => isLogin ? handleLogin(e) : handleRegister(e)}>
                         {!isLogin && (
                             <Input
                                 text="Nome"
@@ -65,18 +92,17 @@ const AccountAccess = () => {
 
                         {!isLogin && (
                             <>
-                                <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione uma opção</label>
+                                <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione uma opção</label>
                                 <select
-                                    id="countries"
+                                    id="role"
                                     className="peer dark:text-white pl-2 h-[40px] min-h-[40px] pr-[40px] leading-normal appearance-none resize-none box-border text-base w-full text-inherit block text-left border border-zinc-500 border-solid dark:bg-[#140e1b] rounded-[10px] m-0 p-0 outline-0 focus-visible:outline-0 focus-visible:border-[#9160cb] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[##9060cb45 dark:focus-visible:ring-[#9060cb18]"
                                     value={inputRole}
                                     onChange={(e) => setInputRole(e.target.value)}
                                 >
-                                    <option selected>Selecione seu cargo</option>
+                                    <option value="" disabled selected>Selecione seu cargo</option>
                                     <option value="RH">Recursos Humanos (RH)</option>
-                                    <option value="LIDER
-                                    ">Líder</option>
-                                    <option value="FUNCIONARIO">Funcionário</option>
+                                    <option value="LIDER">Líder</option>
+                                    <option value="FUNC">Funcionário</option>
                                 </select>
                             </>
                         )}
