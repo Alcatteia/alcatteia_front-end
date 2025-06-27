@@ -1,4 +1,5 @@
 import LogoPerfil from "../../assets/login/logo_login.svg";
+
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
@@ -56,7 +57,7 @@ const UserProfile = () => {
                 {/* Equipe */}
                 <div className="mt-5">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-1">Equipe</h3>
-                    <div className="bg-green-900 mt-5 rounded-xl p-4 flex items-center justify-between">
+                    <div className="bg-[#2c0e4e] mt-5 rounded-xl p-4 flex items-center justify-between">
                         <div>
                             <p className="font-semibold text-base lg:text-lg xl:text-xl">Alcatteia</p>
                             <div className="flex mt-4">
@@ -96,13 +97,13 @@ const UserProfile = () => {
                 <div className="bg-[#16032C] mt-6 rounded-2xl flex-1/2 p-6 col-span-1">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-4">Reuniões</h3>
                     <div className="space-y-3">
-                        <div className="bg-pink-600 rounded-xl p-4 flex justify-between items-center">
+                        <div className="border-2 border-pink-900 rounded-xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="font-semibold text-base lg:text-lg">Daily Standup</p>
                                 <p className="text-xs lg:text-sm text-pink-300">Hoje às 09:00</p>
                             </div>
                         </div>
-                        <div className="bg-pink-600 rounded-xl p-4 flex justify-between items-center">
+                        <div className="border-2 border-pink-900 rounded-xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="font-semibold text-base lg:text-lg">Sprint Review</p>
                                 <p className="text-xs lg:text-sm text-pink-300">Amanhã às 14:00</p>
