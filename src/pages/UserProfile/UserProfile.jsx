@@ -4,10 +4,16 @@ import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
+import EditProfileModal from "./EditProfileModal";
+
+import { useState } from "react";
 
 
 
 const UserProfile = () => {
+
+    const [editProfile, setEditProfile] = useState(false);
+
     return (
         <section className="pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:px-16 xl:pr-5 pb-6 min-h-scree text-white grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-[#16032C] rounded-2xl p-10 col-span-1 flex flex-col gap-4">
@@ -48,7 +54,10 @@ const UserProfile = () => {
                         </p>
                     </div>
 
-                    <button className="bg-blue-700 font-semibold hover:bg-blue-600 transition rounded-xl py-2 w-full mt-7 text-sm lg:text-lg">
+                    <button
+                        className="bg-blue-700 font-semibold hover:bg-blue-600 transition rounded-xl py-2 w-full mt-7 text-sm lg:text-lg"
+                        onClick={() => setEditProfile(true)}
+                    >
                         Editar perfil
                     </button>
                 </div>
@@ -113,6 +122,11 @@ const UserProfile = () => {
                     <button className="mt-4 bg-pink-800 hover:bg-pink-700 transition font-semibold rounded-xl py-2 w-full text-sm lg:text-lg">Ver reuniões</button>
                 </div>
             </div>
+
+            <EditProfileModal
+                editProfile={editProfile}
+                setEditProfile={setEditProfile}
+            />
         </section>
     )
 }
