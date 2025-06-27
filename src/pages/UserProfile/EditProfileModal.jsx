@@ -65,8 +65,11 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
     };
 
     return (
-        <div className="h-screen w-full bg-[#00000065] flex items-center justify-center">
-            <div>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center px-4">
+            <div
+                className="bg-[#1A1124] rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
                     <div className="space-y-6">
                         {/* Avatar Section */}

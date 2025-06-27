@@ -11,7 +11,6 @@ import { useState } from "react";
 
 
 const UserProfile = () => {
-
     const [editProfile, setEditProfile] = useState(false);
 
     return (
