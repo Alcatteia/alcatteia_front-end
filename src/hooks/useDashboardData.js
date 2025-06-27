@@ -1,34 +1,32 @@
 // src/hooks/useDashboardData.js
 
+/**
+ * @file Hook personalizado para gerenciar dados e lógica do dashboard.
+ * @description
+ * Este hook encapsula a busca, o processamento e o estado dos dados exibidos nos dashboards (Líder e RH),
+ * incluindo métricas de desempenho (união, empenho, comunicação, foco), clima organizacional,
+ * métricas gerais da equipe (saúde e engajamento), lista de colaboradores e tendências.
+ * Ele integra dados iniciais e expõe um conjunto de estados e funções para fácil consumo por componentes React.
+ */
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchDashboardData } from "../services/dashboardService";
 import { translations } from "../locales/translations";
 import { initialMetrics, detailedClimateData, suggestionsByAttribute } from "../data/metricasData";
 
-/**
- * @file Hook personalizado para gerenciar dados e lógica do dashboard.
- * @description
- * Este hook encapsula a busca, o processamento e o estado dos dados exibidos no dashboard,
- * incluindo métricas de desempenho, clima organizacional e tendências.
- * Ele integra dados iniciais de `metricasData.js` e expõe um conjunto de estados e funções
- * para fácil consumo por componentes React.
- */
-
-// Importações dos ícones da biblioteca react-icons/fi
 import { FiSmile, FiMeh, FiFrown, FiBarChart2, FiUsers, FiZap, FiMessageSquare, FiTarget } from "react-icons/fi";
 
 export const useDashboardData = (lang) => {
   const [metrics, setMetrics] = useState(initialMetrics);
   const [climate, setClimate] = useState(detailedClimateData);
+  const [collaborators, setCollaborators] = useState([]);
   const [lastUpdateDateTime, setLastUpdateDateTime] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [updateTrigger, setUpdateTrigger] = useState(0); // Este estado será o gatilho para a atualização
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
-  // Estes useRefs guardarão os *últimos* valores de metrics e climate ANTES de uma nova busca
   const previousMetricsRef = useRef(initialMetrics);
   const previousClimateRef = useRef(detailedClimateData);
 
-  // Funções de cálculo (podem ficar com useCallback e suas dependências como estão)
   const getEmotionalHealthGuidelines = useCallback(
     (currentLang) => ({
       bom: {
@@ -123,6 +121,12 @@ export const useDashboardData = (lang) => {
   }, []);
 
   const calculateAverageTeamHealth = useCallback((currentMetrics) => {
+    // Lógica de cálculo para métrica da saúde geral da equipe:
+    // A "saúde geral da equipe" é calculada como a média aritmética simples
+    // das métricas de "união", "comunicação", "empenho" e "foco".
+    // Cada um desses atributos contribui igualmente para a saúde geral nesta versão.
+    // Esta lógica pode ser revisada pela equipe de produção para definir pesos diferentes
+    // ou incluir outros atributos relevantes.
     const attributesForTeamHealth = ["uniao", "comunicacao", "empenho", "foco"];
     const validMetrics = attributesForTeamHealth.filter(
       (m) => currentMetrics[m] && currentMetrics[m].percent !== null
@@ -158,22 +162,15 @@ export const useDashboardData = (lang) => {
     }
   }, []);
 
-  // *** ALTERAÇÃO CHAVE AQUI NO updateDashboardData useCallback ***
+
   const updateDashboardData = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Use o "callback form" do setState para obter o estado mais recente
-      // e então atribuí-lo ao useRef ANTES da nova busca.
-      // Isso evita que 'metrics' e 'climate' se tornem dependências do useCallback
-      setMetrics(prevMetrics => {
-        previousMetricsRef.current = prevMetrics; // Captura o valor atual ANTES da atualização
-        return prevMetrics; // Retorna o mesmo valor para não triggar uma re-render desnecessária
-      });
-      setClimate(prevClimate => {
-        previousClimateRef.current = prevClimate; // Captura o valor atual ANTES da atualização
-        return prevClimate; // Retorna o mesmo valor
-      });
-
+      // Captura os valores atuais dos estados ANTES de buscar novos dados.
+      // Estes valores são atualizados diretamente na ref, e as refs não são dependências
+      // do useCallback, tornando updateDashboardData estável.
+      previousMetricsRef.current = metrics;
+      previousClimateRef.current = climate;
 
       const data = await fetchDashboardData();
 
@@ -188,31 +185,27 @@ export const useDashboardData = (lang) => {
         percent: totalCurrentPositiveClimatePercent > 0 ? totalCurrentPositiveClimatePercent : null,
       };
 
-      setMetrics(newMetrics); // Atualiza com os novos dados
-      setClimate(data.climate); // Atualiza com os novos dados
+      setMetrics(newMetrics);
+      setClimate(data.climate);
+      setCollaborators(data.collaborators || []);
       setLastUpdateDateTime(data.lastUpdate ? new Date(data.lastUpdate) : null);
     } catch (error) {
-      console.error("Failed to fetch dashboard data:", error);
+      console.error("Falha ao buscar dados do dashboard:", error);
     } finally {
       setIsLoading(false);
     }
-  }, []); // <--- ARRAY DE DEPENDÊNCIAS VAZIO! updateDashboardData é agora estável.
+  }, []); // CORREÇÃO: Array de dependências vazio para `updateDashboardData`
 
-  // O useEffect agora só dispara quando `updateTrigger` muda
-  // E também uma vez ao montar o componente (quando updateTrigger é 0)
-  // Adicionamos `lang` para que a dashboard recarregue se o idioma mudar.
+
   useEffect(() => {
-    // Isso garante que a primeira busca aconteça ao montar
-    // e que buscas subsequentes só ocorram no clique do botão.
     updateDashboardData();
-  }, [updateTrigger, lang, updateDashboardData]); // `updateDashboardData` é estável, então não causará loop.
+  }, [updateTrigger, lang, updateDashboardData]);
 
   const handleUpdateDashboard = () => {
-    setUpdateTrigger((prev) => prev + 1); // Incrementa o gatilho, disparando o useEffect
+    setUpdateTrigger((prev) => prev + 1);
   };
 
-  // Cálculos que dependem dos estados (metrics, climate)
-  // Eles serão recalculados a cada render, o que é o esperado
+  // Cálculos que dependem dos estados (metrics, climate, collaborators)
   const currentEmotionalStatus = getEmotionalHealthStatus(climate, lang);
   const lowestAttributeKey = calculateLowestAttribute(metrics);
   const averageTeamHealth = calculateAverageTeamHealth(metrics);
@@ -221,7 +214,21 @@ export const useDashboardData = (lang) => {
     parseFloat(calculateAverageTeamHealth(previousMetricsRef.current))
   );
 
-  // ... (metricCards - sem mudanças aqui) ...
+  // Métricas gerais para o Dashboard de RH (saúde e engajamento)
+  const hrTeamMetrics = {
+    saudeGeral: {
+      percent: averageTeamHealth ? parseFloat(averageTeamHealth) : null,
+      trend: teamHealthTrend
+    },
+    engajamento: {
+      percent: metrics.empenho?.percent !== null ? metrics.empenho.percent : null,
+      trend: calculateTrend(
+        metrics.empenho?.percent,
+        previousMetricsRef.current.empenho?.percent
+      )
+    },
+  };
+
   const metricCards = [
     {
       id: "uniao",
@@ -276,6 +283,7 @@ export const useDashboardData = (lang) => {
   return {
     metrics,
     climate,
+    collaborators,
     lastUpdateDateTime,
     isLoading,
     handleUpdateDashboard,
@@ -283,6 +291,7 @@ export const useDashboardData = (lang) => {
     lowestAttributeKey,
     averageTeamHealth,
     teamHealthTrend,
+    hrTeamMetrics,
     suggestionsByAttribute,
     metricCards,
   };

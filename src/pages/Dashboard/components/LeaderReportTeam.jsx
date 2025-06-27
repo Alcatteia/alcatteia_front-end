@@ -42,7 +42,7 @@ export default function ReportTeam({ className, t }) {
         {t("ReportButton")}
       </button>
 
-      <ReportModalTest isOpen={isModalOpen} onClose={handleCloseReportModal} />
+      <LeaderReportModal isOpen={isModalOpen} onClose={handleCloseReportModal} />
     </>
   );
 }

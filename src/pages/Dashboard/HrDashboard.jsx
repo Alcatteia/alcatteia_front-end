@@ -1,18 +1,17 @@
-// src/pages/HrDashboard.jsx
-
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  FiHeart,
-  FiUsers,
-  FiUser,
+  FiHeart, 
+  FiUsers, 
+  FiUser, 
 } from "react-icons/fi";
 
-import LanguageSwitcher from "./components/LanguageSwitcher";
-import HrCollaborator from "./components/HrCollaborator";
+import LanguageSwitcher from "./components/LanguageSwitcher"; 
+import HrCollaborator from "./components/HrCollaborator";      
+import HrMetricCard from "./components/HrMetricCard";          
+import { useDashboardData } from "../../hooks/useDashboardData"; 
 
 import { translations } from "../../locales/translations";
 
-// --- Funções Utilitárias ---
 const useTranslation = (lang) => {
   return useCallback(
     (key) => {
@@ -36,87 +35,34 @@ const formatDateTime = (date) => {
   return new Intl.DateTimeFormat("pt-BR", options).format(date);
 };
 
-// --- Componentes ---
-const HrMetricCard = ({ title, percent, icon: IconComponent, t, className }) => {
-  return (
-    <div
-      className={`bg-[#1a1a2e] rounded-xl p-6 shadow-lg border hover:border-purple-500 transition-colors flex flex-col items-center justify-center min-h-[180px] ${className}`}
-    >
-      <div className="flex flex-col md:flex-row items-center gap-3 mb-4">
-        {IconComponent && <IconComponent className="w-9 h-9 text-purple-400" />}
-        <h3 className="font-semibold text-white text-2xl">{title}</h3>
-      </div>
-      <div className="flex items-center gap-2 mb-2">
-        <div className={`text-6xl font-bold text-white leading-none`}>
-          {percent !== null ? `${percent}%` : t("noData")}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // --- Componente Principal: HR Dashboard ---
 export default function HrDashboard() {
   const [lang, setLang] = useState(() => localStorage.getItem("appLang") || "pt");
   const t = useTranslation(lang);
 
-  const [teamMetrics, setTeamMetrics] = useState({
-    saudeGeral: { percent: null },
-    engajamento: { percent: null },
-  });
-  const [collaborators, setCollaborators] = useState([]);
-  const [lastUpdateDateTime, setLastUpdateDateTime] = useState(null);
+  // Consome o hook useDashboardData para obter todas as informações necessárias
+  const {
+    collaborators,
+    lastUpdateDateTime,
+    isLoading,
+    hrTeamMetrics, // Métricas gerais para o RH (saúdeGeral, engajamento)
+  } = useDashboardData(lang); // Passa o idioma para o hook
 
   useEffect(() => {
     localStorage.setItem("appLang", lang);
   }, [lang]);
 
-  const fetchDashboardData = useCallback(async () => {
-    try {
-      setTeamMetrics({
-        saudeGeral: { percent: 78 },
-        engajamento: { percent: 85 },
-      });
-
-      setCollaborators([
-        {
-          id: "gabriel-cabral-id-test",
-          name: "Gabriel Cabral",
-          role: "UX/UI Designer",
-          foco: 85,
-          empenho: 90,
-          saudeEmocional: 80,
-          email: "gabriel.cabral@proa.com",
-          lastCheckIn: new Date(2025, 5, 18, 14, 30, 0),
-          insights: {
-            foco: "Excelente concentração em suas atividades de desenvolvimento, raramente se dispersa.",
-            empenho: "Altamente motivado, sempre buscando aprimorar as entregas e superar expectativas.",
-            saudeEmocional: "Apresenta um bem-estar emocional notável, com boa resiliência sob pressão.",
-          },
-          hrInsights: {
-            performance: "Desempenho consistente acima da média, com fortes habilidades de colaboração e inovação.",
-            absenteeism: "Registro de assiduidade impecável, sem ausências nos últimos 24 meses.",
-            contactHistory: "Histórico de interações positivas e proativas com o RH, incluindo workshops de liderança e mentoria.",
-          },
-        },
-      ]);
-      setLastUpdateDateTime(new Date());
-
-    } catch (error) {
-      console.error("Erro ao buscar dados do dashboard de RH:", error);
-      setTeamMetrics({ saudeGeral: { percent: null }, engajamento: { percent: null } });
-      setCollaborators([]);
-      setLastUpdateDateTime(null);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, [fetchDashboardData]);
-
   const handleLanguageChange = (newLang) => {
     setLang(newLang);
   };
+
+  if (isLoading) {
+    return (
+      <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex items-center justify-center">
+        <div className="text-xl text-purple-400">Carregando dados do Dashboard de RH...</div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
@@ -147,18 +93,18 @@ export default function HrDashboard() {
           </div>
         </div>
 
-        {/* Métricas Gerais do Time */}
+        {/* Métricas Gerais do Time (HR) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <HrMetricCard
             title={t("teamHealth")}
-            percent={teamMetrics.saudeGeral.percent}
+            percent={hrTeamMetrics.saudeGeral.percent}
             icon={FiHeart}
             t={t}
             className="border-green-400"
           />
           <HrMetricCard
             title={t("teamEngagement")}
-            percent={teamMetrics.engajamento.percent}
+            percent={hrTeamMetrics.engajamento.percent}
             icon={FiUsers}
             t={t}
             className="border border-pink-400"

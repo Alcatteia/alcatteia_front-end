@@ -13,7 +13,7 @@ import LanguageSwitcher from "./components/LanguageSwitcher";
 import InfoDashboard from "./components/LeaderInfoDashboard"; //
 import ReportTeam from "./components/LeaderReportTeam"; // O componente que exibe o relatório
 
-import { formatDateTime } from "./utils/dashboardUtils";
+import { formatDateTime } from "../../utils/dashboardUtils";
 import { translations } from "../../locales/translations";
 
 import { FiRefreshCw } from "react-icons/fi"; // icone de carregamento

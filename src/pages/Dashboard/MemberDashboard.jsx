@@ -5,7 +5,7 @@ import {
   FiZap, // Ícone para Empenho
   FiTarget, // Ícone para Foco
 } from "react-icons/fi";
-import tom from "./assets/tom.png"; // Avatar de fallback
+import tom from "../../assets/dashboard/tom.png"; // Avatar de fallback
 
 // Importa funções dos serviços de API
 import { getFeedbacksForMember, markFeedbackAsRead } from "../../services/feedbackService";
