@@ -29,12 +29,16 @@ const api = axios.create({
 });
 
 // --- DADOS SIMULADOS E FUNÇÕES AUXILIARES DE LOCAL STORAGE (para REAL_API_ACTIVE = false) ---
-// Nota: As fotos simuladas são URLs de placeholder.
+// Dados simulados para todos os usuários da "Alcatéia" (sua equipe)
 const alcatteiaUsersMock = [
-  { id: "alcatteia-1", name: "Gabriel Cabral", role: "Front-end", email: "gabriel.c@alcatteia.com", photo: "https://placehold.co/150x150/0000FF/FFFFFF?text=GC", empenho: 70, description: "Desenvolvedor front-end com foco em React e UX." },
-  { id: "alcatteia-2", name: "Mariana Silva", role: "Back-end", email: "mariana.s@alcatteia.com", photo: "https://placehold.co/150x150/FF0000/FFFFFF?text=MS", empenho: 85, description: "Especialista em APIs e banco de dados." },
-  { id: "alcatteia-3", name: "Pedro Lima", role: "Full-stack", email: "pedro.l@alcatteia.com", photo: "https://placehold.co/150x150/008000/FFFFFF?text=PL", empenho: 90, description: "Experiência completa no ciclo de desenvolvimento de software." },
-  { id: "alcatteia-4", name: "Ana Costa", role: "Teacher", email: "ana.c@alcatteia.com", photo: "https://placehold.co/150x150/FFFF00/000000?text=AC", empenho: 95, description: "Mentora e instrutora de novas tecnologias." },
+  { id: "heverton-souza-id", name: "Heverton Souza", role: "Front-end", email: "heverton.s@alcatteia.com", photo: "https://placehold.co/150x150/FF0000/FFFFFF?text=HS", empenho: 70, description: "Desenvolvedor front-end com foco em React e otimização de performance." },
+  { id: "talita-vitoria-id", name: "Talita Vitória", role: "Back-end", email: "talita.v@alcatteia.com", photo: "https://placehold.co/150x150/008000/FFFFFF?text=TV", empenho: 85, description: "Engenheira de backend especialista em APIs e banco de dados." },
+  { id: "pedro-miguel-id", name: "Pedro Miguel", role: "Front-end", email: "pedro.m@alcatteia.com", photo: "https://placehold.co/150x150/FFFF00/000000?text=PM", empenho: 65, description: "Desenvolvedor front-end em ascensão, com paixão por interfaces." },
+  { id: "isabelle-gomes-id", name: "Isabelle Gomes", role: "Full-stack", email: "isabelle.g@alcatteia.com", photo: "https://placehold.co/150x150/800080/FFFFFF?text=IG", empenho: 90, description: "Desenvolvedora full-stack com experiência em soluções de ponta a ponta." },
+  { id: "gabriel-de-alencar-id", name: "Gabriel de Alencar", role: "Front-end", email: "gabriel.a@alcatteia.com", photo: "https://placehold.co/150x150/FFA500/FFFFFF?text=GA", empenho: 78, description: "Desenvolvedor front-end com foco em acessibilidade e usabilidade." },
+  { id: "rafaela-leite-id", name: "Rafaela Leite", role: "Back-end", email: "rafaela.l@alcatteia.com", photo: "https://placehold.co/150x150/00FFFF/000000?text=RL", empenho: 80, description: "Engenheira de backend focada em escalabilidade e segurança de dados." },
+  { id: "felipe-oliveira-id", name: "Felipe Oliveira", role: "Back-end", email: "felipe.o@alcatteia.com", photo: "https://placehold.co/150x150/FFC0CB/000000?text=FO", empenho: 60, description: "Desenvolvedor backend em treinamento, dedicado a aprender novas tecnologias." },
+  { id: "gabriel-cabral-id", name: "Gabriel Cabral", role: "Front-end", email: "gabriel.c@alcatteia.com", photo: "https://placehold.co/150x150/0000FF/FFFFFF?text=GC", empenho: 88, description: "Designer UX/UI e desenvolvedor front-end, focado na experiência do usuário." },
 ];
 
 /**
@@ -78,10 +82,7 @@ const teamManagementService = {
       try {
         const response = await api.get('/users'); // Assumindo que /api/users retorna TODOS os usuários da plataforma
         const allUsers = response.data || [];
-        // Opcionalmente, obtenha os membros da equipe atual para filtrar os já adicionados.
-        // Isso pode exigir outra chamada de API ou uma lista em cache em um aplicativo real.
-        // Por enquanto, o backend pode lidar com isso ou o filtro pode ser feito no lado do cliente.
-        const currentTeamMembers = await teamManagementService.fetchTeamMembers(); // Chamada recursiva para obter a equipe atual
+        const currentTeamMembers = await teamManagementService.fetchTeamMembers();
         const currentMemberIds = new Set(currentTeamMembers.map(m => m.id));
         return allUsers.filter(user => !currentMemberIds.has(user.id));
       } catch (error) {
@@ -89,7 +90,7 @@ const teamManagementService = {
         throw error;
       }
     } else {
-      console.log("Serviço de Equipe: Buscando usuários da Alcatéia (dados simulados)."); // Log descritivo para mock
+      console.log("Aguardando dados da API (fetchAllAlcatteiaUsers).");
       // Lógica de dados simulados com atraso simulado
       return new Promise(resolve => {
         setTimeout(() => {
@@ -112,18 +113,18 @@ const teamManagementService = {
   fetchTeamMembers: async () => {
     if (REAL_API_ACTIVE) {
       try {
-        const response = await api.get('/team-members'); // Ou '/team' se esse for o seu endpoint
+        const response = await api.get('/team-members');
         if (response.data && response.data.length > 0) {
           return response.data;
         } else {
-          return []; // Retorna array vazio se não houver dados.
+          return [];
         }
       } catch (error) {
         console.error("Erro ao buscar membros da equipe da API real:", error);
         throw error;
       }
     } else {
-      console.log("Serviço de Equipe: Buscando membros da equipe (dados simulados)."); // Log descritivo para mock
+      console.log("Aguardando dados da API.");
       // Lógica de dados simulados com atraso simulado e persistência no localStorage
       return new Promise(resolve => {
         setTimeout(() => {
@@ -131,27 +132,12 @@ const teamManagementService = {
           if (stored.length > 0) {
             resolve(stored);
           } else {
-            // Membros pré-definidos quando o localStorage está vazio
+            // Membros pré-definidos quando o localStorage está vazio (sua equipe inicial)
             const defaultMembers = [
-                {
-                    id: "preset-gabriel",
-                    name: "Gabriel Cabral",
-                    role: "Front-end",
-                    email: "gabriel.c@alcatteia.com",
-                    photo: "https://placehold.co/150x150/0000FF/FFFFFF?text=GC",
-                    empenho: 70,
-                    description: "Desenvolvedor front-end com foco em React e UX."
-                },
-                {
-                    id: "preset-talita",
-                    name: "Talita Vitória",
-                    role: "Back-end",
-                    email: "talita.v@alcatteia.com",
-                    photo: "https://placehold.co/150x150/FF69B4/FFFFFF?text=TV", // Cor de rosa para Talita
-                    empenho: 85,
-                    description: "Engenheira de backend com experiência em otimização de sistemas."
-                }
-            ];
+                alcatteiaUsersMock.find(m => m.id === "gabriel-cabral-id"),
+                alcatteiaUsersMock.find(m => m.id === "talita-vitoria-id"),
+                alcatteiaUsersMock.find(m => m.id === "heverton-souza-id")
+            ].filter(Boolean); // Filtra por null/undefined se algum não for encontrado
             saveMembersToLocal(defaultMembers);
             resolve(defaultMembers);
           }
@@ -169,14 +155,14 @@ const teamManagementService = {
   addTeamMember: async (memberData) => {
     if (REAL_API_ACTIVE) {
       try {
-        const response = await api.post('/team-members', memberData); // Assumindo /api/team-members para adicionar
+        const response = await api.post('/team-members', memberData);
         return response.data;
       } catch (error) {
         console.error("Erro ao adicionar membro à equipe na API real:", error);
         throw error;
       }
     } else {
-      console.log("Serviço de Equipe: Adicionando membro (dados simulados)."); // Log descritivo para mock
+      console.log("Aguardando dados da API (addTeamMember).");
       // Lógica de dados simulados com atraso simulado e atualização do localStorage
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -188,13 +174,12 @@ const teamManagementService = {
             return reject(new Error("Este membro já está na equipe."));
           }
           
-          // Garante que o membro adicionado tenha uma foto de fallback se não fornecida
           const newMember = {
             id: memberData.id || String(Date.now()),
-            photo: memberData.photo || "https://placehold.co/150x150/CCCCCC/000000?text=NOVO", // Placeholder para novos membros
+            photo: memberData.photo || "https://placehold.co/150x150/CCCCCC/000000?text=NOVO",
             empenho: memberData.empenho || 50,
             description: memberData.description || "Nenhuma descrição fornecida.",
-            ...memberData, // Sobrescreve com os dados fornecidos
+            ...memberData,
           };
 
           currentMembers.push(newMember);
@@ -215,14 +200,14 @@ const teamManagementService = {
   updateTeamMember: async (memberId, updatedData) => {
     if (REAL_API_ACTIVE) {
       try {
-        const response = await api.put(`/team-members/${memberId}`, updatedData); // Ou PATCH se preferir
+        const response = await api.put(`/team-members/${memberId}`, updatedData);
         return response.data;
       } catch (error) {
         console.error(`Erro ao atualizar membro da equipe ${memberId} na API real:`, error);
         throw error;
       }
     } else {
-      console.log("Serviço de Equipe: Atualizando membro (dados simulados)."); // Log descritivo para mock
+      console.log("Aguardando dados da API (updateTeamMember).");
       // Lógica de dados simulados com atraso simulado e atualização do localStorage
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -256,7 +241,7 @@ const teamManagementService = {
         throw error;
       }
     } else {
-      console.log("Serviço de Equipe: Removendo membro (dados simulados)."); // Log descritivo para mock
+      console.log("Aguardando dados da API (removeTeamMember).");
       // Lógica de dados simulados com atraso simulado e atualização do localStorage
       return new Promise((resolve, reject) => {
         setTimeout(() => {

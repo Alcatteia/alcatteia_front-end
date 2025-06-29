@@ -1,14 +1,4 @@
 // src/components/HrCollaboratorModal.jsx
-
-/**
- * @file Modal para exibir detalhes de um colaborador.
- * @description
- * Este componente é o modal "oficial" que exibe informações detalhadas de um colaborador.
- * Ele espera receber os dados do colaborador via props, buscando informações como
- * cargo, e-mail, métricas de foco, empenho, saúde emocional e insights de RH.
- * Inclui funcionalidade para copiar o e-mail do colaborador.
- */
-
 import React, { useState, useEffect } from "react";
 import {
   FiX,

@@ -1,5 +1,3 @@
-// src/pages/Dashboard/LeaderDashboard.jsx
-
 import React, { useState, useEffect, useCallback } from "react";
 import { useDashboardData } from "../../hooks/useDashboardData";
 
@@ -13,7 +11,6 @@ import InfoDashboard from "./components/LeaderInfoDashboard";
 import ReportTeam from "./components/LeaderReportTeam";
 import LeaderSingleSuggestionDetailModal from "./components/LeaderSingleSuggestionDetailModal";
 
-import { formatDateTime } from "../../utils/dashboardUtils";
 import { translations } from "../../locales/translations";
 
 import {
@@ -77,6 +74,23 @@ export default function LeaderDashboard() {
   const handleOpenTeamReportModal = () => {
     setActiveModal("team-report-modal");
   };
+
+  const formatDateTime = useCallback((date) => {
+    if (!date) return t("notAvailableShort");
+    const dateObj = date instanceof Date ? date : new Date(date);
+    if (isNaN(dateObj.getTime())) return t("invalidDate");
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    };
+    const locale = lang === "pt" ? "pt-BR" : lang === "es" ? "es-ES" : "en-US";
+    return new Intl.DateTimeFormat(locale, options).format(dateObj);
+  }, [lang, t]);
 
   const {
     metrics,
@@ -170,8 +184,6 @@ export default function LeaderDashboard() {
           </div>
         </div>
 
-        {/* Removido o condicional de isLoading que escondia todo o conteúdo */}
-        {/* Agora o dashboard é sempre visível */}
         <>
           <div className="flex flex-col gap-4 mb-4">
             <div className="flex flex-col md:flex-row gap-4">

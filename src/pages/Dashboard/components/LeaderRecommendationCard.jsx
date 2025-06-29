@@ -16,7 +16,7 @@ export default function LeaderRecommendationCard({ suggestions, t, onOpenSingleS
     return (
       <div className={`${cardClasses} cursor-pointer`} onClick={() => onOpenAllSuggestionsModal()}>
         <div className="flex items-center gap-2 mb-2">
-          <MdLightbulb className="w-6 h-6 text-yellow-400" /> {/* Lâmpada sem animação */}
+          <MdLightbulb className="w-6 h-6 text-yellow-400" />
           <span className="text-lg font-semibold text-yellow-300">{t("recommendations")}</span> {/* Título maior */}
         </div>
         <div className="flex-grow flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function LeaderRecommendationCard({ suggestions, t, onOpenSingleS
         {displaySuggestions.map((sug, idx) => (
           <button
             key={idx}
-            className="flex items-center bg-yellow-600 hover:bg-purple-700 transition-colors duration-200 rounded-md px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="flex items-center bg-gray-800 border border-amber-300 hover:bg-amber-500 transition-colors duration-200 rounded-md px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-400"
             onClick={() => onOpenSingleSuggestionModal(sug)}
           >
             <MdLightbulb className="w-4 h-4 mr-2 text-white flex-shrink-0" />

@@ -1,130 +1,105 @@
-// src/pages/Dashboard/MemberDashboard.jsx
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
-  FiMail, FiCheckCircle, FiXCircle, FiInfo, FiClipboard,
-  FiZap, // Ícone para Empenho
-  FiTarget, // Ícone para Foco
+  FiMail,
+  FiZap,
+  FiTarget,
+  FiMessageSquare,
+  FiGlobe,
+  FiCheckCircle,
+  FiXCircle,
+  FiInfo,
+  FiClipboard,
 } from "react-icons/fi";
-import tom from "../../assets/dashboard/tom.png"; // Avatar de fallback
 
-// Importa funções dos serviços de API
-import { getFeedbacksForMember, markFeedbackAsRead } from "../../services/feedbackService";
-import { getLoggedInMember, getMemberMetricsDetails } from "../../services/memberService";
+import MemberProfileCard from './components/MemberProfileCard';
+import MemberMetricCard from './components/MemberMetricCard';
+import MemberEmotionalCard from './components/MemberEmotionalCard';
+import MemberFeedbackDetailsModal from './components/MemberFeedbackDetailsModal';
+import { useMemberDashboardData } from '../../hooks/useMemberDashboardData';
+
+import { translations } from "../../locales/translations";
+
+const useTranslation = (lang) => {
+  return useCallback(
+    (key) => {
+      return translations[lang]?.[key] ?? translations['pt'][key] ?? key;
+    },
+    [lang]
+  );
+};
 
 export default function MemberDashboard() {
-  // Estados para dados do membro, feedbacks e métricas
-  const [member, setMember] = useState(null);
-  const [feedbacks, setFeedbacks] = useState([]);
-  const [memberMetrics, setMemberMetrics] = useState({});
+  const [lang, setLang] = useState(() => localStorage.getItem("appLang") || "pt");
+  const t = useTranslation(lang);
 
-  // Estados para controle do modal de feedback
+  const {
+    member,
+    feedbacks,
+    memberMetrics,
+    isLoadingMember,
+    isLoadingFeedbacks,
+    isLoadingMetrics,
+    memberError,
+    feedbacksError,
+    metricsError,
+    setFeedbacks
+  } = useMemberDashboardData(lang);
+
   const [showFeedbackDetailsModal, setShowFeedbackDetailsModal] = useState(false);
   const [selectedFeedback, setSelectedFeedback] = useState(null);
 
-  // Estados para carregamento e erros das APIs
-  const [isLoadingMember, setIsLoadingMember] = useState(true);
-  const [isLoadingFeedbacks, setIsLoadingFeedbacks] = useState(true);
-  const [isLoadingMetrics, setIsLoadingMetrics] = useState(true);
-  const [memberError, setMemberError] = useState(null);
-  const [feedbacksError, setFeedbacksError] = useState(null);
-  const [metricsError, setMetricsError] = useState(null);
+  const handleLanguageChange = (event) => {
+    const newLang = event.target.value;
+    setLang(newLang);
+    localStorage.setItem("appLang", newLang);
+  };
 
-  // Efeito para carregar dados do membro logado uma vez
-  useEffect(() => {
-    const loadMemberData = async () => {
-      setIsLoadingMember(true);
-      setMemberError(null);
-      try {
-        const data = await getLoggedInMember();
-        setMember(data);
-      } catch (err) {
-        setMemberError("Erro ao carregar dados do membro. Verifique sua conexão ou a API.");
-        console.error("Erro ao buscar dados do membro:", err);
-      } finally {
-        setIsLoadingMember(false);
-      }
+  const formatDateTime = useCallback((date) => {
+    if (!date) return t("notAvailableShort");
+    const dateObj = date instanceof Date ? date : new Date(date);
+    if (isNaN(dateObj.getTime())) return t("invalidDate");
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
     };
-    loadMemberData();
-  }, []);
+    const locale = lang === "pt" ? "pt-BR" : lang === "es" ? "es-ES" : "en-US";
+    return new Intl.DateTimeFormat(locale, options).format(dateObj);
+  }, [lang, t]);
 
-  // Efeito para carregar feedbacks e métricas quando o ID do membro estiver disponível
-  useEffect(() => {
-    if (member?.id) { // Agora verifica apenas o ID do membro
-      const loadFeedbacks = async () => {
-        setIsLoadingFeedbacks(true);
-        setFeedbacksError(null);
-        try {
-          // *** MUDANÇA AQUI: Passamos member.id para getFeedbacksForMember ***
-          const fetchedFeedbacks = await getFeedbacksForMember(member.id);
-          const sortedFeedbacks = [...fetchedFeedbacks].sort((a, b) =>
-            a.read === b.read ? 0 : a.read ? 1 : -1
-          ); // Ordena não lidos primeiro
-          setFeedbacks(sortedFeedbacks);
-        } catch (err) {
-          setFeedbacksError("Erro ao carregar feedbacks. Tente novamente.");
-          console.error("Erro ao buscar feedbacks:", err);
-        } finally {
-          setIsLoadingFeedbacks(false);
-        }
-      };
-
-      const loadMetricsDetails = async () => {
-        setIsLoadingMetrics(true);
-        setMetricsError(null);
-        try {
-          const data = await getMemberMetricsDetails(member.id);
-          setMemberMetrics(data);
-        } catch (err) {
-          setMetricsError("Erro ao carregar detalhes das métricas. Tente novamente.");
-          console.error("Erro ao buscar métricas:", err);
-        } finally {
-          setIsLoadingMetrics(false);
-        }
-      };
-
-      loadFeedbacks();
-      loadMetricsDetails();
-    }
-  }, [member?.id]); // Depende apenas do 'id' do membro
-
-  // Conta feedbacks não lidos (otimizado)
   const unreadFeedbacksCount = useMemo(
     () => feedbacks.filter((f) => !f.read).length,
     [feedbacks]
   );
 
-  // Abre modal de feedback e marca como lido
-  const openFeedbackDetails = async (feedback) => {
-    setSelectedFeedback(feedback);
+  const openFeedbackDetails = useCallback((feedbackItem) => {
+    setSelectedFeedback(feedbackItem);
     setShowFeedbackDetailsModal(true);
-    if (!feedback.read) {
-      try {
-        await markFeedbackAsRead(feedback.id);
-        // Atualiza o estado local para refletir que o feedback foi lido
-        setFeedbacks((prev) =>
-          prev.map((f) => (f.id === feedback.id ? { ...f, read: true } : f))
-        );
-      } catch (err) {
-        console.error("Falha ao marcar feedback como lido:", err);
-      }
-    }
-  };
+  }, []);
 
-  // Copia mensagem do feedback para a área de transferência
-  const copyFeedbackContent = (message) => {
-    navigator.clipboard.writeText(message);
-  };
+  const handleFeedbackRead = useCallback((feedbackId) => {
+    setFeedbacks((prev) =>
+      prev.map((f) => (f.id === feedbackId ? { ...f, read: true } : f))
+    );
+  }, [setFeedbacks]);
 
-  // Exibe mensagem de carregamento inicial do membro
+  const closeFeedbackDetailsModal = useCallback(() => {
+    setShowFeedbackDetailsModal(false);
+    setSelectedFeedback(null);
+  }, []);
+
   if (isLoadingMember) {
     return (
       <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex items-center justify-center">
-        <p className="text-xl">Carregando painel do membro...</p>
+        <p className="text-xl">{t("loadingMemberDashboard")}</p>
       </main>
     );
   }
 
-  // Exibe erro de carregamento do membro
   if (memberError) {
     return (
       <main className="flex-1 bg-[#160F23] text-red-400 font-poppins flex items-center justify-center text-center p-4">
@@ -133,147 +108,92 @@ export default function MemberDashboard() {
     );
   }
 
-  // Exibe mensagem se não houver dados de membro
   if (!member) {
     return (
       <main className="flex-1 bg-[#160F23] text-gray-400 font-poppins flex items-center justify-center">
-        <p className="text-xl">Nenhum dado de membro disponível para exibir.</p>
+        <p className="text-xl">{t("noMemberData")}</p>
       </main>
     );
   }
 
-  // Obtém porcentagens das métricas (0 se não houver dados ainda)
-  const memberEmpenho = memberMetrics.empenho?.percent || 0;
-  const memberFoco = memberMetrics.foco?.percent || 0;
+  const memberUniao = memberMetrics.uniao?.percent ?? 0;
+  const memberEmpenho = memberMetrics.empenho?.percent ?? 0;
+  const memberFoco = memberMetrics.foco?.percent ?? 0;
+  const memberComunicacao = memberMetrics.comunicacao?.percent ?? 0;
+  const memberSaudeEmocional = memberMetrics.saudeEmocional?.percent ?? 0;
 
   return (
-    <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center overflow-y-auto">
+    <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
-        {/* Cabeçalho principal */}
+
         <div className="pt-2 pb-4 border-b border-gray-700 mb-2 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-center md:text-left">
             <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Seus indicativos
+              {t("yourIndicators")}
             </h1>
             <p className="text-gray-400 text-lg mt-1">
-              Visão do seu desempenho e feedbacks
+              {t("performanceAndFeedbackOverview")}
             </p>
           </div>
           <div className="flex flex-col items-center md:items-end text-center md:text-right">
-            <img
-              src={member.photo || tom}
-              alt={member.name}
-              className="w-16 h-16 rounded-full border-3 border-white object-cover flex-shrink-0 shadow-lg mb-2"
-            />
-            <p className="text-xl font-bold text-white">{member.name}</p>
-            <p className="text-gray-500 text-sm">{member.role}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <FiGlobe className="text-gray-400" />
+              <select
+                value={lang}
+                onChange={handleLanguageChange}
+                className="bg-[#232046] text-white p-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="pt">Português</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+              </select>
+            </div>
+            <span className="text-sm text-gray-500">
+              {t("lastUpdate")}: {formatDateTime(new Date())}
+            </span>
           </div>
         </div>
 
-        {/* Seção de Métricas */}
+        <h2 className="text-2xl font-bold text-white mt-4 mb-2">{t("yourIndividualMetrics")}</h2>
         {isLoadingMetrics ? (
-          <div className="text-center py-4 text-gray-400 text-lg">Carregando métricas...</div>
+          <div className="text-center py-4 text-gray-400 text-lg">{t("loadingMetrics")}</div>
         ) : metricsError ? (
           <div className="text-center py-4 text-red-500 text-lg">{metricsError}</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-2">
-            {/* Card de Empenho */}
-            <div className="bg-[#18162a] rounded-xl shadow-lg p-4 flex items-center justify-between border border-pink-400">
-              <div className="flex items-center gap-4">
-                <FiZap className="text-pink-400 text-4xl" />
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Empenho</h3>
-                  <p className="text-gray-400 text-base">
-                    Sua dedicação e produtividade.
-                  </p>
-                </div>
-              </div>
-              <div className="relative w-20 h-20 flex items-center justify-center flex-shrink-0">
-                <svg className="w-full h-full transform -rotate-90">
-                  <circle
-                    className="text-gray-700"
-                    strokeWidth="8"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="50%"
-                    cy="50%"
-                  />
-                  <circle
-                    className="text-pink-500"
-                    strokeWidth="8"
-                    strokeDasharray={2 * Math.PI * 30}
-                    strokeDashoffset={
-                      2 * Math.PI * 30 - (2 * Math.PI * 30 * memberEmpenho) / 100
-                    }
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="50%"
-                    cy="50%"
-                    style={{ transition: "stroke-dashoffset 0.8s ease-in-out" }}
-                  />
-                </svg>
-                <span className="absolute text-xl font-bold text-white">
-                  {memberEmpenho}%
-                </span>
-              </div>
-            </div>
-
-            {/* Card de Foco */}
-            <div className="bg-[#18162a] rounded-xl shadow-lg p-4 flex items-center justify-between border border-yellow-400">
-              <div className="flex items-center gap-4">
-                <FiTarget className="text-yellow-400 text-4xl" />
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Foco</h3>
-                  <p className="text-gray-400 text-base">
-                    Suas entregas e constância.
-                  </p>
-                </div>
-              </div>
-              <div className="relative w-20 h-20 flex items-center justify-center flex-shrink-0">
-                <svg className="w-full h-full transform -rotate-90">
-                  <circle
-                    className="text-gray-700"
-                    strokeWidth="8"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="50%"
-                    cy="50%"
-                  />
-                  <circle
-                    className="text-yellow-400"
-                    strokeWidth="8"
-                    strokeDasharray={2 * Math.PI * 30}
-                    strokeDashoffset={
-                      2 * Math.PI * 30 - (2 * Math.PI * 30 * memberFoco) / 100
-                    }
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="30"
-                    cx="50%"
-                    cy="50%"
-                    style={{ transition: "stroke-dashoffset 0.8s ease-in-out" }}
-                  />
-                </svg>
-                <span className="absolute text-xl font-bold text-white">
-                  {memberFoco}%
-                </span>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <MemberProfileCard member={member} />
+            <MemberMetricCard
+              title={t("uniaoAttr")}
+              percent={memberUniao}
+              icon={FiZap}
+            />
+            <MemberMetricCard
+              title={t("empenhoAttr")}
+              percent={memberEmpenho}
+              icon={FiZap}
+            />
+            <MemberMetricCard
+              title={t("focoAttr")}
+              percent={memberFoco}
+              icon={FiTarget}
+            />
+            <MemberMetricCard
+              title={t("comunicacaoAttr")}
+              percent={memberComunicacao}
+              icon={FiMessageSquare}
+            />
+            <MemberEmotionalCard
+              percent={memberSaudeEmocional}
+            />
           </div>
         )}
 
-        {/* Seção de Feedbacks Recebidos */}
         <div className="mb-6 border-b border-gray-700 flex justify-between items-center flex-wrap gap-4 pt-4">
           <h2 className="text-2xl font-bold text-white py-3 flex items-center gap-2">
-            <FiMail className="text-yellow-400" /> Feedbacks recebidos
+            <FiMail className="text-yellow-400" /> {t("receivedFeedbacks")}
             {unreadFeedbacksCount > 0 && (
               <span className="ml-3 bg-red-600 text-white text-sm px-3 py-1 rounded-full animate-pulse">
-                {unreadFeedbacksCount} Novos
+                {unreadFeedbacksCount} {t("new")}
               </span>
             )}
           </h2>
@@ -282,15 +202,13 @@ export default function MemberDashboard() {
         <div className="bg-[#18162a] rounded-xl shadow-lg p-6 mb-8">
           {isLoadingFeedbacks ? (
             <div className="text-center py-8 text-gray-400 text-lg">
-              Carregando feedbacks...
+              {t("loadingFeedbacks")}
             </div>
           ) : feedbacksError ? (
-            <div className="text-center py-8 text-red-500 text-lg">
-              {feedbacksError}
-            </div>
+            <div className="text-center py-8 text-red-500 text-lg">{feedbacksError}</div>
           ) : feedbacks.length === 0 ? (
             <div className="text-center py-8 text-gray-400 text-lg">
-              Nenhum feedback recebido ainda.
+              {t("noFeedbackReceivedYet")}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -313,7 +231,7 @@ export default function MemberDashboard() {
                           : "bg-green-600 text-white"
                       }`}
                     >
-                      {feedback.read ? "Lido" : "NOVO!"}
+                      {feedback.read ? t("read") : t("newFeedback")}
                     </span>
                     {feedback.read ? (
                       <FiCheckCircle className="text-green-500 w-4 h-4" />
@@ -329,12 +247,12 @@ export default function MemberDashboard() {
                   </p>
                   <div className="flex items-center justify-between text-gray-500 text-xs mt-2 border-t border-gray-700 pt-2">
                     <span>
-                      De:{" "}
+                      {t("from")}:{" "}
                       <span className="font-medium text-gray-300">
                         {feedback.from}
                       </span>
                     </span>
-                    <span>{new Date(feedback.date).toLocaleDateString("pt-BR")}</span>
+                    <span>{formatDateTime(feedback.date)}</span>
                   </div>
                 </div>
               ))}
@@ -342,64 +260,12 @@ export default function MemberDashboard() {
           )}
         </div>
 
-        {/* Modal de Detalhes do Feedback */}
-        {showFeedbackDetailsModal && selectedFeedback && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-            <div className="bg-[#18162a] rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl relative border-2 border-purple-700">
-              <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-red-400"
-                onClick={() => setShowFeedbackDetailsModal(false)}
-                aria-label="Fechar Detalhes do Feedback"
-              >
-                <FiXCircle className="w-6 h-6" />
-              </button>
-              <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <FiInfo className="text-purple-400" /> Detalhes do Feedback
-              </h3>
-
-              <div className="mb-4">
-                <p className="text-gray-400 text-sm font-bold mb-1">De:</p>
-                <p className="text-white text-md">{selectedFeedback.from}</p>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-gray-400 text-sm font-bold mb-1">Assunto:</p>
-                <p className="text-white text-md">{selectedFeedback.subject}</p>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-gray-400 text-sm font-bold mb-1">
-                  Mensagem:
-                </p>
-                <div className="bg-[#232046] p-4 rounded-lg text-white text-sm break-words relative">
-                  {selectedFeedback.message}
-                  <button
-                    className="absolute bottom-2 right-2 text-gray-500 hover:text-gray-300 transition"
-                    title="Copiar mensagem"
-                    onClick={() =>
-                      copyFeedbackContent(selectedFeedback.message)
-                    }
-                  >
-                    <FiClipboard className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="text-right text-gray-500 text-xs mb-4">
-                <span>Recebido em: {new Date(selectedFeedback.date).toLocaleDateString("pt-BR")}</span>
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition"
-                  onClick={() => setShowFeedbackDetailsModal(false)}
-                >
-                  <FiCheckCircle /> Fechar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <MemberFeedbackDetailsModal
+          isOpen={showFeedbackDetailsModal}
+          onClose={closeFeedbackDetailsModal}
+          feedback={selectedFeedback}
+          onFeedbackRead={handleFeedbackRead}
+        />
       </div>
     </main>
   );

@@ -19,11 +19,11 @@ import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
 import Kanban from "./pages/Kanban/Kanban";
 
+import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 import Team from "./pages/Dashboard/LeaderTeamArea"
 import Meetings from "./pages/Meetings/Meetings";
-import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 
 
 function LayoutWithSidebar({ children }) {

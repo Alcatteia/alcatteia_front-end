@@ -1,22 +1,22 @@
-// src/services/memberService.js
-
-/**
- * @file Serviço para gerenciamento de dados de membros.
- * @description
- * Este arquivo contém funções para interagir com a API referente aos dados de membros individuais.
- * Ele permite obter informações do membro atualmente logado e buscar detalhes das métricas
- * de desempenho e clima organizacional de um membro específico.
- *
- * **Perfis de Usuário Relevantes:**
- * - **Membro (Member):** Este serviço é primariamente destinado ao perfil de Membro,
- * permitindo que ele acesse seus próprios dados de perfil (`getLoggedInMember`)
- * e suas métricas individuais de desempenho e bem-estar (`getMemberMetricsDetails`).
- */
-
 import axios from 'axios';
 
 const REAL_API_ACTIVE = false;
 const API_BASE_URL = 'http://localhost:3001/api';
+
+const mockLoggedInMemberData = {
+  id: 101, // ID numérico simulado
+  name: "Gabriel de Alencar",
+  role: "Desenvolvedor Front-end",
+  photo: "https://placehold.co/100x100/purple/white?text=GA", // Foto para Gabriel
+};
+
+const mockMemberMetricsDetailsData = {
+  uniao: { percent: 72 }, // Adicionado União
+  empenho: { percent: 85 },
+  foco: { percent: 68 },
+  saudeEmocional: { percent: 55 }, // Ajustado para 'Regular'
+  comunicacao: { percent: 79 },
+};
 
 export const getLoggedInMember = async () => {
   if (REAL_API_ACTIVE) {
@@ -26,24 +26,15 @@ export const getLoggedInMember = async () => {
     } catch (error) {
       if (error.code === 'ERR_NETWORK') {
         console.warn("Serviço de Membro: API real inacessível. Retornando dados mockados para o membro logado.");
-        return {
-          id: "mockMemberId123",
-          name: "Membro Teste",
-          email: "membro.teste@empresa.com",
-          avatar: "https://placehold.co/150x150/800080/FFFFFF?text=MT",
-        };
+        console.log("Aguardando dados da API para o dashboard do membro - Membro Logado.");
+        return mockLoggedInMemberData;
       }
       console.error("Erro inesperado ao buscar dados do membro logado da API real:", error);
       throw error;
     }
   } else {
-    console.warn("Serviço de Membro: REAL_API_ACTIVE é false. Retornando dados mockados para o membro logado.");
-    return {
-      id: "mockMemberId123",
-      name: "Membro Teste",
-      email: "membro.teste@empresa.com",
-      avatar: "https://placehold.co/150x150/800080/FFFFFF?text=MT",
-    };
+    console.log("Aguardando dados da API para o dashboard do membro - Membro Logado.");
+    return new Promise(resolve => setTimeout(() => resolve(mockLoggedInMemberData), 500));
   }
 };
 
@@ -55,37 +46,14 @@ export const getMemberMetricsDetails = async (memberId) => {
     } catch (error) {
       if (error.code === 'ERR_NETWORK') {
         console.warn(`Serviço de Membro: API real inacessível ao buscar métricas de ${memberId}. Retornando dados mockados.`);
-        return {
-          uniao: { percent: 75, trend: "+5pp" },
-          empenho: { percent: 80, trend: "-2pp" },
-          comunicacao: { percent: 90, trend: "---" },
-          foco: { percent: 60, trend: "+10pp" },
-          saudeEmocional: { percent: 70, trend: "+3pp" },
-          climate: [
-              { name: "Ótimo", percent: 30 },
-              { name: "Bem", percent: 40 },
-              { name: "Cansado", percent: 20 },
-              { name: "Estressado", percent: 10 },
-          ],
-        };
+        console.log("Aguardando dados da API para o dashboard do membro - Métricas.");
+        return mockMemberMetricsDetailsData;
       }
       console.error(`Erro inesperado ao buscar detalhes das métricas do membro ${memberId} da API real:`, error);
       throw error;
     }
   } else {
-    console.warn(`Serviço de Membro: REAL_API_ACTIVE é false. Retornando dados mockados para as métricas de ${memberId}.`);
-    return {
-      uniao: { percent: 75, trend: "+5pp" },
-      empenho: { percent: 80, trend: "-2pp" },
-      comunicacao: { percent: 90, trend: "---" },
-      foco: { percent: 60, trend: "+10pp" },
-      saudeEmocional: { percent: 70, trend: "+3pp" },
-      climate: [
-          { name: "Ótimo", percent: 30 },
-          { name: "Bem", percent: 40 },
-          { name: "Cansado", percent: 20 },
-          { name: "Estressado", percent: 10 },
-      ],
-    };
+    console.log("Aguardando dados da API para o dashboard do membro - Métricas.");
+    return new Promise(resolve => setTimeout(() => resolve(mockMemberMetricsDetailsData), 700));
   }
 };

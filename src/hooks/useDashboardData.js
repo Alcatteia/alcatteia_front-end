@@ -1,5 +1,3 @@
-// src/hooks/useDashboardData.js
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { fetchDashboardData } from "../services/dashboardService";
 import { translations } from "../locales/translations";
@@ -32,13 +30,9 @@ export const useDashboardData = (lang) => {
   const [isLoading, setIsLoading] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(0);
 
-  // previousMetricsRef e previousClimateRef armazenam o estado anterior antes da atualização
   const previousMetricsRef = useRef(simulatedDashboardStates[0].metrics);
   const previousClimateRef = useRef(simulatedDashboardStates[0].climate);
 
-  // Este useEffect garante que previousMetricsRef.current e previousClimateRef.current sejam
-  // sempre o estado *atual* no momento da renderização, antes de uma nova atualização.
-  // Ele é executado após cada render, então o ref estará sempre atualizado.
   useEffect(() => {
     previousMetricsRef.current = metrics;
     previousClimateRef.current = climate;
@@ -181,26 +175,20 @@ export const useDashboardData = (lang) => {
     let dataToUse = null;
 
     if (REAL_API_ACTIVE) {
-      console.log("Aguardando dados da API real...");
       try {
         dataToUse = await fetchDashboardData();
-        console.log("Dados da API real carregados com sucesso!");
       } catch (error) {
-        console.error("Falha ao buscar dados da API real, usando dados pré-setados:", error);
-        dataToUse = simulatedDashboardStates[0];
+        dataToUse = { ...simulatedDashboardStates[0] };
+        dataToUse.lastUpdate = new Date();
       }
     } else {
-      console.log("REAL_API_ACTIVE é FALSE. Usando dados pré-setados simulados.");
       await new Promise(resolve => setTimeout(resolve, 500));
       const nextIndex = updateTrigger % simulatedDashboardStates.length;
-      dataToUse = simulatedDashboardStates[nextIndex];
-      console.log(`Carregando estado simulado [${nextIndex}]`);
+      dataToUse = { ...simulatedDashboardStates[nextIndex] };
+      dataToUse.lastUpdate = new Date(); // Garante que a data de atualização seja o momento atual
     }
 
     if (dataToUse) {
-      // previousMetricsRef.current e previousClimateRef.current já são atualizados pelo useEffect separado
-      // antes desta função ser executada para a nova rodada de renderização.
-
       const newMetrics = { ...dataToUse.metrics };
 
       const totalCurrentPositiveClimatePercent =
@@ -215,15 +203,14 @@ export const useDashboardData = (lang) => {
       setMetrics(newMetrics);
       setClimate(dataToUse.climate);
       setCollaborators(dataToUse.collaborators || []);
-      setLastUpdateDateTime(dataToUse.lastUpdate ? new Date(dataToUse.lastUpdate) : null);
+      setLastUpdateDateTime(new Date(dataToUse.lastUpdate));
     }
     setIsLoading(false);
-  }, [updateTrigger, lang]); // Removido 'metrics' e 'climate' das dependências
+  }, [updateTrigger, lang]);
 
-  // useEffect que dispara a atualização quando updateTrigger ou lang mudam
   useEffect(() => {
     updateDashboardData();
-  }, [updateTrigger, lang, updateDashboardData]); // updateDashboardData é uma dependência porque é uma função de callback
+  }, [updateTrigger, lang, updateDashboardData]);
 
   const handleUpdateDashboard = () => {
     setUpdateTrigger((prev) => prev + 1);
@@ -234,7 +221,6 @@ export const useDashboardData = (lang) => {
   const averageTeamHealth = calculateAverageTeamHealth(metrics);
   const teamHealthTrend = calculateTrend(
     averageTeamHealth,
-    // Acessa o valor anterior do ref, que é atualizado pelo useEffect dedicado
     parseFloat(calculateAverageTeamHealth(previousMetricsRef.current))
   );
 
@@ -355,11 +341,10 @@ export const useDashboardData = (lang) => {
     return uniqueSuggestions;
   }, [
     lowestAttributeKey,
-    // suggestionsByAttribute é uma constante, não precisa ser dependência se não mudar
     currentEmotionalStatus.status,
     metrics.empenho?.percent,
     isLoading,
-    metrics // 'metrics' é crucial para a reatividade dos dados
+    metrics
   ]);
 
   return {
