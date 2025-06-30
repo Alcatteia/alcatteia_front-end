@@ -13,6 +13,8 @@ import Topbar from "./components/Topbar";
 
 // Pages
 
+import Home from "./pages/Home/Home";
+
 import About from "./pages/About/About";
 
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
@@ -48,7 +50,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
-                    {/* <Route path="/" element={<AccountAccess />} />  */}
+                    <Route path="/" element={<Home />} /> 
 
 
                     {/* Rota para página Sobre  */}
