@@ -2,7 +2,7 @@ import { FaUsers, FaRocket} from 'react-icons/fa';
 
 export default function Explanation() {
   return (
-    <section className="w-full py-40 px-6 md:px-16 bg-gradient-to-br from-gray-900 via-[#1d0625] to-black text-white">
+    <section className="w-full py-20 px-6 md:px-16 bg-gradient-to-br from-gray-900 via-[#1d0625] to-black text-white">
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
 
@@ -29,7 +29,7 @@ export default function Explanation() {
 
           {/* Parágrafo */}
           <p className="text-lg text-gray-300 leading-relaxed mb-8">
-            Transforme sua equipe com um <span className='font-bold'>dashboard emocional inteligente</span> que vai além de tarefas, medindo o <span className='font-bold'>pulso emocional</span> e fortalecendo a <span className='font-bold'>comunicação real</span>. Gere resultados consistentes com uma <span className='font-bold'>gestão ágil</span> centrada em pessoas.
+            Transforme sua equipe com um dashboard emocional inteligente que vai além de tarefas, medindo o pulso emocional e fortalecendo a comunicação real. Gere resultados consistentes com uma gestão ágil centrada em pessoas.
           </p>
 
           {/* Botões */}

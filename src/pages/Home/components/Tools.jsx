@@ -10,7 +10,7 @@ function Tools() {
       icone: <FaBrain className="text-purple-400 text-4xl mb-4 ml-23" />,
       bgColor: "bg-gradient-to-t from-purple-700 via-purple-950 to-black", // Background individual
       delay: 0.1, // Delay de animação personalizado
-      shadowHover: "hover:shadow-pink-500/20"
+      shadowHover: "hover:shadow-purple-400"
     },
     {
       titulo: "Check-in de humor",
@@ -18,7 +18,7 @@ function Tools() {
       icone: <FaChartLine className="text-cyan-600 text-4xl mb-4 ml-23" />,
       bgColor: "bg-gradient-to-t from-cyan-600 via-cyan-850 to-black", // Background individual
       delay: 0.1, // Delay de animação personalizado
-      shadowHover: "hover:shadow-pink-500/20"
+      shadowHover: "hover:shadow-cyan-600"
     },
     {
       titulo: "Kanban Colaborativo",
@@ -26,7 +26,7 @@ function Tools() {
       icone: <FaTasks className="text-red-800 text-4xl mb-4 ml-22" />,
       bgColor: "bg-gradient-to-t from-red-800 via-red-950 to-black",
       delay: 0.1, // Delay de animação personalizado
-      shadowHover: "hover:shadow-pink-500/20"
+      shadowHover: "hover:shadow-red-800"
     },
     {
       titulo: "Alertas Inteligentes", 
@@ -34,9 +34,8 @@ function Tools() {
       icone: <FaBell className="text-emerald-400 text-4xl mb-4 ml-23.5"/>,
       bgColor: "bg-gradient-to-t from-emerald-600 via-emerald-850 to-black",
       delay: 0.1, // Delay de animação personalizado
-      shadowHover: "hover:shadow-pink-500"
+      shadowHover: "hover:shadow-emerald-400 "
     },
-    
 
   ];
 
@@ -61,7 +60,7 @@ function Tools() {
               viewport={{ once: false}}
               transition={{ duration: 0.5, delay: index * 0.15 }}
               className={`p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 
-               ${item.bgColor}  hover:shadow-[20px_20px_100px_0.1px] ${item.shadowHover}`}
+               ${item.bgColor}  hover:shadow-[0px_0px_50px_0px] ${item.shadowHover}`}
             > 
               {item.icone}
               <h3 className="text-xl font-semibold mb-2 text-">{item.titulo}</h3>
