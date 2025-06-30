@@ -22,7 +22,6 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
     const handleInputChange = (field, value) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
         setHasChanges(true);
-        setErrors((prev) => ({ ...prev, [field]: "" }));
     };
 
     const handleAvatarChange = (e) => {
@@ -37,15 +36,15 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
         }
     };
 
-    const validate = () => {
-        const newErrors = {};
-        if (!formData.about) newErrors.about = "Sobre é obrigatório";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    // const validate = () => {
+    //     const newErrors = {};
+    //     if (!formData.about) newErrors.about = "Sobre é obrigatório";
+    //     setErrors(newErrors);
+    //     return Object.keys(newErrors).length === 0;
+    // };
 
     const handleSave = async () => {
-        if (!validate()) return;
+        // if (!validate()) return;
         setIsSaving(true);
 
         try {
