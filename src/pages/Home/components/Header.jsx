@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'; 
+import logo from "../../../assets/home/images/logotipo364.png"
 
 function Header() {
 
@@ -7,7 +8,7 @@ function Header() {
     <header className="relative z-20 w-full p-4 flex justify-between items-center bg-gradient-to-t from-transparent to-black text-white ">
 
       <div className="flex gap-0.5 items-center">
-        <img src="../../../../src/assets/home/images/logotipo364.png" alt="logotipo" className="w-17 mr-4 "/>
+        <img src={logo} alt="logotipo" className="w-17 mr-4 "/>
         <span className="text-3xl">Alcatteia</span>
       </div>
 
