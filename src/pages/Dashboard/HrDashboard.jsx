@@ -112,14 +112,14 @@ export default function HrDashboard() {
 
   if (isLoading) {
     return (
-      <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex items-center justify-center">
+      <main className="flex-1 text-gray-200 font-poppins flex items-center justify-center">
         <div className="text-xl text-purple-400">Carregando dados do Dashboard de RH...</div>
       </main>
     );
   }
 
   return (
-    <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
+    <main className="flex-1 text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
         <div className="flex justify-between items-end pb-4 border-b border-gray-700">
           <div>

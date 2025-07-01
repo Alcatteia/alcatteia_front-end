@@ -111,7 +111,7 @@ export default function LeaderDashboard() {
     : t("loadingRecommendations");
 
   return (
-    <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center ">
+    <main className="flex-1 text-gray-200 font-poppins flex justify-center ">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 h-full">
         <div className="pt-2 pb-4 border-b border-gray-700 mb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex-shrink-0">
