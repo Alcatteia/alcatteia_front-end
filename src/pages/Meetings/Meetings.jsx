@@ -4,10 +4,9 @@ import MeetingsContent from "./MeetingsContent";
 
 
 function Meetings() {
-
     return (
         <AppMettingsProvider>
-            <div className="w-[100% - 256px]">
+            <div>
                 <Hero />
                 <MeetingsContent />
             </div>

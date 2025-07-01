@@ -2,7 +2,7 @@ import { FaRegClock } from "react-icons/fa";
 
 const InProgress = () => {
     return (
-        <section className="mt-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
+        <section className="mt-24">
             <div className="bg-[#7c50aa9a] p-5 flex items-center gap-5 rounded-xl w-full">
                 <div className="h-9 w-9 rounded-full bg-yellow-400"></div>
                 <span className="text-white text-xl font-semibold md:text-2xl">Reuniões em andamento:</span>
@@ -12,7 +12,7 @@ const InProgress = () => {
                 <div className="bg-[#331A4E] text-white p-5 rounded-xl">
                     <div className="flex justify-between">
                         <div>
-                            <h3 className="text-xl font-semibold sm:text-2xl lg:text-3xl">Alinhamento</h3>
+                            <h3 className="text-xl font-semibold sm:text-2xl lg:text-3xl">Daily</h3>
                             <p className="opacity-80 md:text-lg">Administrador(a): Isabelle Gomes</p>
                         </div>
 
@@ -22,15 +22,15 @@ const InProgress = () => {
                         </div>
                     </div>
 
-                    <div className="mt-5 flex items-center justify-between">
+                    <div className="mt-3 flex items-center justify-between">
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-3">
                                 <FaRegClock />
                                 <span className="opacity-80 md:text-lg">Qui, 05/05/2025, 07h30</span>
                             </div>
 
-                            <div className="flex items-center gap-3">
-                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                            <div className="flex items-center gap-3 mt-5">
+                                <p className="md:text-lg">Hoje vamos alinhar o andamento das demandas do último projeto, verificando o status de cada etapa.</p>
                             </div>
                         </div>
                     </div>

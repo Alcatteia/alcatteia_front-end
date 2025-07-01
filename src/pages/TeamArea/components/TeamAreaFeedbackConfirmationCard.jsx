@@ -35,7 +35,7 @@ export default function TeamAreaFeedbackConfirmationCard({ status, onClose, mess
   const displayMessage = customMessage || defaultMessage;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-[#00000085] bg-opacity-70 flex items-center justify-center z-50 p-4">
       <div className={` ${bgColor} ${textColor} rounded-xl shadow-2xl p-8 text-center flex flex-col items-center max-w-sm w-full transform transition-all duration-300 scale-100`}>
         <div className="mb-4">
           {icon}

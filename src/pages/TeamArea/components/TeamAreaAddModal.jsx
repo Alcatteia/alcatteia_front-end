@@ -1,5 +1,4 @@
 // src/components/TeamAreaAddModal.jsx
-import React, { useState, useEffect } from 'react';
 import { FiX, FiSearch, FiUserPlus } from 'react-icons/fi';
 
 export default function TeamAreaAddModal({

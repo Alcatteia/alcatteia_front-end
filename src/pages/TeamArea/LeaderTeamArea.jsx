@@ -13,13 +13,13 @@ import {
   FiMail,
 } from "react-icons/fi";
 
-import TeamAreaFeedbackConfirmationCard from "../Dashboard/components/TeamAreaFeedbackConfirmationCard";
+import TeamAreaFeedbackConfirmationCard from "./components/TeamAreaFeedbackConfirmationCard";
 import { useTeamMembers } from "../../hooks/useTeamMembers";
 
-import TeamAreaAddModal from "../Dashboard/components/TeamAreaAddModal";
-import TeamAreaMemberDetailsModal from "../Dashboard/components/TeamAreaMemberDetailsModal";
-import TeamAreaSendFeedbackModal from "../Dashboard/components/TeamAreaSendFeedbackModal";
-import TeamAreaConfirmRemoveModal from "../Dashboard/components/TeamAreaConfirmRemoveModal";
+import TeamAreaAddModal from "./components/TeamAreaModal";
+import TeamAreaMemberDetailsModal from "./components/TeamAreaMemberDetailsModal";
+import TeamAreaSendFeedbackModal from "./components/TeamAreaSendFeedbackModal";
+import TeamAreaConfirmRemoveModal from "./components/TeamAreaConfirmRemoveModal";
 
 const roles = ["Todos", "Back-end", "Front-end", "Full-stack", "Teacher"];
 

@@ -59,7 +59,7 @@ export default function MemberFeedbackDetailsModal({ isOpen, onClose, feedback, 
   if (!isOpen || !feedback) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50 p-4">
       <div className="bg-[#18162a] rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl relative border-2 border-purple-700">
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-red-400"

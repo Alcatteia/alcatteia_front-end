@@ -6,7 +6,7 @@ export default function TeamAreaConfirmRemoveModal({ show, onClose, member, onCo
   if (!show || !member) return null; // Não renderiza se não estiver visível ou se não houver membro
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-[#00000085] bg-opacity-70 flex items-center justify-center z-50 p-4">
       <div className="bg-[#160F23] rounded-lg shadow-xl p-6 w-full max-w-md relative border border-gray-700">
         {/* Cabeçalho do Modal */}
         <div className="flex justify-between items-center pb-4 border-b border-gray-700 mb-4">

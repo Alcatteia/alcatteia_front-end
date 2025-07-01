@@ -11,10 +11,10 @@ import {
   FiClipboard,
 } from "react-icons/fi";
 
-import MemberProfileCard from '../TeamArea/components/MemberProfileCard';
-import MemberMetricCard from '../TeamArea/components/MemberMetricCard';
-import MemberEmotionalCard from '../TeamArea/components/MemberEmotionalCard';
-import MemberFeedbackDetailsModal from '../TeamArea/components/MemberFeedbackDetailsModal';
+import MemberProfileCard from "./components/MemberProfileCard";
+import MemberMetricCard from "./components/MemberMetricCard";
+import MemberEmotionalCard from "./components/MemberEmotionalCard";
+import MemberFeedbackDetailsModal from "./components/MemberFeedbackDetailsModal";
 import { useMemberDashboardData } from '../../hooks/useMemberDashboardData'; // Este é o hook.js que você mencionou
 
 import { translations } from "../../locales/translations";
