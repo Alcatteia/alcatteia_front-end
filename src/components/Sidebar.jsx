@@ -6,12 +6,14 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const items = [
+ const items = [
     { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard/leader" },
     { label: "Kanban", icon: <FiClipboard />, active: true, link: "/kanban" },
     { label: "Reuniões", icon: <FiPhone />, link: "/meetings" },
+    { label: "Equipe", icon: <FiUsers />, link: "/team/leader" }
   ];
 
+  
   return (
     <div className="flex h-screen bg-[#160F23] text-white overflow-hidden">
       {/* Botão menu visível só no mobile */}

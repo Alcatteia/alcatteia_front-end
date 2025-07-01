@@ -19,10 +19,11 @@ import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
 import Kanban from "./pages/Kanban/Kanban";
 
-import AppDashboard from "./pages/Dashboard/AppDashboard";
+import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 
+import Team from "./pages/TeamArea/LeaderTeamArea"
 import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
@@ -62,12 +63,12 @@ function App() {
                         <Route path="/account-access" element={<AccountAccess />} />
 
 
-                        {/* Rota para página Dashboard */}
+                        {/* Rotas para páginas de Dashboard */}
                         <Route
                             path="/dashboard/leader"
                             element={
                                 <LayoutWithSidebar>
-                                    <AppDashboard />
+                                    <LeaderDashboard />
                                 </LayoutWithSidebar>
                             }
                         />
@@ -86,6 +87,16 @@ function App() {
                             element={
                                 <LayoutWithSidebar>
                                     <MemberDashboard />
+                                </LayoutWithSidebar>
+                            }
+                        />
+
+                        {/* Rota para página equipe do lider */}
+                        <Route
+                            path="/team/leader"
+                            element={
+                                <LayoutWithSidebar>
+                                    <Team />
                                 </LayoutWithSidebar>
                             }
                         />
@@ -113,14 +124,6 @@ function App() {
                         />
 
 
-
-
-
-
-                        {/* Rota para página Dashboard */}
-                        {/* <Route path="/dashboard" element={<Componente />} /> */}
-
-
                         {/* Rota para página Reuniões */}
                         <Route
                             path="/meetings"
@@ -139,12 +142,6 @@ function App() {
                                 </LayoutWithSidebar>
                             }
                         />
-
-
-
-
-                        {/* Rota para página Check-in */}
-                        {/* <Route path="/check-in" element={<Componente />} /> */}
 
                     </Routes>
                 </BrowserRouter>
