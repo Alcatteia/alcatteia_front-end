@@ -7,7 +7,7 @@ import { BsInstagram } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import Input from "./Input";
 import Lobo from "../../assets/login/logo_login.svg";
-import userService from "../../services/userservice";
+import userService from "../../services/userService";
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
