@@ -38,19 +38,21 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
 
     const handleSave = async () => {
         setIsSaving(true);
-
         try {
-            const response = await userService.atualizarUsuario(usuario.id, {
+            await userService.atualizarUsuario(usuario.id, {
                 descricao: formData.about,
             });
-            console.log("Atualizado!", response.data);
-            setSessionUser(response.data);
-            
+
+            const usuarioAtualizado = await userService.buscarUsuarioPorEmail(usuario.email);
+
+            setSessionUser(usuarioAtualizado.data);
+
             setIsSaving(false);
             setHasChanges(false);
             setEditProfile(false);
         } catch (erro) {
             console.error("Erro ao atualizar:", erro);
+            setIsSaving(false);
         }
     };
 
@@ -85,7 +87,7 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
                                 onChange={(e) => handleInputChange('about', e.target.value)}
                                 rows={4}
                                 className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all resize-none  'border-red-500 focus:ring-red-500/20' : 'border-gray-600 focus:border-blue-500 focus:ring-blue-500/20'
-                                    `}
+                                `}
                                 placeholder="Descreva um pouco sobre você e sua experiência profissional..."
                             />
                         </div>
