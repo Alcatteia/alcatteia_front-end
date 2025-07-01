@@ -29,8 +29,7 @@ export default function ToggleViewButton() {
                 <MdEditSquare size={18} />
                 Ver reuniões
             </button>
-
-            {/* Botão 2: Ver em calendário */}
+            
             <button
                 onClick={handleClick}
                 className={`relative z-10 w-1/2 h-full flex items-center justify-center gap-2 font-semibold transition-colors ${isOnlineView ? "text-purple-700" : "text-white"
