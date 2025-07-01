@@ -39,13 +39,18 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            await userService.atualizarUsuario(usuario.id, {
+            await userService.atualizarUsuario(usuario?.id, {
                 descricao: formData.about,
             });
 
             const usuarioAtualizado = await userService.buscarUsuarioPorEmail(usuario.email);
 
-            setSessionUser(usuarioAtualizado.data);
+            const usuarioFinal = {
+                ...usuarioAtualizado.data,
+                avatar: formData.avatar // <-- salva o avatar atualizado
+            };
+
+            setSessionUser(usuarioFinal);
 
             setIsSaving(false);
             setHasChanges(false);

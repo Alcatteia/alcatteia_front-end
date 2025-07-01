@@ -16,7 +16,7 @@ const tipoUsuarioMap = {
 const UserProfile = () => {
     const [editProfile, setEditProfile] = useState(false);
     const usuario = getSessionUser();
-    const cargoUsuario = tipoUsuarioMap[usuario.tipo_usuario] || usuario.tipo_usuario;
+    const cargoUsuario = tipoUsuarioMap[usuario?.tipo_usuario] || usuario?.tipo_usuario;
 
     return (
         <section className="pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:px-16 xl:pr-5 pb-6 min-h-scree text-white grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -25,19 +25,19 @@ const UserProfile = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
                             <div className="bg-purple-700 rounded-full w-max">
-                                <img src={LogoPerfil} alt="Logo Alcatteia" />
+                                <img src={usuario?.avatar || LogoPerfil} alt="Avatar do usuário" />
                             </div>
-                            <h2 className="text-xl lg:text-2xl xl:text-4xl font-bold mt-4">{usuario.nome}</h2>
+                            <h2 className="text-xl lg:text-2xl xl:text-4xl font-bold mt-4">{usuario?.nome}</h2>
                             <p className="text-sm lg:text-base xl:text-lg text-purple-300">{cargoUsuario}</p>
                         </div>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 text-white">
                                 <MdEmail size={16} className="text-blue-600" />
-                                <span className="lg:text-lg">{usuario.email}</span>
+                                <span className="lg:text-lg">{usuario?.email}</span>
                             </div>
                             <div className="flex items-center gap-3 text-white">
                                 <SlCalender size={16} className="text-blue-600" />
-                                <span className="lg:text-lg">Entrou: {usuario.data_criacao}</span>
+                                <span className="lg:text-lg">Entrou: {usuario?.data_criacao}</span>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ const UserProfile = () => {
                     <div className="mt-5">
                         <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-1">Sobre</h3>
                         <p className="mt-2 text-sm lg:text-base text-purple-200">
-                            {usuario.descricao}
+                            {usuario?.descricao}
                         </p>
                     </div>
 
