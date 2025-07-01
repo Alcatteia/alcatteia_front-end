@@ -29,7 +29,7 @@ const AccountAccess = () => {
             });
             console.log("Logado!", response.data);
             setSessionUser(response.data);
-            navigate("/dashboard");
+            navigate("/kanban");
         } catch (erro) {
             console.error("Erro ao logar:", erro);
         }
@@ -45,7 +45,7 @@ const AccountAccess = () => {
                 tipo_usuario: inputRole,
             });
             console.log("Cadastrado!", response.data);
-            navigate("/dashboard");
+            navigate("/kanban");
         } catch (erro) {
             console.error("Erro ao cadastrar:", erro);
         }
