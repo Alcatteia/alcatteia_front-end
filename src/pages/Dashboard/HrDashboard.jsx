@@ -307,7 +307,7 @@ export default function HrDashboard() {
   return (
     // Contêiner principal do dashboard, com flexbox para layout e scroll vertical.
     
-    <main className="flex-1 bg-[#0B0011] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
+    <main className="flex-1 bg-[#1d142e] pt-6 text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
       {/* Contêiner interno que centraliza e adiciona padding responsivo ao conteúdo. */}
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
         {/* Seção de cabeçalho do dashboard com título, subtítulo e seletor de idioma. */}

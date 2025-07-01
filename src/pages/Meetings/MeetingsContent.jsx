@@ -18,7 +18,7 @@ function MeetingsContent() {
     }, []);
 
     return (
-        <div>
+        <div className=" pt-9 bg-[#1d142e]">
             <Hero />
             {sectionActive == "calendar" ?
                 (

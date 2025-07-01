@@ -128,7 +128,7 @@ export default function MemberDashboard() {
   };
 
   return (
-    <main className="flex-1 bg-[#0B0011] text-gray-200 font-poppins flex justify-center overflow-y-auto">
+    <main className="flex-1 bg-[#1d142e] pt-6 text-gray-200 font-poppins flex justify-center overflow-y-auto">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
         {/* Header Principal - Título e Perfil do Usuário */}
         <div className="pt-2 pb-4 border-b border-gray-700 mb-2 flex flex-col md:flex-row items-center justify-between gap-4">

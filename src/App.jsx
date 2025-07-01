@@ -34,13 +34,16 @@ import { CheckProvider } from "./context/CheckContext";
 
 function LayoutWithSidebar({ children }) {
     return (
-        <div>
-            <Topbar />
-            <div className="flex">
-                <Sidebar />
-                <div className="flex-1 pt-14 lg:ml-[240px]">{children}</div>
+        <div className="flex h-screen w-screen bg-[#25193b] text-white overflow-hidden">
+            <Sidebar />
+            <div className="flex-1 flex flex-col">
+                <Topbar />
+                <div className="flex-1 overflow-y-auto ">
+                    {children}
+                </div>
             </div>
         </div>
+
     );
 }
 
