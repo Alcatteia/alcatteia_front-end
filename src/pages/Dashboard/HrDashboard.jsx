@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  FiHeart, 
-  FiUsers, 
-  FiUser, 
+  FiHeart,
+  FiUsers,
+  FiUser,
 } from "react-icons/fi";
 
-import LanguageSwitcher from "./components/LanguageSwitcher"; 
-import HrCollaborator from "./components/HrCollaborator";      
-import HrMetricCard from "./components/HrMetricCard";          
-import { useDashboardData } from "../../hooks/useDashboardData"; 
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import HrCollaborator from "./components/HrCollaborator";
+import HrMetricCard from "./components/HrMetricCard";
+import { useDashboardData } from "../../hooks/useDashboardData";
+import { saveCollaboratorObservation } from "../../services/dashboardService";
 
 import { translations } from "../../locales/translations";
+import HrCollaboratorModal from "./components/HrCollaboratorModal";
 
 const useTranslation = (lang) => {
   return useCallback(
@@ -35,26 +37,78 @@ const formatDateTime = (date) => {
   return new Intl.DateTimeFormat("pt-BR", options).format(date);
 };
 
-// --- Componente Principal: HR Dashboard ---
 export default function HrDashboard() {
   const [lang, setLang] = useState(() => localStorage.getItem("appLang") || "pt");
   const t = useTranslation(lang);
 
-  // Consome o hook useDashboardData para obter todas as informações necessárias
   const {
-    collaborators,
+    collaborators: initialCollaborators,
     lastUpdateDateTime,
     isLoading,
-    hrTeamMetrics, // Métricas gerais para o RH (saúdeGeral, engajamento)
-  } = useDashboardData(lang); // Passa o idioma para o hook
+    hrTeamMetrics,
+    handleUpdateDashboard,
+    realApiActive,
+  } = useDashboardData(lang);
+
+  const [localCollaborators, setLocalCollaborators] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCollaborator, setSelectedCollaborator] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState('');
 
   useEffect(() => {
-    localStorage.setItem("appLang", lang);
-  }, [lang]);
+    if (initialCollaborators) {
+      setLocalCollaborators(initialCollaborators);
+    }
+  }, [initialCollaborators]);
 
   const handleLanguageChange = (newLang) => {
     setLang(newLang);
   };
+
+  const handleOpenModal = (collaborator) => {
+    setSelectedCollaborator(collaborator);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCollaborator(null);
+    setSaveStatus('');
+  };
+
+  const handleSaveObservation = useCallback(async (id, observationText) => {
+    setIsSaving(true);
+    setSaveStatus('saving');
+
+    setLocalCollaborators(prevCollaborators =>
+      prevCollaborators.map(col =>
+        col.id === id ? { ...col, hrObservation: observationText } : col
+      )
+    );
+
+    setSelectedCollaborator(prevSelected =>
+      prevSelected && prevSelected.id === id
+        ? { ...prevSelected, hrObservation: observationText }
+        : prevSelected
+    );
+
+    const success = await saveCollaboratorObservation(id, observationText);
+
+    if (success) {
+      setSaveStatus('saved');
+      console.log(`Observação para colaborador ${id} salva com sucesso.`);
+    } else {
+      setSaveStatus('error');
+      console.error(`Falha ao salvar observação para colaborador ${id}.`);
+    }
+
+    setTimeout(() => {
+      setIsSaving(false);
+      setSaveStatus('');
+      handleCloseModal();
+    }, 2000);
+  }, [realApiActive, handleCloseModal]);
 
   if (isLoading) {
     return (
@@ -67,7 +121,6 @@ export default function HrDashboard() {
   return (
     <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
-        {/* Cabeçalho do Dashboard */}
         <div className="flex justify-between items-end pb-4 border-b border-gray-700">
           <div>
             <h1 className="text-4xl font-extrabold text-white tracking-tight">
@@ -93,7 +146,6 @@ export default function HrDashboard() {
           </div>
         </div>
 
-        {/* Métricas Gerais do Time (HR) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <HrMetricCard
             title={t("teamHealth")}
@@ -111,7 +163,6 @@ export default function HrDashboard() {
           />
         </div>
 
-        {/* Visão Individual dos Colaboradores */}
         <div className="mt-8">
           <div className="flex items-center gap-4 mb-6">
             <FiUser className="w-10 h-10 text-white flex" />
@@ -120,12 +171,14 @@ export default function HrDashboard() {
             </h2>
           </div>
 
-          {collaborators.length > 0 ? (
+          {localCollaborators.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {collaborators.map((collaborator) => (
+              {localCollaborators.map((collaborator) => (
                 <HrCollaborator
                   key={collaborator.id}
                   collaborator={collaborator}
+                  onSaveObservation={handleSaveObservation}
+                  onOpenModal={handleOpenModal}
                 />
               ))}
             </div>
@@ -136,6 +189,17 @@ export default function HrDashboard() {
             </div>
           )}
         </div>
+
+        {isModalOpen && selectedCollaborator && (
+          <HrCollaboratorModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            collaborator={selectedCollaborator}
+            onSaveObservation={handleSaveObservation}
+            isSaving={isSaving}
+            saveStatus={saveStatus}
+          />
+        )}
       </div>
     </main>
   );

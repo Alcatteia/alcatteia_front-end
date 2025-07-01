@@ -5,9 +5,9 @@ import { FiX, FiMessageCircle, FiTrash2 } from 'react-icons/fi';
 const TeamAreaMemberDetailsModal = ({
   show,
   onClose,
-  member, 
-  onSendFeedback, 
-  onRemoveMember, 
+  member,
+  onSendFeedback,
+  onRemoveMember,
 }) => {
   if (!show || !member) return null;
 
@@ -46,29 +46,9 @@ const TeamAreaMemberDetailsModal = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 mb-4">
-          <div>
-            <h4 className="text-lg font-semibold text-green-300 mb-2">
-              Empenho:
-            </h4>
-            <div className="flex items-center gap-2">
-              <div className="flex-1 bg-gray-700 rounded-full h-3">
-                <div
-                  className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all"
-                  style={{ width: `${member.empenho}%` }}
-                ></div>
-              </div>
-              <span className="text-md font-bold text-gray-300">
-                {member.empenho}%
-              </span>
-            </div>
-            <p className="text-gray-500 text-base mt-1">
-              Reflete a dedicação e produtividade em tarefas.
-            </p>
-          </div>
-        </div>
+        {/* Seção de "Empenho" REMOVIDA */}
 
-        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 mt-6"> {/* Alterado para justify-center */}
           <button
             className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white font-bold py-2 px-4 rounded transition w-full sm:w-auto cursor-pointer"
             onClick={onSendFeedback}

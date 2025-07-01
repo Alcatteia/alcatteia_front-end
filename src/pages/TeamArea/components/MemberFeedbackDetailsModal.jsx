@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { FiCheckCircle, FiXCircle, FiInfo, FiClipboard } from 'react-icons/fi';
-import { markFeedbackAsRead } from '../../../services/feedbackService'; // Importa o serviço de feedback
-import { translations } from '../../../locales/translations'; // Importa translations
+import { translations } from '../../../locales/translations';
 
 const useTranslation = (lang) => {
   return useCallback(
@@ -42,14 +41,12 @@ export default function MemberFeedbackDetailsModal({ isOpen, onClose, feedback, 
     document.body.removeChild(textarea);
   }, []);
 
-  // UseEffect para marcar feedback como lido quando o modal abre, se ainda não estiver lido
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen && feedback && !feedback.read) {
       const markAsRead = async () => {
         try {
-          await markFeedbackAsRead(feedback.id);
           if (onFeedbackRead) {
-            onFeedbackRead(feedback.id); // Notifica o componente pai para atualizar o estado
+            onFeedbackRead(feedback.id);
           }
         } catch (err) {
           console.error("Falha ao marcar feedback como lido:", err);

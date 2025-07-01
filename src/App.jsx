@@ -22,7 +22,7 @@ import Kanban from "./pages/Kanban/Kanban";
 import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
-import Team from "./pages/Dashboard/LeaderTeamArea"
+import Team from "./pages/TeamArea/LeaderTeamArea"
 import Meetings from "./pages/Meetings/Meetings";
 
 

@@ -12,6 +12,28 @@ const useTranslation = (lang) => {
   );
 };
 
+const LOCAL_STORAGE_READ_FEEDBACKS_KEY = 'readFeedbackIds';
+
+const getReadFeedbackIdsFromLocalStorage = () => {
+  try {
+    const storedIds = localStorage.getItem(LOCAL_STORAGE_READ_FEEDBACKS_KEY);
+    return storedIds ? new Set(JSON.parse(storedIds)) : new Set();
+  } catch (error) {
+    console.error("Erro ao ler feedbacks lidos do Local Storage:", error);
+    return new Set();
+  }
+};
+
+const addReadFeedbackIdToLocalStorage = (feedbackId) => {
+  try {
+    const currentIds = getReadFeedbackIdsFromLocalStorage();
+    currentIds.add(feedbackId);
+    localStorage.setItem(LOCAL_STORAGE_READ_FEEDBACKS_KEY, JSON.stringify(Array.from(currentIds)));
+  } catch (error) {
+    console.error("Erro ao escrever feedback lido no Local Storage:", error);
+  }
+};
+
 export const useMemberDashboardData = (currentLang) => {
   const t = useTranslation(currentLang);
 
@@ -51,7 +73,14 @@ export const useMemberDashboardData = (currentLang) => {
         setFeedbacksError(null);
         try {
           const fetchedFeedbacks = await getFeedbacksForMember(member.id);
-          const sortedFeedbacks = [...fetchedFeedbacks].sort((a, b) =>
+          const readIds = getReadFeedbackIdsFromLocalStorage();
+
+          const processedFeedbacks = fetchedFeedbacks.map(f => ({
+            ...f,
+            read: f.read || readIds.has(f.id)
+          }));
+
+          const sortedFeedbacks = [...processedFeedbacks].sort((a, b) =>
             a.read === b.read ? 0 : a.read ? 1 : -1
           );
           setFeedbacks(sortedFeedbacks);
@@ -82,6 +111,18 @@ export const useMemberDashboardData = (currentLang) => {
     }
   }, [member?.id, t]);
 
+  const handleMarkFeedbackAsRead = useCallback((feedbackId) => {
+
+    setFeedbacks(prevFeedbacks => {
+      const updatedFeedbacks = prevFeedbacks.map(f =>
+        f.id === feedbackId ? { ...f, read: true } : f
+      );
+  
+      return [...updatedFeedbacks].sort((a, b) => (a.read === b.read ? 0 : a.read ? 1 : -1));
+    });
+    addReadFeedbackIdToLocalStorage(feedbackId);
+  }, []);
+
   return {
     member,
     feedbacks,
@@ -92,6 +133,6 @@ export const useMemberDashboardData = (currentLang) => {
     memberError,
     feedbacksError,
     metricsError,
-    setFeedbacks
+    handleMarkFeedbackAsRead, 
   };
 };

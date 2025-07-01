@@ -1,4 +1,3 @@
-// src/components/HrCollaboratorModal.jsx
 import React, { useState, useEffect } from "react";
 import {
   FiX,
@@ -8,11 +7,18 @@ import {
   FiZap,
   FiHeart,
   FiTrendingUp,
-  FiCalendar,
+  FiCheck,
 } from "react-icons/fi";
 
-const HrCollaboratorModal = ({ isOpen, onClose, collaborator }) => {
+// As props isSaving e saveStatus são passadas do HrDashboard.js
+const HrCollaboratorModal = ({ isOpen, onClose, collaborator, onSaveObservation, isSaving, saveStatus }) => {
   const [copyStatus, setCopyStatus] = useState("");
+  const [hrObservation, setHrObservation] = useState(collaborator?.hrObservation || "");
+
+  useEffect(() => {
+    setHrObservation(collaborator?.hrObservation || "");
+    setCopyStatus("");
+  }, [collaborator, isOpen]);
 
   const handleCopyEmail = async (email) => {
     try {
@@ -58,6 +64,14 @@ const HrCollaboratorModal = ({ isOpen, onClose, collaborator }) => {
     };
   }, [isOpen]);
 
+  // Esta função agora apenas chama a função de salvamento passada pelo pai
+  // O pai (HrDashboard) é quem gerencia os estados isSaving e saveStatus
+  const handleSave = async () => {
+    if (onSaveObservation) {
+      await onSaveObservation(collaborator.id, hrObservation);
+    }
+  };
+
   if (!isOpen || !collaborator) {
     return null;
   }
@@ -65,9 +79,9 @@ const HrCollaboratorModal = ({ isOpen, onClose, collaborator }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
       <div className="bg-[#1a1a2e] rounded-xl shadow-2xl max-w-3xl w-full border border-purple-800 flex flex-col max-h-[90vh]">
-        
+
         <div className="flex-shrink-0 px-6 py-4 border-b border-gray-700 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-xl font-bold text-white truncate">
             Detalhes do Colaborador {collaborator.name}
           </h2>
           <button
@@ -80,6 +94,18 @@ const HrCollaboratorModal = ({ isOpen, onClose, collaborator }) => {
         </div>
 
         <div className="p-6 space-y-4 text-gray-300 overflow-y-auto custom-scrollbar flex-grow">
+          <div className="flex items-center sm:items-start gap-4 mb-4 border-b border-gray-700 pb-4">
+            <img
+              src={`https://ui-avatars.com/api/?name=${collaborator.name.replace(/\s/g, '+')}&background=4c51bf&color=fff&bold=true`}
+              alt={collaborator.name}
+              className="w-20 h-20 rounded-full border-4 border-blue-500 flex-shrink-0"
+            />
+            <div className="text-left flex-grow">
+              <h3 className="text-xl font-semibold text-white">{collaborator.name}</h3>
+              <p className="text-gray-400 text-lg">{collaborator.role}</p>
+            </div>
+          </div>
+
           <div className="flex items-center justify-between">
             <p className="text-lg">
               <span className="font-semibold text-white">Cargo:</span>{" "}
@@ -149,21 +175,45 @@ const HrCollaboratorModal = ({ isOpen, onClose, collaborator }) => {
                 {collaborator.hrInsights?.performance || "Nenhum dado de desempenho disponível."}
               </p>
             </div>
+
             <div className="p-3 bg-gray-800/50 rounded-md border border-gray-700">
               <h4 className="font-semibold text-lg text-gray-200 mb-2 flex items-center gap-2">
-                <FiCalendar className="text-green-400" /> Absenteísmo (RH):
+                Observações (RH):
               </h4>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {collaborator.hrInsights?.absenteeism || "Nenhum dado de absenteísmo disponível."}
-              </p>
-            </div>
-            <div className="p-3 bg-gray-800/50 rounded-md border border-gray-700">
-              <h4 className="font-semibold text-lg text-gray-200 mb-2 flex items-center gap-2">
-                <FiMail className="text-orange-400" /> Histórico de Contato (RH):
-              </h4>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {collaborator.hrInsights?.contactHistory || "Nenhum histórico de contato disponível."}
-              </p>
+              <textarea
+                id="hr-observation-textarea"
+                className="w-full p-2 bg-gray-900 text-gray-200 rounded-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600 resize-y min-h-[80px]"
+                placeholder="Adicione observações sobre o colaborador aqui..."
+                value={hrObservation}
+                onChange={(e) => setHrObservation(e.target.value)}
+              ></textarea>
+              <div className="flex justify-center mt-3">
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving || !hrObservation.trim()}
+                  className={`py-1.5 px-3 text-sm rounded-md transition duration-200 ease-in-out shadow-md cursor-pointer flex items-center gap-1 font-bold
+                    ${isSaving
+                      ? 'bg-gray-500 cursor-not-allowed'
+                      : saveStatus === 'saved'
+                      ? 'bg-green-600'
+                      : saveStatus === 'error'
+                      ? 'bg-red-600'
+                      : 'bg-purple-600 hover:bg-purple-700'
+                    }
+                    text-white
+                  `}
+                >
+                  {isSaving ? ( // Se isSaving é true, mostra o estado de carregamento
+                      'Salvando...'
+                  ) : saveStatus === 'saved' ? ( // Se não está salvando, verifica se foi salvo
+                      <>Salvo! <FiCheck className="w-4 h-4" /></>
+                  ) : saveStatus === 'error' ? ( // Se não está salvando, verifica se deu erro
+                      'Erro ao Salvar ❌'
+                  ) : ( // Estado padrão
+                      'Salvar Observação'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -11,11 +11,11 @@ import {
   FiClipboard,
 } from "react-icons/fi";
 
-import MemberProfileCard from './components/MemberProfileCard';
-import MemberMetricCard from './components/MemberMetricCard';
-import MemberEmotionalCard from './components/MemberEmotionalCard';
-import MemberFeedbackDetailsModal from './components/MemberFeedbackDetailsModal';
-import { useMemberDashboardData } from '../../hooks/useMemberDashboardData';
+import MemberProfileCard from '../TeamArea/components/MemberProfileCard';
+import MemberMetricCard from '../TeamArea/components/MemberMetricCard';
+import MemberEmotionalCard from '../TeamArea/components/MemberEmotionalCard';
+import MemberFeedbackDetailsModal from '../TeamArea/components/MemberFeedbackDetailsModal';
+import { useMemberDashboardData } from '../../hooks/useMemberDashboardData'; // Este é o hook.js que você mencionou
 
 import { translations } from "../../locales/translations";
 
@@ -32,9 +32,10 @@ export default function MemberDashboard() {
   const [lang, setLang] = useState(() => localStorage.getItem("appLang") || "pt");
   const t = useTranslation(lang);
 
+  // Removido o estado local 'feedbacks' e o useEffect de sincronização
   const {
     member,
-    feedbacks,
+    feedbacks, // Use diretamente os feedbacks do hook
     memberMetrics,
     isLoadingMember,
     isLoadingFeedbacks,
@@ -42,7 +43,7 @@ export default function MemberDashboard() {
     memberError,
     feedbacksError,
     metricsError,
-    setFeedbacks
+    handleMarkFeedbackAsRead // Esta função DEVE vir do hook e ser uma função válida
   } = useMemberDashboardData(lang);
 
   const [showFeedbackDetailsModal, setShowFeedbackDetailsModal] = useState(false);
@@ -81,11 +82,15 @@ export default function MemberDashboard() {
     setShowFeedbackDetailsModal(true);
   }, []);
 
-  const handleFeedbackRead = useCallback((feedbackId) => {
-    setFeedbacks((prev) =>
-      prev.map((f) => (f.id === feedbackId ? { ...f, read: true } : f))
-    );
-  }, [setFeedbacks]);
+  // Simplificado: Apenas chama a função do hook.
+  // O hook deve ser responsável por atualizar seus próprios 'feedbacks' e re-renderizar o componente pai.
+  const handleFeedbackRead = useCallback(async (feedbackId) => {
+    if (handleMarkFeedbackAsRead) { // Adicionado um check para garantir que é uma função
+      await handleMarkFeedbackAsRead(feedbackId);
+    } else {
+      console.error("handleMarkFeedbackAsRead não é uma função no hook.");
+    }
+  }, [handleMarkFeedbackAsRead]);
 
   const closeFeedbackDetailsModal = useCallback(() => {
     setShowFeedbackDetailsModal(false);
@@ -156,7 +161,9 @@ export default function MemberDashboard() {
 
         <h2 className="text-2xl font-bold text-white mt-4 mb-2">{t("yourIndividualMetrics")}</h2>
         {isLoadingMetrics ? (
-          <div className="text-center py-4 text-gray-400 text-lg">{t("loadingMetrics")}</div>
+          <div className="text-center py-4 text-gray-400 text-lg">
+            {t("loadingMetrics")}
+          </div>
         ) : metricsError ? (
           <div className="text-center py-4 text-red-500 text-lg">{metricsError}</div>
         ) : (

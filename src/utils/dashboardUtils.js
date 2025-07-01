@@ -13,7 +13,7 @@ export const formatDateTime = (date, lang = "pt") => {
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-    timeZone: "America/Sao_Paulo", // Força o fuso horário para São Paulo
+    timeZone: "America/Sao_Paulo", 
   };
 
   const localeMap = {

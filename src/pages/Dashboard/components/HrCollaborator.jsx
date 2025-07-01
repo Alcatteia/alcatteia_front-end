@@ -1,8 +1,9 @@
+// src/pages/components/HrCollaborator.jsx
 import React, { useState } from "react";
 import HrCollaboratorModal from "./HrCollaboratorModal";
 import { FiUser, FiTarget, FiZap, FiHeart } from "react-icons/fi";
 
-const HrCollaborator = ({ collaborator }) => {
+const HrCollaborator = ({ collaborator, onSaveObservation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -21,9 +22,9 @@ const HrCollaborator = ({ collaborator }) => {
       >
         <div className="flex items-center mb-4">
           <FiUser className="w-10 h-10 text-purple-400 mr-4 flex-shrink-0" />
-          
+
           <div className="flex flex-col flex-grow">
-            <h3 className="text-xl font-bold text-white leading-tight">
+            <h3 className="text-base font-bold text-white leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
               {collaborator.name}
             </h3>
             <span className="text-sm text-gray-400 mt-0.5">
@@ -79,6 +80,7 @@ const HrCollaborator = ({ collaborator }) => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         collaborator={collaborator}
+        onSaveObservation={onSaveObservation}
       />
     </>
   );

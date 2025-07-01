@@ -1,74 +1,80 @@
 // src/data/simulatedDashboardData.js
-
-// Este arquivo contém dados simulados para o dashboard
-// para fins de teste e demonstração do "movimento" das métricas
-// e o comportamento das recomendações.
+// Este arquivo contém dados simulados para o dashboard, alinhados com a estrutura do banco de dados.
+// Ele serve para testar o comportamento das métricas e recomendações, preparando a integração futura com a API.
 
 // Definindo a lista base de colaboradores da sua equipe
 const newTeamMembersBase = [
   {
-    id: "heverton-souza-id",
+    id: 1, // Corresponde ao ID do usuário no banco de dados
     name: "Heverton Souza",
     role: "Front-end",
     email: "heverton.s@alcatteia.com",
     photo: "https://placehold.co/150x150/FF0000/FFFFFF?text=HS",
+    hrObservation: "", // Campo para observações do RH
   },
   {
-    id: "talita-vitoria-id",
+    id: 2,
     name: "Talita Vitória",
     role: "Back-end",
     email: "talita.v@alcatteia.com",
     photo: "https://placehold.co/150x150/008000/FFFFFF?text=TV",
+    hrObservation: "",
   },
   {
-    id: "pedro-miguel-id",
+    id: 3,
     name: "Pedro Miguel",
     role: "Front-end",
     email: "pedro.m@alcatteia.com",
     photo: "https://placehold.co/150x150/FFFF00/000000?text=PM",
+    hrObservation: "",
   },
   {
-    id: "isabelle-gomes-id",
+    id: 4,
     name: "Isabelle Gomes",
     role: "Full-stack",
     email: "isabelle.g@alcatteia.com",
     photo: "https://placehold.co/150x150/800080/FFFFFF?text=IG",
+    hrObservation: "",
   },
   {
-    id: "gabriel-de-alencar-id",
+    id: 5,
     name: "Gabriel de Alencar",
     role: "Front-end",
     email: "gabriel.a@alcatteia.com",
     photo: "https://placehold.co/150x150/FFA500/FFFFFF?text=GA",
+    hrObservation: "",
   },
   {
-    id: "rafaela-leite-id",
+    id: 6,
     name: "Rafaela Leite",
     role: "Back-end",
     email: "rafaela.l@alcatteia.com",
     photo: "https://placehold.co/150x150/00FFFF/000000?text=RL",
+    hrObservation: "",
   },
   {
-    id: "felipe-oliveira-id",
+    id: 7,
     name: "Felipe Oliveira",
     role: "Back-end",
     email: "felipe.o@alcatteia.com",
     photo: "https://placehold.co/150x150/FFC0CB/000000?text=FO",
+    hrObservation: "",
   },
   {
-    id: "gabriel-cabral-id",
+    id: 8,
     name: "Gabriel Cabral",
     role: "Front-end",
     email: "gabriel.c@alcatteia.com",
     photo: "https://placehold.co/150x150/0000FF/FFFFFF?text=GC",
+    hrObservation: "",
   },
 ];
 
 // Função para gerar dados de colaborador com base no tema do estado
 const generateCollaboratorData = (baseMember, stateTheme) => {
   let foco, empenho, saudeEmocional, insights, hrInsights;
-  // Geração de lastCheckIn para ser ligeiramente diferente para cada um, mas recente
-  const lastCheckIn = new Date(new Date().getTime() - Math.floor(Math.random() * 48 + 1) * 60 * 60 * 1000).toISOString(); 
+  const lastCheckIn = new Date(new Date().getTime() - Math.floor(Math.random() * 48 + 1) * 60 * 60 * 1000).toISOString();
+  const initialHrObservation = baseMember.hrObservation || ""; // Mantém observação existente ou inicia vazia
 
   switch (stateTheme) {
     case 'low_engagement_focus':
@@ -131,6 +137,20 @@ const generateCollaboratorData = (baseMember, stateTheme) => {
         contactHistory: "RH discutindo estratégias para melhorar a comunicação interna da equipe."
       };
       break;
+    default:
+      foco = Math.floor(Math.random() * (70 - 50 + 1)) + 50;
+      empenho = Math.floor(Math.random() * (70 - 50 + 1)) + 50;
+      saudeEmocional = Math.floor(Math.random() * (70 - 50 + 1)) + 50;
+      insights = {
+        foco: `Foco padrão para ${baseMember.role}.`,
+        empenho: `Empenho padrão para ${baseMember.role}.`,
+        saudeEmocional: "Saúde emocional padrão."
+      };
+      hrInsights = {
+        performance: `Desempenho padrão para ${baseMember.role}.`,
+        absenteeism: "Dados de absenteísmo padrão.",
+        contactHistory: "Histórico de contato padrão."
+      };
   }
 
   return {
@@ -141,17 +161,17 @@ const generateCollaboratorData = (baseMember, stateTheme) => {
     lastCheckIn,
     insights,
     hrInsights,
+    hrObservation: initialHrObservation,
   };
 };
 
 export const simulatedDashboardStates = [
-  // Estado 1: Empenho e Foco baixos
   {
     metrics: {
       uniao: { percent: 75, atributo: "uniaoAttr" },
-      empenho: { percent: 30, atributo: "empenhoAttr" }, // Baixo empenho
+      empenho: { percent: 30, atributo: "empenhoAttr" },
       comunicacao: { percent: 80, atributo: "comunicacaoAttr" },
-      foco: { percent: 45, atributo: "focoAttr" }, // Foco baixo
+      foco: { percent: 45, atributo: "focoAttr" },
       saudeEmocional: { percent: null, atributo: "saudeEmocionalAttr" },
     },
     climate: [
@@ -161,12 +181,11 @@ export const simulatedDashboardStates = [
       { name: "Estressado", percent: 10 },
     ],
     collaborators: newTeamMembersBase.map(member => generateCollaboratorData(member, 'low_engagement_focus')),
-    lastUpdate: new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toISOString(), // 2 horas atrás
+    lastUpdate: new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toISOString(),
   },
-  // Estado 2: Clima Emocional "Ruim" e União baixa
   {
     metrics: {
-      uniao: { percent: 40, atributo: "uniaoAttr" }, // União baixa
+      uniao: { percent: 40, atributo: "uniaoAttr" },
       empenho: { percent: 70, atributo: "empenhoAttr" },
       comunicacao: { percent: 65, atributo: "comunicacaoAttr" },
       foco: { percent: 75, atributo: "focoAttr" },
@@ -176,12 +195,11 @@ export const simulatedDashboardStates = [
       { name: "Ótimo", percent: 10 },
       { name: "Bem", percent: 15 },
       { name: "Cansado", percent: 30 },
-      { name: "Estressado", percent: 45 }, // Estressado e cansado alto
+      { name: "Estressado", percent: 45 },
     ],
     collaborators: newTeamMembersBase.map(member => generateCollaboratorData(member, 'bad_emotional_climate_low_unity')),
-    lastUpdate: new Date(new Date().getTime() - 1 * 60 * 60 * 1000).toISOString(), // 1 hora atrás
+    lastUpdate: new Date(new Date().getTime() - 1 * 60 * 60 * 1000).toISOString(),
   },
-  // Estado 3: Todas as métricas boas (sem recomendação específica)
   {
     metrics: {
       uniao: { percent: 85, atributo: "uniaoAttr" },
@@ -197,14 +215,13 @@ export const simulatedDashboardStates = [
       { name: "Estressado", percent: 2 },
     ],
     collaborators: newTeamMembersBase.map(member => generateCollaboratorData(member, 'all_metrics_good')),
-    lastUpdate: new Date().toISOString(), // Agora
+    lastUpdate: new Date().toISOString(),
   },
-  // Estado 4: Comunicação baixa
   {
     metrics: {
       uniao: { percent: 70, atributo: "uniaoAttr" },
       empenho: { percent: 75, atributo: "empenhoAttr" },
-      comunicacao: { percent: 35, atributo: "comunicacaoAttr" }, // Comunicação baixa
+      comunicacao: { percent: 35, atributo: "comunicacaoAttr" },
       foco: { percent: 80, atributo: "focoAttr" },
       saudeEmocional: { percent: null, atributo: "saudeEmocionalAttr" },
     },
@@ -215,6 +232,6 @@ export const simulatedDashboardStates = [
       { name: "Estressado", percent: 5 },
     ],
     collaborators: newTeamMembersBase.map(member => generateCollaboratorData(member, 'low_communication')),
-    lastUpdate: new Date().toISOString(), // Agora
+    lastUpdate: new Date().toISOString(),
   },
 ];

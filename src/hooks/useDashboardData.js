@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { fetchDashboardData } from "../services/dashboardService";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { fetchDashboardData, setMockSaveCollaboratorObservation } from "../services/dashboardService";
 import { translations } from "../locales/translations";
 import { suggestionsByAttribute } from "../data/metricasData";
 import { simulatedDashboardStates } from "../data/simulatedDashboardData";
@@ -20,15 +20,22 @@ export const REDIRECT_PATH = {
   KANBAN: '/kanban',
 };
 
-const REAL_API_ACTIVE = false;
-
 export const useDashboardData = (lang) => {
   const [metrics, setMetrics] = useState(simulatedDashboardStates[0].metrics);
   const [climate, setClimate] = useState(simulatedDashboardStates[0].climate);
-  const [collaborators, setCollaborators] = useState(simulatedDashboardStates[0].collaborators || []);
+  const [rawCollaborators, setRawCollaborators] = useState(simulatedDashboardStates[0].collaborators || []);
   const [lastUpdateDateTime, setLastUpdateDateTime] = useState(new Date(simulatedDashboardStates[0].lastUpdate));
   const [isLoading, setIsLoading] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(0);
+
+  const [mockHrObservations, setMockHrObservations] = useState(() => {
+    const stored = localStorage.getItem('mockHrObservations');
+    return stored ? JSON.parse(stored) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('mockHrObservations', JSON.stringify(mockHrObservations));
+  }, [mockHrObservations]);
 
   const previousMetricsRef = useRef(simulatedDashboardStates[0].metrics);
   const previousClimateRef = useRef(simulatedDashboardStates[0].climate);
@@ -37,7 +44,6 @@ export const useDashboardData = (lang) => {
     previousMetricsRef.current = metrics;
     previousClimateRef.current = climate;
   }, [metrics, climate]);
-
 
   const getEmotionalHealthGuidelines = useCallback(
     (currentLang) => ({
@@ -174,39 +180,33 @@ export const useDashboardData = (lang) => {
     setIsLoading(true);
     let dataToUse = null;
 
-    if (REAL_API_ACTIVE) {
-      try {
-        dataToUse = await fetchDashboardData();
-      } catch (error) {
-        dataToUse = { ...simulatedDashboardStates[0] };
-        dataToUse.lastUpdate = new Date();
+    try {
+      dataToUse = await fetchDashboardData();
+    } catch (error) {
+      console.error("Erro ao buscar dados do dashboard via serviço:", error);
+      dataToUse = { ...simulatedDashboardStates[0] };
+      dataToUse.lastUpdate = new Date();
+    } finally {
+      if (dataToUse) {
+        const newMetrics = { ...dataToUse.metrics };
+
+        const totalCurrentPositiveClimatePercent =
+          (dataToUse.climate.find((item) => item.name === "Ótimo")?.percent || 0) +
+          (dataToUse.climate.find((item) => item.name === "Bem")?.percent || 0);
+
+        newMetrics.saudeEmocional = {
+          ...newMetrics.saudeEmocional,
+          percent: totalCurrentPositiveClimatePercent > 0 ? Math.min(totalCurrentPositiveClimatePercent, 100) : null,
+        };
+
+        setMetrics(newMetrics);
+        setClimate(dataToUse.climate);
+        setRawCollaborators(dataToUse.collaborators || []);
+        setLastUpdateDateTime(new Date(dataToUse.lastUpdate));
       }
-    } else {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const nextIndex = updateTrigger % simulatedDashboardStates.length;
-      dataToUse = { ...simulatedDashboardStates[nextIndex] };
-      dataToUse.lastUpdate = new Date(); // Garante que a data de atualização seja o momento atual
+      setIsLoading(false);
     }
-
-    if (dataToUse) {
-      const newMetrics = { ...dataToUse.metrics };
-
-      const totalCurrentPositiveClimatePercent =
-        (dataToUse.climate.find((item) => item.name === "Ótimo")?.percent || 0) +
-        (dataToUse.climate.find((item) => item.name === "Bem")?.percent || 0);
-
-      newMetrics.saudeEmocional = {
-        ...newMetrics.saudeEmocional,
-        percent: totalCurrentPositiveClimatePercent > 0 ? Math.min(totalCurrentPositiveClimatePercent, 100) : null,
-      };
-
-      setMetrics(newMetrics);
-      setClimate(dataToUse.climate);
-      setCollaborators(dataToUse.collaborators || []);
-      setLastUpdateDateTime(new Date(dataToUse.lastUpdate));
-    }
-    setIsLoading(false);
-  }, [updateTrigger, lang]);
+  }, [lang]);
 
   useEffect(() => {
     updateDashboardData();
@@ -215,6 +215,29 @@ export const useDashboardData = (lang) => {
   const handleUpdateDashboard = () => {
     setUpdateTrigger((prev) => prev + 1);
   };
+
+  const saveMockHrObservation = useCallback((collaboratorId, observationText) => {
+    setMockHrObservations(prev => ({
+      ...prev,
+      [collaboratorId]: observationText
+    }));
+    return true; // Garante que a função retorna true para indicar sucesso no modo mock
+  }, []);
+
+  useEffect(() => {
+    setMockSaveCollaboratorObservation(saveMockHrObservation);
+  }, [saveMockHrObservation]);
+
+  const collaborators = useMemo(() => {
+    const realApiActive = simulatedDashboardStates[0]?.realApiActive;
+    if (!realApiActive && rawCollaborators) {
+      return rawCollaborators.map(col => ({
+        ...col,
+        hrObservation: mockHrObservations[col.id] || col.hrObservation || ''
+      }));
+    }
+    return rawCollaborators;
+  }, [rawCollaborators, mockHrObservations, simulatedDashboardStates[0]?.realApiActive]);
 
   const currentEmotionalStatus = getEmotionalHealthStatus(climate, lang);
   const lowestAttributeKey = calculateLowestAttribute(metrics);
@@ -306,7 +329,6 @@ export const useDashboardData = (lang) => {
       suggestions.push({ textKey: "noRecommendationAvailable", type: ACTION_TYPE.TEXT, attributeKey: null });
     }
 
-
     if (currentEmotionalStatus.status === 'ruim' && !suggestions.some(s => s.modalId === MODAL_ID.KARAOKE)) {
       suggestions.unshift({
         textKey: "karaokeSuggestionText",
@@ -318,7 +340,7 @@ export const useDashboardData = (lang) => {
     }
 
     if (metrics.empenho?.percent !== null && metrics.empenho.percent < 50 &&
-        !suggestions.some(s => s.redirectPath === REDIRECT_PATH.KANBAN)) {
+      !suggestions.some(s => s.redirectPath === REDIRECT_PATH.KANBAN)) {
       suggestions.unshift({
         textKey: "kanbanSuggestionText",
         type: ACTION_TYPE.REDIRECT,
@@ -361,5 +383,6 @@ export const useDashboardData = (lang) => {
     hrTeamMetrics,
     suggestions: dynamicSuggestionsForCard(),
     metricCards,
+    realApiActive: simulatedDashboardStates[0]?.realApiActive,
   };
 };

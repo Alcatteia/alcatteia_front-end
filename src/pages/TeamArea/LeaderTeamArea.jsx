@@ -1,37 +1,31 @@
 // src/pages/Dashboard/LeaderTeamArea.jsx
 import React, { useState, useCallback } from "react";
 import {
-  FiUser, // Adicionado de volta para consistência, embora não usado diretamente
+  FiUser,
   FiMessageCircle,
   FiTrash2,
   FiCopy,
   FiUserPlus,
-  FiX, // Adicionado de volta para consistência, embora não usado diretamente
-  FiSend, // Adicionado de volta para consistência, embora não usado diretamente
-  FiCheckCircle, // Adicionado de volta para consistência, embora não usado diretamente
+  FiX,
+  FiSend,
+  FiCheckCircle,
   FiInfo,
-  FiMail, // Adicionado de volta para consistência, embora não usado diretamente
+  FiMail,
 } from "react-icons/fi";
 
-// Importações de componentes e serviços
-import TeamAreaFeedbackConfirmationCard from "./components/TeamAreaFeedbackConfirmationCard";
+import TeamAreaFeedbackConfirmationCard from "../Dashboard/components/TeamAreaFeedbackConfirmationCard";
 import { useTeamMembers } from "../../hooks/useTeamMembers";
 
-// Importações dos componentes de Modal (mantidos separados)
-import TeamAreaAddModal from "./components/TeamAreaAddModal";
-import TeamAreaMemberDetailsModal from "./components/TeamAreaMemberDetailsModal";
-import TeamAreaSendFeedbackModal from "./components/TeamAreaSendFeedbackModal";
-import TeamAreaConfirmRemoveModal from "./components/TeamAreaConfirmRemoveModal";
+import TeamAreaAddModal from "../Dashboard/components/TeamAreaAddModal";
+import TeamAreaMemberDetailsModal from "../Dashboard/components/TeamAreaMemberDetailsModal";
+import TeamAreaSendFeedbackModal from "../Dashboard/components/TeamAreaSendFeedbackModal";
+import TeamAreaConfirmRemoveModal from "../Dashboard/components/TeamAreaConfirmRemoveModal";
 
-// Dados Estáticos para filtro de pesquisa
 const roles = ["Todos", "Back-end", "Front-end", "Full-stack", "Teacher"];
 
-// Variável para simular o nome do líder logado (ajuste conforme sua autenticação real)
 const loggedInLeaderName = "Seu Nome de Líder";
 
-// --- Componente Principal ---
 export default function LeaderTeamArea() {
-  // --- Consumindo o Hook Personalizado ---
   const {
     members,
     alcatteiaAvailableUsers,
@@ -40,16 +34,14 @@ export default function LeaderTeamArea() {
     fetchAlcatteiaUsers,
     addMemberToTeam,
     removeMemberFromTeam,
-    sendFeedback, // função de feedback do hook
+    sendFeedback,
     resetOperationStatus,
   } = useTeamMembers();
 
-  // Estados Locais do Componente (não gerenciados pelo hook)
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("Todos");
   const [copiedEmail, setCopiedEmail] = useState(null);
 
-  // Estados dos Modais
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -57,15 +49,9 @@ export default function LeaderTeamArea() {
   const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState(null);
 
-  // Estados para busca e filtro dentro do modal de adição
   const [alcatteiaSearch, setAlcatteiaSearch] = useState("");
   const [alcatteiaRoleFilter, setAlcatteiaRoleFilter] = useState("Todos");
 
-  // --- Funções de Manipulação de UI e Dados (delegando ao hook) ---
-
-  /**
-   * Abre o modal de adição de membros e inicia a busca por usuários da Alcatteia.
-   */
   const handleOpenAddModal = useCallback(() => {
     fetchAlcatteiaUsers();
     setAlcatteiaSearch("");
@@ -73,11 +59,6 @@ export default function LeaderTeamArea() {
     setShowAddModal(true);
   }, [fetchAlcatteiaUsers]);
 
-  /**
-   * Manipulador para adicionar um membro à equipe.
-   * Delega a lógica ao hook `useTeamMembers`.
-   * @param {object} memberData - Dados do membro a ser adicionado.
-   */
   const handleAddAlcatteiaMember = useCallback(
     async (memberData) => {
       await addMemberToTeam(memberData);
@@ -85,25 +66,16 @@ export default function LeaderTeamArea() {
     [addMemberToTeam]
   );
 
-  /**
-   * Abre o modal de detalhes de um membro específico.
-   * @param {object} member - O objeto do membro selecionado.
-   */
   const handleOpenMemberDetails = useCallback((member) => {
     setSelectedMember(member);
     setShowDetailsModal(true);
   }, []);
 
-  /**
-   * Abre o modal de confirmação para remover um membro.
-   * Fecha o modal de detalhes se estiver aberto.
-   * @param {string} memberId - O ID do membro a ser removido.
-   */
   const handleOpenConfirmRemove = useCallback(
     (memberId) => {
       const member = members.find((m) => m.id === memberId);
       if (member) {
-        setSelectedMember(member); // Usado para exibir informações no modal de remoção
+        setSelectedMember(member);
         setMemberToRemove(member);
         setShowConfirmRemoveModal(true);
       }
@@ -112,10 +84,6 @@ export default function LeaderTeamArea() {
     [members]
   );
 
-  /**
-   * Confirma e executa a remoção do membro selecionado.
-   * Delega a lógica ao hook `useTeamMembers`.
-   */
   const handleConfirmRemoveMember = useCallback(async () => {
     if (memberToRemove) {
       await removeMemberFromTeam(memberToRemove.id);
@@ -125,21 +93,11 @@ export default function LeaderTeamArea() {
     }
   }, [memberToRemove, removeMemberFromTeam]);
 
-  /**
-   * Abre o modal para enviar feedback ao membro selecionado.
-   * Fecha o modal de detalhes antes de abrir o de feedback.
-   */
   const handleOpenFeedbackForm = useCallback(() => {
     setShowDetailsModal(false);
     setShowFeedbackModal(true);
   }, []);
 
-  /**
-   * Envia o feedback para o membro selecionado.
-   * Delega a lógica ao hook `useTeamMembers`.
-   * @param {string} subject - Assunto do feedback.
-   * @param {string} message - Mensagem do feedback.
-   */
   const handleSendFeedbackSubmit = useCallback(
     async (subject, message) => {
       if (selectedMember) {
@@ -163,7 +121,6 @@ export default function LeaderTeamArea() {
     setTimeout(() => setCopiedEmail(null), 1200);
   }, []);
 
-  // --- Filtros ---
   const filteredMembers = members.filter(
     (m) =>
       (roleFilter === "Todos" || m.role === roleFilter) &&
@@ -172,11 +129,9 @@ export default function LeaderTeamArea() {
         m.email.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // --- Renderização do Componente ---
   return (
     <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center h-full">
       <section className="w-full max-w-[90%] mx-auto mt-8 mb-8 px-4 sm:px-6 lg:px-8 h-full">
-        {/* Cabeçalho da Seção */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
             <h2 className="text-3xl font-bold text-white mb-1 flex flex-wrap items-center gap-x-2">
@@ -187,7 +142,6 @@ export default function LeaderTeamArea() {
             </h2>
             <span className="text-gray-300 text-base">Instituto PROA</span>
           </div>
-          {/* Botão de Adicionar Membro */}
           <div className="flex justify-end md:justify-start gap-4 items-center w-full md:w-auto">
             <button
               className="flex items-center gap-2 bg-gradient-to-r from-purple-700 to-purple-600 text-white font-semibold px-5 py-2 rounded-lg shadow transition hover:opacity-90 w-full justify-center md:w-auto cursor-pointer"
@@ -200,7 +154,6 @@ export default function LeaderTeamArea() {
           </div>
         </div>
 
-        {/* Seção de Filtros e Busca (para a tabela principal) */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <input
             type="text"
@@ -220,7 +173,6 @@ export default function LeaderTeamArea() {
           </select>
         </div>
 
-        {/* --- Exibição para Desktop (Tabela) --- */}
         <div className="hidden sm:block overflow-x-auto rounded-xl shadow-lg bg-[#18162a]">
           <table className="min-w-full text-left text-gray-200">
             <thead>
@@ -229,14 +181,13 @@ export default function LeaderTeamArea() {
                 <th className="py-3 px-4 font-semibold">Nome</th>
                 <th className="py-3 px-4 font-semibold">Função</th>
                 <th className="py-3 px-4 font-semibold">E-mail</th>
-                <th className="py-3 px-4 font-semibold">Empenho</th>
                 <th className="py-3 px-4 font-semibold">Ações</th>
               </tr>
             </thead>
             <tbody>
               {filteredMembers.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="text-center py-6 text-gray-400">
+                  <td colSpan={5} className="text-center py-6 text-gray-400">
                     Nenhum membro encontrado. (Mas não desanima, tem mais gente
                     vindo!)
                   </td>
@@ -282,21 +233,6 @@ export default function LeaderTeamArea() {
                       </span>
                     )}
                   </td>
-                  {/* Métrica de Empenho */}
-                  <td className="py-3 px-4 w-40">
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-700 rounded-full h-3">
-                        <div
-                          className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all"
-                          style={{ width: `${m.empenho}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-xs text-gray-300 w-8 text-right">
-                        {m.empenho}%
-                      </span>
-                    </div>
-                  </td>
-                  {/* Ações na tabela */}
                   <td className="py-3 px-4">
                     <div className="flex gap-2">
                       <button
@@ -312,7 +248,7 @@ export default function LeaderTeamArea() {
                       <button
                         className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded transition cursor-pointer"
                         title="Remover membro"
-                        onClick={() => handleOpenConfirmRemove(m.id)} // Ativado!
+                        onClick={() => handleOpenConfirmRemove(m.id)}
                       >
                         <FiTrash2 className="w-4 h-4" /> Remover
                       </button>
@@ -324,7 +260,6 @@ export default function LeaderTeamArea() {
           </table>
         </div>
 
-        {/* --- Exibição para Mobile (Cards) --- */}
         <div className="block sm:hidden grid grid-cols-1 gap-4">
           {filteredMembers.length === 0 && (
             <div className="text-center py-6 text-gray-400 bg-[#18162a] rounded-xl shadow-lg p-4">
@@ -372,21 +307,6 @@ export default function LeaderTeamArea() {
                 )}
               </div>
 
-              {/* Empenho no card */}
-              <div className="mb-4">
-                <span className="block text-sm text-gray-300 mb-1">Empenho:</span>
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-gray-700 rounded-full h-2">
-                    <div
-                      className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full transition-all"
-                      style={{ width: `${m.empenho}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-xs text-gray-300">{m.empenho}%</span>
-                </div>
-              </div>
-
-              {/* Ações no card */}
               <div className="flex justify-end gap-2 text-sm">
                 <button
                   className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center"
@@ -401,7 +321,7 @@ export default function LeaderTeamArea() {
                 <button
                   className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center cursor-pointer"
                   title="Remover membro"
-                  onClick={() => handleOpenConfirmRemove(m.id)} 
+                  onClick={() => handleOpenConfirmRemove(m.id)}
                 >
                   <FiTrash2 className="w-4 h-4" /> Remover
                 </button>
@@ -409,8 +329,6 @@ export default function LeaderTeamArea() {
             </div>
           ))}
         </div>
-
-        {/* --- Modais (mantidos como componentes separados) --- */}
 
         <TeamAreaAddModal
           show={showAddModal}
@@ -424,7 +342,6 @@ export default function LeaderTeamArea() {
           onAddMember={handleAddAlcatteiaMember}
         />
 
-        {/* Modal de Detalhes do Membro*/}
         <TeamAreaMemberDetailsModal
           show={showDetailsModal}
           onClose={() => setShowDetailsModal(false)}
@@ -433,7 +350,6 @@ export default function LeaderTeamArea() {
           onRemoveMember={handleOpenConfirmRemove}
         />
 
-        {/* Modal de Envio de Feedback*/}
         <TeamAreaSendFeedbackModal
           show={showFeedbackModal}
           onClose={() => setShowFeedbackModal(false)}
