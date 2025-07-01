@@ -29,7 +29,7 @@ const InProgress = () => {
                                 <span className="opacity-80 md:text-lg">Qui, 05/05/2025, 07h30</span>
                             </div>
 
-                            <div className="flex items-center gap-3 mt-5">
+                            <div className="flex items-center gap-3 mt-3">
                                 <p className="md:text-lg">Hoje vamos alinhar o andamento das demandas do último projeto, verificando o status de cada etapa.</p>
                             </div>
                         </div>

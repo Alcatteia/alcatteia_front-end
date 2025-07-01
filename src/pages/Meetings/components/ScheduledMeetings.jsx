@@ -40,8 +40,7 @@ const ScheduledMeetings = () => {
                                     <span className="opacity-80 md:text-lg">{meeting.date}, {meeting.time}</span>
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                    <IoPeopleSharp />
+                                <div className="flex items-center gap-3 mt-3">
                                     <p className="md:text-lg">
                                         {meeting.description}
                                     </p>
