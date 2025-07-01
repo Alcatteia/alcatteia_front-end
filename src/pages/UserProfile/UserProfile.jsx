@@ -8,7 +8,6 @@ import { useState } from "react";
 import { getSessionUser } from "../../utils/sessionUser";
 
 
-
 const UserProfile = () => {
     const [editProfile, setEditProfile] = useState(false);
     const usuario = getSessionUser();
@@ -37,7 +36,6 @@ const UserProfile = () => {
                         </div>
                     </div>
 
-                    {/* Sobre */}
                     <div className="mt-5">
                         <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-1">Sobre</h3>
                         <p className="mt-2 text-sm lg:text-base text-purple-200">
@@ -53,8 +51,6 @@ const UserProfile = () => {
                     </button>
                 </div>
 
-
-                {/* Equipe */}
                 <div className="mt-5">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-1">Equipe</h3>
                     <div className="bg-[#2c0e4e] mt-5 rounded-xl p-4 flex items-center justify-between">
@@ -82,7 +78,6 @@ const UserProfile = () => {
             </div>
 
             <div className="flex flex-col">
-                {/* Desempenho */}
                 <div className="bg-[#16032C] rounded-2xl p-6 flex-1/2 col-span-1">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-4">Meu desempenho</h3>
                     <div className="flex justify-center mb-4">
@@ -93,7 +88,6 @@ const UserProfile = () => {
                     <button className="bg-orange-700 hover:bg-orange-600 transition rounded-xl mt-5 font-semibold py-2 w-full text-sm lg:text-lg">Ver dashboard</button>
                 </div>
 
-                {/* Reuniões */}
                 <div className="bg-[#16032C] mt-6 rounded-2xl flex-1/2 p-6 col-span-1">
                     <h3 className="font-bold text-lg lg:text-xl xl:text-2xl mb-4">Reuniões</h3>
                     <div className="space-y-3">

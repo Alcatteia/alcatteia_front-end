@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { FaUser, FaCamera, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaCalendarAlt, FaSave } from "react-icons/fa";
+import { useState } from "react";
+import { FaSave } from "react-icons/fa";
 
 import LogoPerfil from "../../assets/login/logo_login.svg";
-import userService from "../../services/userService";
+import userService from "../../services/userservice";
 import { setSessionUser, getSessionUser } from "../../utils/sessionUser";
 
 
@@ -36,15 +36,7 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
         }
     };
 
-    // const validate = () => {
-    //     const newErrors = {};
-    //     if (!formData.about) newErrors.about = "Sobre é obrigatório";
-    //     setErrors(newErrors);
-    //     return Object.keys(newErrors).length === 0;
-    // };
-
     const handleSave = async () => {
-        // if (!validate()) return;
         setIsSaving(true);
 
         try {
@@ -70,14 +62,12 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
             >
                 <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
                     <div className="space-y-6">
-                        {/* Avatar Section */}
                         <div className="flex flex-col items-center space-y-4">
                             <div className="relative">
                                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center overflow-hidden">
                                     <img src={formData.avatar} alt="Avatar" className="w-full h-full object-cover" />
                                 </div>
                                 <label className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors">
-                                    {/* <Camera className="w-4 h-4 text-white" /> */}
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -88,8 +78,6 @@ const EditProfileModal = ({ editProfile, setEditProfile }) => {
                             </div>
                             <p className="text-sm text-gray-400">Clique no ícone para alterar a foto</p>
                         </div>
-                        {/* Form Fields */}
-                        {/* About Section */}
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-gray-300">Sobre</label>
                             <textarea
