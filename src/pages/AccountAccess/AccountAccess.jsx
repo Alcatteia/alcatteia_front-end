@@ -105,7 +105,7 @@ const AccountAccess = () => {
                                     value={inputRole}
                                     onChange={(e) => setInputRole(e.target.value)}
                                 >
-                                    <option value="" disabled selected>Selecione seu cargo</option>
+                                    <option value="" disabled>Selecione seu cargo</option>
                                     <option value="RH">Recursos Humanos (RH)</option>
                                     <option value="LIDER">Líder</option>
                                     <option value="FUNC">Funcionário</option>
