@@ -9,6 +9,7 @@ import Input from "./Input";
 import Lobo from "../../assets/login/logo_login.svg";
 import userService from "../../services/userservice";
 import { setSessionUser } from "../../utils/sessionUser";
+import { useNavigate } from "react-router";
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -17,6 +18,7 @@ const AccountAccess = () => {
     const [inputEmail, setInputEmail] = useState("");
     const [inputPassword, setInputPassword] = useState("");
     const [inputRole, setInputRole] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,6 +29,7 @@ const AccountAccess = () => {
             });
             console.log("Logado!", response.data);
             setSessionUser(response.data);
+            navigate("/dashboard");
         } catch (erro) {
             console.error("Erro ao logar:", erro);
         }
@@ -42,6 +45,7 @@ const AccountAccess = () => {
                 tipo_usuario: inputRole,
             });
             console.log("Cadastrado!", response.data);
+            navigate("/dashboard");
         } catch (erro) {
             console.error("Erro ao cadastrar:", erro);
         }
