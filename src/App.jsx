@@ -55,7 +55,7 @@ function App() {
                     <Route path="/account-access" element={<AccountAccess />} />
 
 
-                    {/* Rota para página Dashboard */}
+                    {/* Rotas para páginas de Dashboard */}
                     <Route
                         path="/dashboard/leader"
                         element={

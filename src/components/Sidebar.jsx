@@ -8,9 +8,10 @@ export default function Sidebar() {
   const location = useLocation();
 
   const items = [
-    { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard/leader" },
-    { label: "Kanban", icon: <FiClipboard />, active: true, link: "/kanban" },
-    { label: "Reuniões", icon: <FiPhone />, link: "/meetings" },
+    { label: "Kanban", icon: <FiClipboard />, active: true },
+    { label: "Dashboard", icon: <FiBarChart2 /> },
+    { label: "Call", icon: <FiPhone /> },
+    { label: "Equipe", icon: <FiUsers /> }
   ];
 
   return (
