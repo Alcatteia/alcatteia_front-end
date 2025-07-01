@@ -7,10 +7,16 @@ import EditProfileModal from "./EditProfileModal";
 import { useState } from "react";
 import { getSessionUser } from "../../utils/sessionUser";
 
+const tipoUsuarioMap = {
+    FUNC: "Funcionário",
+    RH: "Recursos Humanos (RH)",
+    LIDER: "Líder",
+};
 
 const UserProfile = () => {
     const [editProfile, setEditProfile] = useState(false);
     const usuario = getSessionUser();
+    const cargoUsuario = tipoUsuarioMap[usuario.tipo_usuario] || usuario.tipo_usuario;
 
     return (
         <section className="pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:px-16 xl:pr-5 pb-6 min-h-scree text-white grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -22,7 +28,7 @@ const UserProfile = () => {
                                 <img src={LogoPerfil} alt="Logo Alcatteia" />
                             </div>
                             <h2 className="text-xl lg:text-2xl xl:text-4xl font-bold mt-4">{usuario.nome}</h2>
-                            <p className="text-sm lg:text-base xl:text-lg text-purple-300">{usuario.tipo_usuario}</p>
+                            <p className="text-sm lg:text-base xl:text-lg text-purple-300">{cargoUsuario}</p>
                         </div>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 text-white">
