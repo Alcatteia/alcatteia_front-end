@@ -26,7 +26,9 @@ import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
+import UserProfile from "./pages/UserProfile/UserProfile";
 
+import { UserProvider } from "./contexts/UserContext";
 
 
 function LayoutWithSidebar({ children }) {
@@ -45,95 +47,108 @@ function LayoutWithSidebar({ children }) {
 function App() {
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    {/* Rota para Home */}
-                    {/* <Route path="/" element={<AccountAccess />} />  */}
+            <UserProvider> {/* componente que chama as funções do context */}
+                <BrowserRouter>
+                    <Routes>
+                        {/* Rota para Home */}
+                        {/* <Route path="/" element={<AccountAccess />} />  */}
 
 
-                    {/* Rota para página Sobre  */}
-                    <Route path="/about" element={<About />} />
+                        {/* Rota para página Sobre  */}
+                        <Route path="/about" element={<About />} />
 
 
-                    {/* Rota para página Entrar/Cadastrar  */}
-                    <Route path="/account-access" element={<AccountAccess />} />
+                        {/* Rota para página Entrar/Cadastrar  */}
+                        <Route path="/account-access" element={<AccountAccess />} />
 
 
-                    {/* Rota para página Dashboard */}
-                    <Route
-                        path="/dashboard/leader"
-                        element={
-                            <LayoutWithSidebar>
-                                <AppDashboard />
-                            </LayoutWithSidebar>
-                        }
-                    />
+                        {/* Rota para página Dashboard */}
+                        <Route
+                            path="/dashboard/leader"
+                            element={
+                                <LayoutWithSidebar>
+                                    <AppDashboard />
+                                </LayoutWithSidebar>
+                            }
+                        />
 
-                    <Route
-                        path="/dashboard/rh"
-                        element={
-                            <LayoutWithSidebar>
-                                <HrDashboard />
-                            </LayoutWithSidebar>
-                        }
-                    />
+                        <Route
+                            path="/dashboard/rh"
+                            element={
+                                <LayoutWithSidebar>
+                                    <HrDashboard />
+                                </LayoutWithSidebar>
+                            }
+                        />
 
-                    <Route
-                        path="/dashboard/member"
-                        element={
-                            <LayoutWithSidebar>
-                                <MemberDashboard />
-                            </LayoutWithSidebar>
-                        }
-                    />
-
-
-                    {/* Rota para página Kanban */}
-                    <Route
-                        path="/kanban"
-                        element={
-                            <LayoutWithSidebar>
-                                <Kanban />
-                            </LayoutWithSidebar>
-                        }
-                    />
-
-                    
+                        <Route
+                            path="/dashboard/member"
+                            element={
+                                <LayoutWithSidebar>
+                                    <MemberDashboard />
+                                </LayoutWithSidebar>
+                            }
+                        />
 
 
+                        {/* Rota para página Kanban */}
+                        <Route
+                            path="/kanban"
+                            element={
+                                <LayoutWithSidebar>
+                                    <Kanban />
+                                </LayoutWithSidebar>
+                            }
+                        />
 
 
-                    {/* Rota para página Dashboard */}
-                    {/* <Route path="/dashboard" element={<Componente />} /> */}
-
-
-                    {/* Rota para página Reuniões */}
-                    <Route
-                        path="/meetings"
-                        element={
-                            <LayoutWithSidebar>
-                                <Meetings />
-                            </LayoutWithSidebar>
-                        }
-                    />
-
-                    <Route
-                        path="/calls"
-                        element={
-                            <LayoutWithSidebar>
-                               <Calls />
-                            </LayoutWithSidebar>
-                        }
-                    />
+                        {/* Rota para página Perfil do Usuário */}
+                        <Route
+                            path="/user-profile"
+                            element={
+                                <LayoutWithSidebar>
+                                    <UserProfile />
+                                </LayoutWithSidebar>
+                            }
+                        />
 
 
 
 
-                    {/* Rota para página Check-in */}
-                    {/* <Route path="/check-in" element={<Componente />} /> */}
 
-                </Routes>
-            </BrowserRouter>
+
+                        {/* Rota para página Dashboard */}
+                        {/* <Route path="/dashboard" element={<Componente />} /> */}
+
+
+                        {/* Rota para página Reuniões */}
+                        <Route
+                            path="/meetings"
+                            element={
+                                <LayoutWithSidebar>
+                                    <Meetings />
+                                </LayoutWithSidebar>
+                            }
+                        />
+
+                        <Route
+                            path="/calls"
+                            element={
+                                <LayoutWithSidebar>
+                                    <Calls />
+                                </LayoutWithSidebar>
+                            }
+                        />
+
+
+
+
+                        {/* Rota para página Check-in */}
+                        {/* <Route path="/check-in" element={<Componente />} /> */}
+
+                    </Routes>
+                </BrowserRouter>
+            </UserProvider>
         </>
     )
 }

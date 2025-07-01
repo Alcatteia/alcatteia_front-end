@@ -2,6 +2,7 @@ import { FiBell, FiMoon, FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
 import NotificationModal from '../pages/Kanban/components/NotificationModal';
 import logoAlcatteia from '../assets/Kanban/Logo1.png';
+import { Link } from 'react-router';
 
 
 export default function Topbar({ participationRequests = [], acceptParticipation, rejectParticipation }) {
@@ -79,9 +80,9 @@ export default function Topbar({ participationRequests = [], acceptParticipation
           {/* Menu dropdown */}
           {isProfileOpen && (
             <div className="absolute right-0 top-full mt-2 w-48 bg-[#2A1C3A] rounded-md shadow-lg py-1 z-20 border border-[#3A2C4A]">
-              <a href="#" className="flex items-center gap-2 px-4 py-2 text-white hover:bg-[#3A2C4A] transition-colors">
+              <Link to="/user-profile" className="flex items-center gap-2 px-4 py-2 text-white hover:bg-[#3A2C4A] transition-colors">
                 <FiUser size={14} /> Perfil
-              </a>
+              </Link>
               <a href="#" className="flex items-center gap-2 px-4 py-2 text-white hover:bg-[#3A2C4A] transition-colors">
                 <FiSettings size={14} /> Configurações
               </a>

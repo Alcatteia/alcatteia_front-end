@@ -8,6 +8,7 @@ import { BsLinkedin } from "react-icons/bs";
 import Input from "./Input";
 import Lobo from "../../assets/login/logo_login.svg";
 import userService from "../../services/userservice";
+import { setSessionUser } from "../../utils/sessionUser";
 
 const AccountAccess = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -25,6 +26,7 @@ const AccountAccess = () => {
                 senha: inputPassword,
             });
             console.log("Logado!", response.data);
+            setSessionUser(response.data);
         } catch (erro) {
             console.error("Erro ao logar:", erro);
         }

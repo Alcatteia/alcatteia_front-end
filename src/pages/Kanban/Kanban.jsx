@@ -44,10 +44,10 @@ export default function Kanban() {
             onReject={() => rejectParticipation(currentRequest.taskId, currentRequest.requester)}
           />
         )}
-        <div className="flex h-screen bg-[#160F23] text-white overflow-hidden">
+        <div className="flex h-screen text-white overflow-hidden">
           {/* <Sidebar /> */}
           <div className="flex-1 flex flex-col overflow-hidden">
-            <main className="flex-1 pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:px-16 xl:pr-5 pb-6  overflow-auto scrollbar-thin scrollbar-thumb-[#2D1B4F] scrollbar-track-transparent">
+            <main className="flex-1 pl-4 sm:pl-6 md:pl-8 lg:pl-12 xl:px-16 xl:pr-5 pb-6 overflow-auto scrollbar-thin scrollbar-thumb-[#2D1B4F] scrollbar-track-transparent">
               <CategoryPanel />
             </main>
           </div>
