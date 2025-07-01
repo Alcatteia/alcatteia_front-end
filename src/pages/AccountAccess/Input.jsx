@@ -1,5 +1,3 @@
-
-
 const Input = ({ text, type, icon, inputValue, setInpuValue }) => {
     return (
         <div
