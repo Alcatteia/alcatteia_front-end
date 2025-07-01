@@ -9,7 +9,10 @@ import { useContext } from "react";
 const ScheduledMeetings = () => {
     const { meetings } = useContext(MeetingsContext);
 
-
+    const formatDisplayDate = (isoDate) => {
+        const [year, month, day] = isoDate.split("-");
+        return `${day}/${month}/${year}`;
+    };
     return (
         <section className="mt-24">
             <div className="bg-[#43009a9d] p-5 flex items-center gap-5 rounded-xl w-full">
@@ -37,7 +40,10 @@ const ScheduledMeetings = () => {
                             <div className="flex flex-col gap-2">
                                 <div className="flex items-center gap-3">
                                     <FaRegClock />
-                                    <span className="opacity-80 md:text-lg">{meeting.date}, {meeting.time}</span>
+                                    <span className="opacity-80 md:text-lg">
+                                        {formatDisplayDate(meeting.date)}, {meeting.time}
+
+                                    </span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mt-3">

@@ -22,6 +22,7 @@ const Hero = () => {
     //     email: 'isabelle@alcatteia.com'
     // });
 
+   
 
     const handleCreateMeeting = (e) => {
         e.preventDefault();
@@ -43,12 +44,12 @@ const Hero = () => {
     };
 
     return (
-        <section className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
+        <section className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
             <div className="text-center md:text-left">
-                <h1 className="font-semibold text-4xl leading-11 text-white md:text-5xl">
-                    <span className="text-[#F4C712]">Chamadas</span> e <span className="text-[#0CC0DF]">reuniões</span>
+                <h1 className="text-white text-3xl md:text-4xl font-extrabold">
+                    Chamadas e reuniões
                 </h1>
-                <p className="text-white mt-4 text-lg lg:text-xl">Reúna-se com a matilha para alinhamentos e conexões!</p>
+                <p className=" text-gray-400 text-lg mt-1">Reúna-se com a matilha para alinhamentos e conexões!</p>
             </div>
 
             <div className="mt-10 flex justify-center md:justify-end">
@@ -72,7 +73,7 @@ const Hero = () => {
                         <h2 className="text-xl font-bold text-white mb-4">Criar Nova Reunião</h2>
                         <form onSubmit={handleCreateMeeting} className="space-y-4">
                             <div>
-                                <label className="block text-gray-300 text-sm font-medium mb-2">Título da Reunião</label>
+                                <label className="block !text-gray-300 text-sm font-medium mb-2">Título da Reunião</label>
                                 <input
                                     type="text"
                                     value={newMeeting.title}
@@ -83,7 +84,7 @@ const Hero = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-300 text-sm font-medium mb-2">Data</label>
+                                <label className="block !text-gray-300 text-sm font-medium mb-2">Data</label>
                                 <input
                                     type="date"
                                     value={newMeeting.date}
@@ -93,17 +94,17 @@ const Hero = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-300 text-sm font-medium mb-2">Horário</label>
+                                <label className="block !text-gray-300 text-sm font-medium mb-2">Horário</label>
                                 <input
                                     type="time"
                                     value={newMeeting.time}
                                     onChange={(e) => setNewMeeting({ ...newMeeting, time: e.target.value })}
-                                    className="w-full bg-[#1a1625] border border-purple-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                                    className="w-full bg-[#1a1625] border border-purple-700/50 rounded-lg px-4 py-3 !text-white focus:outline-none focus:border-purple-500"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-300 text-sm font-medium mb-2">Descrição (opcional)</label>
+                                <label className="block !text-gray-300 text-sm font-medium mb-2">Descrição (opcional)</label>
                                 <textarea
                                     value={newMeeting.description}
                                     onChange={(e) => setNewMeeting({ ...newMeeting, description: e.target.value })}

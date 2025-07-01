@@ -6,7 +6,7 @@ const MettingsContextProvider = ({ children }) => {
         {
             id: '1',
             title: 'Alinhamento',
-            date: '05/05/2025',
+            date: '2025-05-08',
             time: '07h30',
             administrator: 'Isabelle Gomes',
             participants: 5,

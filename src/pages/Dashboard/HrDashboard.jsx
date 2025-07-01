@@ -46,8 +46,8 @@ export default function HrDashboard() {
     lastUpdateDateTime,
     isLoading,
     hrTeamMetrics,
-    handleUpdateDashboard,
-    realApiActive,
+    // handleUpdateDashboard,
+    // realApiActive,
   } = useDashboardData(lang);
 
   const [localCollaborators, setLocalCollaborators] = useState([]);
@@ -71,11 +71,11 @@ export default function HrDashboard() {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedCollaborator(null);
     setSaveStatus('');
-  };
+  }, []);
 
   const handleSaveObservation = useCallback(async (id, observationText) => {
     setIsSaving(true);
@@ -108,7 +108,7 @@ export default function HrDashboard() {
       setSaveStatus('');
       handleCloseModal();
     }, 2000);
-  }, [realApiActive, handleCloseModal]);
+  }, [handleCloseModal]);
 
   if (isLoading) {
     return (
@@ -120,10 +120,10 @@ export default function HrDashboard() {
 
   return (
     <main className="flex-1 text-gray-200 font-poppins flex justify-center overflow-y-auto custom-scrollbar">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col gap-4 sm:gap-6 md:gap-8 h-full">
         <div className="flex justify-between items-end pb-4 border-b border-gray-700">
           <div>
-            <h1 className="text-4xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold">
               {t("dashboardTitleHR")}
             </h1>
             <p className="text-gray-400 text-lg mt-1">

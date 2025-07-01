@@ -71,9 +71,9 @@ export default function LeaderDashboard() {
     setActiveSingleSuggestionDetail(null);
   }, []);
 
-  const handleOpenTeamReportModal = () => {
-    setActiveModal("team-report-modal");
-  };
+  // const handleOpenTeamReportModal = () => {
+  //   setActiveModal("team-report-modal");
+  // };
 
   const formatDateTime = useCallback((date) => {
     if (!date) return t("notAvailableShort");
@@ -106,16 +106,16 @@ export default function LeaderDashboard() {
     metricCards,
   } = useDashboardData(lang);
 
-  const lowestAttributeTranslatedName = lowestAttributeKey
-    ? t(metrics[lowestAttributeKey]?.atributo)
-    : t("loadingRecommendations");
+  // const lowestAttributeTranslatedName = lowestAttributeKey
+  //   ? t(metrics[lowestAttributeKey]?.atributo)
+  //   : t("loadingRecommendations");
 
   return (
     <main className="flex-1 text-gray-200 font-poppins flex justify-center ">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 flex flex-col gap-4 h-full">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col gap-4 h-full">
         <div className="pt-2 pb-4 border-b border-gray-700 mb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex-shrink-0">
-            <h1 className="text-2xl md:text-2xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-extrabold">
               {t("leaderDashboardTitle")}
             </h1>
             <p className="text-gray-400 text-lg mt-1">

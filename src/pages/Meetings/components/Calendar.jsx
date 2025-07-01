@@ -1,28 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import DayCell from './DayCell';
-
+import { MeetingsContext } from '../../../contexts/MeetingsContext';
 
 const Calendar = () => {
-    const days = [
-        // Semana 1
-        1, 2, 3, 4, "assistir", 6, 7,
-        // Semana 2
-        8, 9, "ver", 11, 12, 13, 14,
-        // Semana 3
-        15, 16, 17, "ver", 19, 20, 21,
-        // Semana 4
-        22, 23, 24, 25, 26, "ver", 28,
-        // Semana 5
-        29, "ver", null, null, null, null, null,
-    ];
+    const { meetings } = useContext(MeetingsContext);
 
-    const getStatus = (day) => {
-        if (day === "ver") return "ver";
-        if (day === "assistir") return "assistir";
-        if (day === "agendada") return "agendada";
-        if (day == null) return "outroMes"
-        return "none";
+    const days = Array.from({ length: 35 }, (_, i) => i + 1); 
+
+    const isDayScheduled = (day) => {
+        return meetings.some(meeting => {
+            const meetingDate = new Date(meeting.date + 'T12:00:00'); 
+            return meetingDate.getDate() === day && meetingDate.getMonth() === 4;
+        });
     };
+
 
     return (
         <div className="p-4 bg-gradient-to-br bg-[#291A39] text-white rounded-lg mt-24 mb-32 max-w-[1221px] mx-auto">
@@ -34,8 +25,8 @@ const Calendar = () => {
                 {days.map((day, index) => (
                     <DayCell
                         key={index}
-                        day={typeof day === "number" && day}
-                        status={getStatus(day)}
+                        day={day}
+                        status={isDayScheduled(day) ? "agendada" : "none"}
                     />
                 ))}
             </div>

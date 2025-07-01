@@ -27,7 +27,8 @@ export function getUrlParams(
 }
 
 export default function Calls() {
-  const roomID = "salinha";
+  const roomID = getUrlParams().get('roomID') || randomID(5);
+  
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Calls() {
       serverSecret,
       roomID,
       Date.now().toString(),
-      "salinha"
+      "Seu nome"
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -73,7 +74,6 @@ export default function Calls() {
     <div
       ref={containerRef}
       className="myCallContainer px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-6"
-      style={{ height: '100vh' }}
     ></div>
   );
 }

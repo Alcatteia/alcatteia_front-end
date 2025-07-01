@@ -9,7 +9,7 @@ const MeetingsContent = () => {
 
 
     useEffect(() => {
-        window.scrollTo(0, 0); // Rola a página para o topo ao carregar o componente.
+        window.scrollTo(0, 0);
     }, []);
 
     return (

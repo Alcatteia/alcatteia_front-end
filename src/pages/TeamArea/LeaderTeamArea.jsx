@@ -131,10 +131,10 @@ export default function LeaderTeamArea() {
 
   return (
     <main className="flex-1 text-gray-200 font-poppins flex justify-center h-full">
-      <section className="w-full max-w-[90%] mx-auto mt-8 mb-8 px-4 sm:px-6 lg:px-8 h-full">
+      <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 h-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-1 flex flex-wrap items-center gap-x-2">
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-1 flex flex-wrap items-center gap-x-2">
               Equipe <span className="text-white">Alcatteia</span>
               <span className="text-xs bg-purple-700 text-white px-2 py-1 rounded-full mt-1 md:mt-0">
                 {members.length} membros
