@@ -17,8 +17,6 @@ const AccountAccess = () => {
     const [inputPassword, setInputPassword] = useState("");
     const [inputRole, setInputRole] = useState("");
 
-    console.log(inputName, inputEmail);
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
