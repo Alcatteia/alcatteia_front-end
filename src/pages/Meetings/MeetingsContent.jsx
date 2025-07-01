@@ -1,20 +1,14 @@
-import { useContext } from "react";
+import { useContext } from "react"
+import { SectionMettingsContext } from "../../contexts/SectionMettingsContext";
+import Calendar from "./components/Calendar";
+import InProgress from "./components/InProgress";
+import ScheduledMeetings from "./components/ScheduledMeetings";
 
-import Calendar from "./Calendar";
-
-import Hero from "./Hero";
-import InProgress from "./InProgress";
-import ScheduledMeetings from "./ScheduledMeetings";
-
-import { SectionContext } from "../../context/SectionContext";
-
-
-function MeetingsContent() {
-    const { sectionActive } = useContext(SectionContext);
+const MeetingsContent = () => {
+    const { sectionActive } = useContext(SectionMettingsContext);
 
     return (
-        <div className="w-[100% - 256px]">
-            <Hero />
+        <>
             {sectionActive == "calendar" ?
                 (
                     <Calendar />
@@ -25,8 +19,8 @@ function MeetingsContent() {
                     </div>
                 )
             }
-        </div>
+        </>
     )
 }
 
-export default MeetingsContent;
+export default MeetingsContent

@@ -130,7 +130,7 @@ export default function LeaderTeamArea() {
   );
 
   return (
-    <main className="flex-1 bg-[#160F23] text-gray-200 font-poppins flex justify-center h-full">
+    <main className="flex-1 text-gray-200 font-poppins flex justify-center h-full">
       <section className="w-full max-w-[90%] mx-auto mt-8 mb-8 px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <div>

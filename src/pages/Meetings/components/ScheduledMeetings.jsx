@@ -35,7 +35,8 @@ const ScheduledMeetings = () => {
 
                             <div className="flex items-center gap-3">
                                 <IoPeopleSharp />
-                                <span className="opacity-80 md:text-lg">8 integrantes</span>
+                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,8 @@ const ScheduledMeetings = () => {
 
                             <div className="flex items-center gap-3">
                                 <IoPeopleSharp />
-                                <span className="opacity-80 md:text-lg">8 integrantes</span>
+                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
                             </div>
                         </div>
                     </div>
@@ -101,7 +103,8 @@ const ScheduledMeetings = () => {
 
                             <div className="flex items-center gap-3">
                                 <IoPeopleSharp />
-                                <span className="opacity-80 md:text-lg">8 integrantes</span>
+                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
                             </div>
                         </div>
                     </div>
@@ -134,7 +137,8 @@ const ScheduledMeetings = () => {
 
                             <div className="flex items-center gap-3">
                                 <IoPeopleSharp />
-                                <span className="opacity-80 md:text-lg">8 integrantes</span>
+                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
                             </div>
                         </div>
                     </div>

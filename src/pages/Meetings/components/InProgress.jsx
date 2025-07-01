@@ -1,6 +1,4 @@
 import { FaRegClock } from "react-icons/fa";
-import { IoPeopleSharp } from "react-icons/io5";
-
 
 const InProgress = () => {
     return (
@@ -32,8 +30,7 @@ const InProgress = () => {
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <IoPeopleSharp />
-                                <span className="opacity-80 md:text-lg">5 integrantes</span>
+                                <p className="md:text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                             </div>
                         </div>
                     </div>

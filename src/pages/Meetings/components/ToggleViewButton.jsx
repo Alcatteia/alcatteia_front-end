@@ -2,19 +2,16 @@ import { useContext, useState } from "react";
 
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
-import { SectionContext } from "../../context/SectionContext";
+import { SectionMettingsContext } from "../../../contexts/SectionMettingsContext";
 
 
 export default function ToggleViewButton() {
     const [isOnlineView, setIsOnlineView] = useState(true);
-    const { setSectionActive } = useContext(SectionContext);
-
+    const { setSectionActive } = useContext(SectionMettingsContext);
 
     const handleClick = () => {
-        
         setIsOnlineView(!isOnlineView);
         setSectionActive(isOnlineView ? "calendar" : "meetings");
-
     }
 
     return (
