@@ -2,7 +2,7 @@ import { FaUsers, FaRocket} from 'react-icons/fa';
 
 export default function Explanation() {
   return (
-    <section className="w-full py-20 px-6 md:px-16 bg-gradient-to-br from-gray-900 via-[#1d0625] to-black text-white">
+    <section className="w-full pt-16 md:pt-20 mt-60 h-160 lg:pt-24 px-6 md:px-16 bg-gradient-to-br from-gray-900 via-[#2f0846] to-black text-white">
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-12">
 
@@ -15,16 +15,16 @@ export default function Explanation() {
 
           {/* Título */}
           <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
-            Gestão Ágil com Propósito: <br />
-             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Gestão ágil com propósito <br />
+             <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
               Conecte
-            </span>,{" "}
-            <span className="bg-gradient-to-r from-cyan-600 to-emerald-600 bg-clip-text text-transparent">
+            </span>{" "}
+            <span className="bg-gradient-to-r from-cyan-400 to-green-600 bg-clip-text text-transparent">
               Inspire
-            </span>,{" "}
-            <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
+            </span>{" "}
+            <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
               Evolua
-            </span>{"."}
+            </span>{" "}
           </h2>
 
           {/* Parágrafo */}
@@ -33,7 +33,7 @@ export default function Explanation() {
           </p>
 
           {/* Botões */}
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mt-5">
             {/* Botão primário */}
             <a
               href=""
@@ -55,15 +55,15 @@ export default function Explanation() {
                          hover:border-pink-400 transition-all duration-300"
             >
               <FaUsers className="text-lg" />
-              Sobre nossa Equipe
+              Sobre nossa equipe
             </a>
           </div>
         </div>
 
         {/* IMAGEM */}
-        <div className="order-first md:order-none">
+        <div className="order-first md:order-none opacity-75">
           <img
-            src="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg"
+            src="src/assets/home/images/coworking.jpg"
             alt="Equipe reunida"
             className="w-full rounded-3xl shadow-xl "
           />

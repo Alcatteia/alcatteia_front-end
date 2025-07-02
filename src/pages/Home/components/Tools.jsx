@@ -6,26 +6,26 @@ function Tools() {
   const recursos = [
     {
       titulo: "Dashboard Estratégico",
-      descricao: "Visão customizada: dados individuais, análises de RH e métricas de liderança em tempo real.",
+      descricao: "Visão customizada: dados individuais, análises de RH e indicativos para liderança em tempo real.",
       icone: <FaBrain className="text-purple-400 text-4xl mb-4 ml-23" />,
-      bgColor: "bg-gradient-to-t from-purple-700 via-purple-950 to-black", // Background individual
-      delay: 0.1, // Delay de animação personalizado
+      bgColor: "bg-gradient-to-t from-purple-700 via-purple-950 to-black", 
+      delay: 0.1, 
       shadowHover: "hover:shadow-purple-400"
     },
     {
       titulo: "Check-in de humor",
       descricao: "Seu termômetro emocional: simples para o time, poderoso para a gestão.",
       icone: <FaChartLine className="text-cyan-600 text-4xl mb-4 ml-23" />,
-      bgColor: "bg-gradient-to-t from-cyan-600 via-cyan-850 to-black", // Background individual
-      delay: 0.1, // Delay de animação personalizado
+      bgColor: "bg-gradient-to-t from-cyan-600 via-cyan-850 to-black", 
+      delay: 0.1, 
       shadowHover: "hover:shadow-cyan-600"
     },
     {
       titulo: "Kanban Colaborativo",
       descricao: "Visual, ágil e feito pra times de verdade trabalharem juntos.",
-      icone: <FaTasks className="text-red-800 text-4xl mb-4 ml-22" />,
-      bgColor: "bg-gradient-to-t from-red-800 via-red-950 to-black",
-      delay: 0.1, // Delay de animação personalizado
+      icone: <FaTasks className="text-red-500 text-4xl mb-4 ml-22" />,
+      bgColor: "bg-gradient-to-t from-red-500 via-red-950 to-black",
+      delay: 0.1, 
       shadowHover: "hover:shadow-red-800"
     },
     {
@@ -33,20 +33,20 @@ function Tools() {
       descricao: "Receba avisos certeiros para agir com tempo e empatia.",
       icone: <FaBell className="text-emerald-400 text-4xl mb-4 ml-23.5"/>,
       bgColor: "bg-gradient-to-t from-emerald-600 via-emerald-850 to-black",
-      delay: 0.1, // Delay de animação personalizado
+      delay: 0.1, 
       shadowHover: "hover:shadow-emerald-400 "
     },
 
   ];
 
   return (
-    <section className="w-full  px-6 md:px-16 bg-gradient-to-br from-[#1d0625] via-black to-purple-950 text-white">
+    <section className="w-full px-6 py-60 md:py-0 md:px-16 bg-gradient-to-br from-[#2f0846] via-black to-[#31062c] text-white">
 
-      <div className="relative z-10 max-w-7xl mx-auto py-24 px-6 text-center ">
-        <h2 className="text-4xl font-bold mb-12 ">
-          Ferramentas que unem <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">pessoas</span> e <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">resultados</span>
+      <div className="relative z-10 max-w-7xl mx-auto py-10 px-6 text-center ">
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 ">
+          Ferramentas que unem <span className="bg-gradient-to-r from-blue-500 to-indigo-700 bg-clip-text text-transparent">pessoas</span> e <span className="bg-gradient-to-r from-lime-500 to-amber-500 bg-clip-text text-transparent">resultados</span>
         </h2>
-          <p className="text-xl md:text-2xl text-gray-300 mb-20 max-w-3xl mx-auto">
+          <p className="text-xl md:text-lg text-gray-300 mb-20 max-w-3xl mx-auto">
             Transforme sua equipe em um time de alta performance. Conheça as ferramentas que unem bem-estar, produtividade e resultados extraordinários
           </p>
 
