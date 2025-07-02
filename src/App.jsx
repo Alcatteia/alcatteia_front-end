@@ -18,6 +18,7 @@ import About from "./pages/About/About";
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
 import Kanban from "./pages/Kanban/Kanban";
+import KanbanProvider from './contexts/KanbanContext';
 
 import AppDashboard from "./pages/Dashboard/AppDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
@@ -96,7 +97,9 @@ function App() {
                             path="/kanban"
                             element={
                                 <LayoutWithSidebar>
-                                    <Kanban />
+                                    <KanbanProvider>
+                                        <Kanban />
+                                    </KanbanProvider>
                                 </LayoutWithSidebar>
                             }
                         />

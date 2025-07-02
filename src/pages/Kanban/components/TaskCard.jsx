@@ -21,7 +21,6 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
     ? format(new Date(task.dueDate), "dd 'de' MMMM", { locale: ptBR })
     : null;
 
-  // Se a tarefa estiver concluída, a barra de progresso é 100%
   const progress = task.status === 'done' ? 100 : (task.progress ?? 0);
 
   const [{ isDragging }, dragRef] = useDrag({
@@ -83,7 +82,6 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
   const visibleParticipants = participants.slice(0, 3);
   const extraCount = participants.length > 3 ? participants.length - 3 : 0;
 
-  // Verifica se a tarefa está atrasada
   const isLate =
     task.dueDate &&
     new Date(task.dueDate) < new Date() &&
@@ -100,7 +98,7 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
           isDragging ? 'opacity-40' : 'hover:brightness-110'
         }`}
       >
-        {/* Menu de opções */}
+        {/* Top Icons */}
         <div className="absolute top-2 right-2 z-10 flex items-center gap-2">
           {task.status === 'done' ? (
             <FiCheckCircle className="text-green-400" />
@@ -136,10 +134,11 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
           )}
         </div>
 
-        <h4 className="text-md font-semibold mb-2 text-white">{task.title}</h4>
+        {/* Conteúdo */}
+        <h4 className="text-sm sm:text-base font-semibold mb-2 text-white">{task.title}</h4>
 
         {formattedDate && (
-          <div className={`flex items-center text-sm mb-3 ${isLate ? 'text-red-500' : 'text-gray-400'}`}>
+          <div className={`flex items-center text-xs sm:text-sm mb-3 ${isLate ? 'text-red-500' : 'text-gray-400'}`}>
             <FiClock className={`mr-1 ${isLate ? 'text-red-500' : ''}`} />
             Entrega: {formattedDate}
           </div>
@@ -149,12 +148,12 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
           <div className={`${accent} h-2 rounded-full`} style={{ width: `${progress}%` }}></div>
         </div>
 
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 mt-4">
           <div className="flex -space-x-2">
             {visibleParticipants.map((name) => (
               <div
                 key={name}
-                className="w-8 h-8 rounded-full bg-gray-300 text-black flex items-center justify-center text-xs font-bold border-2 border-white"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-300 text-black flex items-center justify-center text-[10px] sm:text-xs font-bold border-2 border-white"
                 title={name}
               >
                 {getInitials(name)}
@@ -162,7 +161,7 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
             ))}
             {extraCount > 0 && (
               <div
-                className="w-8 h-8 rounded-full bg-gradient-to-br from-black/80 to-black/40 text-white text-xs font-bold flex items-center justify-center border-2 border-white"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-black/80 to-black/40 text-white text-[10px] sm:text-xs font-bold flex items-center justify-center border-2 border-white"
                 title={`+${extraCount} participantes`}
               >
                 +{extraCount}
@@ -175,7 +174,7 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
               e.stopPropagation();
               onParticipate(task.id);
             }}
-            className={`${accent} text-xs text-black font-bold px-3 py-1 rounded-full hover:scale-105 transition`}
+            className={`${accent} text-[10px] sm:text-xs text-black font-bold px-3 py-1 rounded-full hover:scale-105 transition`}
           >
             Participar
           </button>
@@ -184,7 +183,7 @@ export default function TaskCard({ task, categoryId, onClick, onDelete, onPartic
 
       {/* Modal de confirmação */}
       {confirmDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
           <div className="bg-[#1F152D] p-6 rounded-lg border border-[#3A2C4A] w-full max-w-sm text-white relative shadow-xl">
             <button
               onClick={() => setConfirmDelete(false)}
