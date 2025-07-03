@@ -179,6 +179,18 @@ function App() {
                     />
 
 
+                         {/* Rota para página Check-in */}
+                    <Route path="/check-in" element={
+                        <LayoutWithSidebar>
+                            <CheckProvider>
+
+                                <Check />
+
+                            </CheckProvider>
+                        </LayoutWithSidebar>
+                    } />
+
+
                     {/* Rota para página Perfil do Usuário */}
                     <Route
                         path="/user-profile"
