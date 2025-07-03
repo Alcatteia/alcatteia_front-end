@@ -94,7 +94,7 @@ export default function MoodSelector() {
             className={`
               relative flex flex-col items-center justify-center
               flex-1 w-full h-[120px] sm:h-[180px]
-              bg-[#1F152D] rounded-xl border transition-all duration-300
+              bg-[#231833] rounded-xl border transition-all duration-300
               ${isSelected ? 'scale-105 shadow-[0_0_18px_2px_rgba(0,224,255,0.5)]' : 'hover:shadow-[0_0_10px_1px_rgba(0,224,255,0.4)]'}
               ${isSelected ? '' : 'hover:scale-105'}
             `}
