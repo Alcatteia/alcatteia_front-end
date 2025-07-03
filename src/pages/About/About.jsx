@@ -1,10 +1,10 @@
-import Hero from "./Hero"
-import Mission from "./Mission"
-import Team from "./Team"
+import Hero from "./components/Hero";
+import Mission from "./components/Mission";
+import Team from "./components/Team";
 
 const About = () => {
     return (
-        <main className="max-w-[1221px] mx-auto">
+        <main>
             <Hero />
             <Mission />
             <Team />

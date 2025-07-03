@@ -21,17 +21,20 @@ import About from "./pages/About/About";
 
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
 
+import Plans from "./pages/Plans/Plans";
+
+import UserProfile from "./pages/UserProfile/UserProfile";
+
 import Kanban from "./pages/Kanban/Kanban";
 
 import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
 import MemberDashboard from "./pages/Dashboard/MemberDashboard";
 
-import Team from "./pages/TeamArea/LeaderTeamArea"
 import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
-import UserProfile from "./pages/UserProfile/UserProfile";
+import Team from "./pages/TeamArea/LeaderTeamArea";
 
 
 function LayoutWithSidebar({ children }) {
@@ -66,6 +69,14 @@ function App() {
                     <Route path="/" element={
                         <LayoutWithHeaderAndFooter>
                             <Home />
+                        </LayoutWithHeaderAndFooter>
+                    } />
+
+
+                    {/* Rota para Planos */}
+                    <Route path="/plans" element={
+                        <LayoutWithHeaderAndFooter>
+                            <Plans />
                         </LayoutWithHeaderAndFooter>
                     } />
 

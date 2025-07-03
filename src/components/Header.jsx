@@ -4,8 +4,18 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/home/images/logotipo364.png";
 import { Link } from "react-router";
 
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
+
+
 function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
+
+  const links = [
+    { id: 1, text: "Início", link: "/" },
+    { id: 2, text: "Sobre", link: "/about" },
+    { id: 3, text: "Planos", link: "/plans" },
+  ]
 
   return (
     <header className="fixed top-0 left-0 w-full p-4 flex justify-between items-center bg-gradient-to-t from-transparent to-black text-white z-50">
@@ -28,13 +38,13 @@ function Header() {
 
       {/* Menu Desktop */}
       <nav className="text-lg gap-5 relative hidden lg:flex">
-        {["Início", "Sobre", "Planos"].map((item, index) => (
+        {links.map((item) => (
           <Link
-            key={index}
-            to="/account-access"
+            key={item.id}
+            to={item.link}
             className="relative group px-5 py-5 transition-transform duration-500 ease-in-out cursor-pointer"
           >
-            {item}
+            {item.text}
             <span
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 min-h-0.5 my-7
                          bg-gradient-to-r from-indigo-600 to-fuchsia-400 h-[3px] rounded-3xl
@@ -86,27 +96,21 @@ function Header() {
             transition={{ type: "tween", duration: 0.4 }}
             className="fixed top-0 left-0 h-full w-3/4 max-w-xs bg-black/90 backdrop-blur-md z-[999] flex flex-col items-start p-8 gap-6"
           >
-            <button
-              onClick={() => setMenuAberto(false)}
-              className="self-end text-3xl mb-6 focus:outline-none"
-            >
-              <FaTimes />
-            </button>
 
-            {["Início", "Sobre", "Planos"].map((item, index) => (
-              <a
+            {links.map((item, index) => (
+              <Link
                 key={index}
-                href="#"
+                to={item.link}
                 onClick={() => setMenuAberto(false)}
                 className="relative group text-lg px-3 py-2 transition-transform duration-500 ease-in-out cursor-pointer w-full"
               >
-                {item}
+                {item.text}
                 <span
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 min-h-0.5
                              bg-gradient-to-r from-indigo-600 to-fuchsia-400 h-[3px] rounded-3xl
                              group-hover:w-10 transition-all duration-500 ease-in-out"
                 />
-              </a>
+              </Link>
             ))}
 
             <a

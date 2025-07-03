@@ -7,7 +7,7 @@ const Member = ({ image, icon, name }) => {
         <div className="relative">
             <img src={icon} alt="Lobo" className="absolute bottom-[295px]" />
 
-            <div className="bg-[#0A0A0A] p-5 py-6 rounded-xl">
+            <div className="bg-[#000000] p-5 py-6 rounded-xl">
                 <div className="h-52 w-52 mx-auto rounded-sm">
                     <img 
                         src={image} 

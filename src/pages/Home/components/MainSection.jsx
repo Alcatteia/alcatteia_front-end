@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles.css";
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 
 
@@ -109,7 +110,7 @@ function MainSection() {
         </motion.h1>
 
         {/* BOTÕES */}
-        <div className="flex flex-wrap justify-center gap-10 mt-10">
+        <div className="flex flex-wrap justify-center gap-10 mt-4">
           <motion.a
           href=""
           whileHover={{ scale: 1}}

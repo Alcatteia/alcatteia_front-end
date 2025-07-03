@@ -52,8 +52,8 @@ const AccountAccess = () => {
     };
 
     return (
-        <div className="h-screen bg-image w-full flex items-center justify-center px-4">
-            <div className="relative w-full max-w-4xl h-[500px] bg-[#1F132E] rounded-xl overflow-hidden shadow-2xl transition-all duration-700">
+        <div className="h-screen bg-image w-full flex items-center justify-center px-4 bg-gradient-to-bl from-gray-900 via-[#2f0846] to-black">
+            <div className="relative z-10 w-full max-w-4xl h-[500px] bg-[#1F132E] rounded-xl overflow-hidden shadow-2xl transition-all duration-700">
                 <div
                     className={`absolute w-1/2 h-full flex flex-col items-center justify-center text-white top-0 transition-transform duration-700 ease-in-out ${isLogin ? "translate-x-0" : "translate-x-full"} z-10 p-10`}
                 >
