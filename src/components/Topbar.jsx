@@ -16,11 +16,14 @@ export default function Topbar({ participationRequests = [], acceptParticipation
     <header className="sticky top-0 z-10 bg-[#160F23]/90 flex justify-between border-b-4 border-[#220731] items-center p-4 
     backdrop-blur-md">
       {/* Cabeçalho */}
-      <div className="flex items-center gap-3">
-        <img src={logoAlcatteia} alt="Logo Alcatteia" className="w-20 h-20 object-contain" />
-        <h1 className="text-2xl font-bold text-white">Alcatteia</h1>
-      </div>
-
+      <Link
+        className="text-white flex gap-0.5 items-center ml-5"
+        to="/"
+      >
+        <img src={logoAlcatteia} alt="logotipo" className="w-17 mr-4 " />
+        <span className="text-3xl">Alcatteia</span>
+      </Link>
+      
       {/* Controles do usuário */}
       <div className="flex gap-2 md:gap-4 items-center"
       >
