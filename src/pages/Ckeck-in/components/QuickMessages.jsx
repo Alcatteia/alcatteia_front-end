@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import { useCheck } from '../../../context/CheckContext';
+// import { useCheck } from '../../../context/CheckContext';
 
-export default function QuickMessages() {
-  const { messages } = useCheck();
+export default function QuickMessages({ messages }) {
+  // const { messages } = useCheck();
   const scrollRef = useRef(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
@@ -25,39 +25,29 @@ export default function QuickMessages() {
   };
 
   return (
-    <div className="relative bg-[#1f152d] p-4 rounded-lg border border-[#3A2C4A] h-full min-h-[180px]">
+    <div
+      ref={scrollRef}
+      className="relative bg-[#1f152d] p-4 rounded-lg border border-[#3A2C4A] overflow-y-auto pr-2 scroll-smooth h-full min-h-[380px]"
+    >
       <h2 className="text-base sm:text-lg font-semibold mb-4 text-white">
         Recados rápidos para você:
       </h2>
+      {messages.map((msg, index) => {
+        const userName = typeof msg.user === 'string' ? msg.user : 'Anônimo';
+        const messageText = typeof msg.text === 'string' ? msg.text : '[Mensagem inválida]';
 
-      {messages.length === 0 ? (
-        <p className="text-gray-400">Nenhuma mensagem por enquanto...</p>
-      ) : (
-        <div
-          ref={scrollRef}
-          className="flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-2 scroll-smooth"
-        >
-          {messages.map((msg, index) => (
-            <div key={index} className="border-b border-[#3A2C4A] pb-2">
-              <div className="flex items-center gap-3 mb-1">
-                {!msg.avatar || msg.user === 'Anônimo' ? (
-                  <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">
-                    A
-                  </div>
-                ) : (
-                  <img
-                    src={msg.avatar}
-                    alt="avatar"
-                    className="w-8 h-8 rounded-full object-cover bg-gray-600"
-                  />
-                )}
-                <span className="font-medium text-white text-sm">{msg.user} enviou:</span>
+        return (
+          <div key={index} className="border-b border-[#3A2C4A] pb-2">
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white font-bold">
+                {(msg.user?.[0] || 'U').toUpperCase()}
               </div>
-              <p className="text-sm text-gray-300">{msg.text}</p>
+              <span className="font-medium text-white text-sm">{userName} enviou:</span>
             </div>
-          ))}
-        </div>
-      )}
+            <p className="text-sm text-gray-300">{messageText}</p>
+          </div>
+        );
+      })}
 
       {/* Botão para rolar para baixo */}
       {showScrollButton && (

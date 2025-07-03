@@ -2,20 +2,13 @@ import React, { useState } from 'react';
 import { useCheck } from '../../../context/CheckContext';
 
 export default function MessageInput() {
-  const { user, sendMessage } = useCheck();
+   const { sendMessage } = useCheck();
   const [text, setText] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
   const handleSubmit = () => {
-    if (text.trim() === '') return;
-
-    const messageData = {
-      user: isAnonymous ? 'Anônimo' : user.name,
-      avatar: isAnonymous ? null : user.avatar,
-      text: text.trim(),
-    };
-
-    sendMessage(messageData);
+    if (!text.trim()) return;
+    sendMessage(text.trim(), isAnonymous);
     setText('');
     setIsAnonymous(false);
   };
