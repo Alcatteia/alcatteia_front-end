@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCheck } from '../../../context/CheckContext';
-import contenteImg from '../../../assets/Ckeck-in/image/motivado.png';
-import motivadoImg from '../../../assets/Ckeck-in/image/animado.png';
+import contenteImg from '../../../assets/Ckeck-in/image/animado.png';
+import motivadoImg from '../../../assets/Ckeck-in/image/motivado.png';
 import calmoImg from '../../../assets/Ckeck-in/image/calmo.png';
 import desanimadoImg from '../../../assets/Ckeck-in/image/desanimado.png';
 import estressadoImg from '../../../assets/Ckeck-in/image/estressado.png';
@@ -15,7 +15,7 @@ const moods = [
 ];
 
 export default function MoodSelector() {
-  const { user, checkinMood } = useCheck();
+  const { user, selectMood } = useCheck();
   const [selected, setSelected] = useState(null);
   const [blockUntil, setBlockUntil] = useState(null);
   const [countdown, setCountdown] = useState('');
@@ -55,7 +55,7 @@ export default function MoodSelector() {
     setSelected(label);
 
     try {
-      await checkinMood(label); // Salva humor no back-end
+      await selectMood(label); // Salva humor no back-end
     } catch (err) {
       console.error("Erro ao salvar humor:", err);
     }
