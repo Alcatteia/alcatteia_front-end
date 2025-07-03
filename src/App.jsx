@@ -6,6 +6,10 @@ import "./styles.css";
 
 import { BrowserRouter, Route, Routes } from "react-router";
 
+// Context
+
+import { CheckProvider } from "./contexts/CheckContext";
+
 // Components
 
 import Sidebar from "./components/Sidebar";
@@ -36,7 +40,7 @@ import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
 import Team from "./pages/TeamArea/LeaderTeamArea";
-import { CheckProvider } from "./contexts/CheckContext";
+import Check from "./pages/Ckeck-in/Check";
 
 
 function LayoutWithSidebar({ children }) {
