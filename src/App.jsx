@@ -13,6 +13,8 @@ import Topbar from "./components/Topbar";
 
 // Pages
 
+import Home from "./pages/Home/Home";
+
 import About from "./pages/About/About";
 
 import AccountAccess from "./pages/AccountAccess/AccountAccess";
@@ -48,104 +50,102 @@ function LayoutWithSidebar({ children }) {
 function App() {
     return (
         <>
-            <UserProvider> {/* componente que chama as funções do context */}
-                <BrowserRouter>
-                    <Routes>
-                        {/* Rota para Home */}
-                        {/* <Route path="/" element={<AccountAccess />} />  */}
+            <BrowserRouter>
+                <Routes>
+                    {/* Rota para Home */}
+                    <Route path="/" element={<Home />} />
 
 
-                        {/* Rota para página Sobre  */}
-                        <Route path="/about" element={<About />} />
+                    {/* Rota para página Sobre  */}
+                    <Route path="/about" element={<About />} />
 
 
-                        {/* Rota para página Entrar/Cadastrar  */}
-                        <Route path="/account-access" element={<AccountAccess />} />
+                    {/* Rota para página Entrar/Cadastrar  */}
+                    <Route path="/account-access" element={<AccountAccess />} />
 
 
-                        {/* Rotas para páginas de Dashboard */}
-                        <Route
-                            path="/dashboard/leader"
-                            element={
-                                <LayoutWithSidebar>
-                                    <LeaderDashboard />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rotas para páginas de Dashboard */}
+                    <Route
+                        path="/dashboard/leader"
+                        element={
+                            <LayoutWithSidebar>
+                                <LeaderDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
-                        <Route
-                            path="/dashboard/rh"
-                            element={
-                                <LayoutWithSidebar>
-                                    <HrDashboard />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    <Route
+                        path="/dashboard/rh"
+                        element={
+                            <LayoutWithSidebar>
+                                <HrDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
-                        <Route
-                            path="/dashboard/member"
-                            element={
-                                <LayoutWithSidebar>
-                                    <MemberDashboard />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    <Route
+                        path="/dashboard/member"
+                        element={
+                            <LayoutWithSidebar>
+                                <MemberDashboard />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
-                        {/* Rota para página equipe do lider */}
-                        <Route
-                            path="/team/leader"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Team />
-                                </LayoutWithSidebar>
-                            }
-                        />
-
-
-                        {/* Rota para página Kanban */}
-                        <Route
-                            path="/kanban"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Kanban />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rota para página equipe do lider */}
+                    <Route
+                        path="/team/leader"
+                        element={
+                            <LayoutWithSidebar>
+                                <Team />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
 
-                        {/* Rota para página Perfil do Usuário */}
-                        <Route
-                            path="/user-profile"
-                            element={
-                                <LayoutWithSidebar>
-                                    <UserProfile />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rota para página Kanban */}
+                    <Route
+                        path="/kanban"
+                        element={
+                            <LayoutWithSidebar>
+                                <Kanban />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
 
-                        {/* Rota para página Reuniões */}
-                        <Route
-                            path="/meetings"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Meetings />
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rota para página Perfil do Usuário */}
+                    <Route
+                        path="/user-profile"
+                        element={
+                            <LayoutWithSidebar>
+                                <UserProfile />
+                            </LayoutWithSidebar>
+                        }
+                    />
 
-                        <Route
-                            path="/calls"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Calls />
-                                </LayoutWithSidebar>
-                            }
-                        />
 
-                    </Routes>
-                </BrowserRouter>
-            </UserProvider>
+                    {/* Rota para página Reuniões */}
+                    <Route
+                        path="/meetings"
+                        element={
+                            <LayoutWithSidebar>
+                                <Meetings />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+                    <Route
+                        path="/calls"
+                        element={
+                            <LayoutWithSidebar>
+                                <Calls />
+                            </LayoutWithSidebar>
+                        }
+                    />
+
+                </Routes>
+            </BrowserRouter>
         </>
     )
 }
