@@ -40,7 +40,9 @@ import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
 import Team from "./pages/TeamArea/LeaderTeamArea";
-import Check from "./pages/Ckeck-in/Check";
+import Check from "./pages/Check-in/Check";
+
+
 
 
 function LayoutWithSidebar({ children }) {
@@ -188,9 +190,7 @@ function App() {
                     <Route path="/check-in" element={
                         <LayoutWithSidebar>
                             <CheckProvider>
-
                                 <Check />
-
                             </CheckProvider>
                         </LayoutWithSidebar>
                     } />

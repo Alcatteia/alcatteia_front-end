@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCheck } from '../../context/CheckContext';
+import { useCheck } from '../../contexts/CheckContext';
 import Sidebar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import MoodSelector from "./components/MoodSelector";
@@ -33,7 +33,7 @@ export default function Check() {
   }
 
   return (
-    <div className="flex h-screen  bg-[#1d142e] pt-6 pb-32  text-white overflow-hidden">
+    <div className="flex h-screen pt-6 pb-32  text-white overflow-hidden">
       <div className="flex-1 flex flex-col min-h-screen">
         <main className="flex-1  md:p-8 overflow-y-auto flex justify-center">
           <div className="w-full max-w-[1100px]">

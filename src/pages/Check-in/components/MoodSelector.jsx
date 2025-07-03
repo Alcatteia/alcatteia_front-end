@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCheck } from '../../../context/CheckContext';
+import { useCheck } from '../../../contexts/CheckContext'; 
 import contenteImg from '../../../assets/Ckeck-in/image/animado.png';
 import motivadoImg from '../../../assets/Ckeck-in/image/motivado.png';
 import calmoImg from '../../../assets/Ckeck-in/image/calmo.png';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCheck } from '../../../context/CheckContext';
+import { useCheck } from '../../../contexts/CheckContext';
 
 export default function MessageInput() {
    const { sendMessage } = useCheck();
