@@ -4,13 +4,23 @@ import * as api from '../services/kanbanService';
 
 export const KanbanContext = createContext();
 
-const KanbanProvider = ({ children }) => {
+export const KanbanProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [participationRequests, setParticipationRequests] = useState([]);
 
   useEffect(() => {
     api.getCategories()
-      .then(res => setCategories(res.data))
+      .then(res => {
+        const mapped = res.data.map(c => ({
+          id: c.id,
+          title: c.nome,
+          description: c.descricao,
+          color: c.cor,
+          order: c.ordem,
+          columns: { todo: [], doing: [], done: [] }
+        }));
+        setCategories(mapped);
+      })
       .catch(() => {
         console.warn('⚠ Back-end indisponível. Usando dados locais simulados.');
         setCategories([
@@ -25,7 +35,7 @@ const KanbanProvider = ({ children }) => {
           }
         ]);
       });
-    // Buscar pedidos de participação do back-end (substitua 'currentUserId' pelo id real do usuário logado)
+
     const currentUserId = 'mockUserId';
     api.getParticipationRequests(currentUserId)
       .then(res => setParticipationRequests(res.data))
@@ -33,7 +43,6 @@ const KanbanProvider = ({ children }) => {
   }, []);
 
   const addCategory = async (title) => {
-    // Atualiza localmente primeiro (otimista)
     const fallback = {
       id: uuidv4(),
       title,
@@ -41,48 +50,33 @@ const KanbanProvider = ({ children }) => {
     };
     setCategories(prev => [...prev, fallback]);
     try {
-      const response = await api.createCategory(title);
-      setCategories(prev => prev.map(cat => cat.id === fallback.id ? { ...response.data, columns: { todo: [], doing: [], done: [] } } : cat));
-    } catch {
-      // já atualizado localmente
+      const response = await api.createCategory({
+        title,
+        description: '',
+        color: '#000000',
+        order: 0,
+        usuarioId: 'mockUser',
+        timeId: 'mockTime'
+      });
+      const newCategory = {
+        id: response.data.id,
+        title: response.data.nome,
+        columns: { todo: [], doing: [], done: [] }
+      };
+      setCategories(prev =>
+        prev.map(cat => cat.id === fallback.id ? newCategory : cat)
+      );
+    } catch (err) {
+      console.warn('Erro ao criar categoria:', err);
     }
   };
 
   const deleteCategory = async (id) => {
-    // Atualiza localmente primeiro (otimista)
     setCategories(prev => prev.filter(cat => cat.id !== id));
     try {
       await api.deleteCategory(id);
     } catch {
       console.warn('⚠ Falha ao deletar no back. Deletando local.');
-    }
-  };
-
-  const addTask = async (categoryId, taskData) => {
-    const task = {
-      id: uuidv4(),
-      ...taskData,
-      progress: taskData.progress || 0,
-      comments: taskData.comments || [],
-      participants: taskData.participants || [],
-      dueDate: taskData.dueDate || null,
-      createdAt: new Date()
-    };
-    // Atualiza localmente primeiro (otimista)
-    insertTask(categoryId, task.status, task);
-    try {
-      const res = await api.createTask({ ...task, categoryId });
-      // Atualiza o id se a API retornar um diferente
-      if (res.data.id && res.data.id !== task.id) {
-        setCategories(prev => prev.map(cat => {
-          if (cat.id !== categoryId) return cat;
-          const updatedColumns = { ...cat.columns };
-          updatedColumns[task.status] = updatedColumns[task.status].map(t => t.id === task.id ? res.data : t);
-          return { ...cat, columns: updatedColumns };
-        }));
-      }
-    } catch {
-      // já atualizado localmente
     }
   };
 
@@ -100,6 +94,42 @@ const KanbanProvider = ({ children }) => {
           : cat
       )
     );
+  };
+
+  const addTask = async (categoryId, taskData) => {
+    const task = {
+      id: uuidv4(),
+      ...taskData,
+      progress: 0,
+      participants: taskData.participants || [],
+      dueDate: taskData.dueDate || null,
+      createdAt: new Date()
+    };
+
+    insertTask(categoryId, task.status, task);
+
+    try {
+      const res = await api.createTask({
+        title: task.title,
+        description: task.description,
+        categoryId,
+        responsavelId: 'mockUser',
+        dueDate: task.dueDate,
+        priority: 'normal',
+        status: task.status
+      });
+
+      if (res.data.id && res.data.id !== task.id) {
+        setCategories(prev => prev.map(cat => {
+          if (cat.id !== categoryId) return cat;
+          const updatedColumns = { ...cat.columns };
+          updatedColumns[task.status] = updatedColumns[task.status].map(t => t.id === task.id ? res.data : t);
+          return { ...cat, columns: updatedColumns };
+        }));
+      }
+    } catch (err) {
+      console.warn('Erro ao criar tarefa:', err);
+    }
   };
 
   const updateTask = async (categoryId, updatedTask) => {
@@ -134,7 +164,6 @@ const KanbanProvider = ({ children }) => {
   };
 
   const deleteTask = async (categoryId, taskId) => {
-    // Atualiza localmente primeiro (otimista)
     setCategories(prev =>
       prev.map(cat => {
         if (cat.id !== categoryId) return cat;
@@ -162,13 +191,11 @@ const KanbanProvider = ({ children }) => {
     const now = new Date();
     const updatedTask = { ...task, status: destCol, statusChangedAt: now };
 
-    // Se for concluída, adiciona completedAt e late
     if (destCol === 'done') {
       updatedTask.completedAt = now;
       updatedTask.late = task.dueDate && now > new Date(task.dueDate);
     }
 
-    // Atualiza localmente primeiro (otimista)
     await updateTask(categoryId, updatedTask);
 
     try {
@@ -185,7 +212,7 @@ const KanbanProvider = ({ children }) => {
   };
 
   const assignUser = async (categoryId, taskId) => {
-    const currentUser = 'Gabriel'; // mock
+    const currentUser = 'Gabriel';
 
     const category = categories.find(c => c.id === categoryId);
     if (!category) return;
@@ -208,31 +235,23 @@ const KanbanProvider = ({ children }) => {
     await updateTask(categoryId, updatedTask);
   };
 
-  // Enviar pedido de participação para o back-end
   const receiveParticipationRequest = async (requester, taskId) => {
     try {
       await api.sendParticipationRequest(taskId, requester);
-      // Opcional: buscar novamente os pedidos do back-end
-      // const currentUserId = 'mockUserId';
-      // const res = await api.getParticipationRequests(currentUserId);
-      // setParticipationRequests(res.data);
     } catch (error) {
       console.warn('Erro ao enviar pedido de participação:', error);
     }
   };
 
-  // Aceitar pedido de participação
   const acceptParticipation = async (requestId, taskId, requester) => {
     try {
       await api.acceptParticipationRequest(requestId);
       setParticipationRequests(prev => prev.filter(r => r.taskId !== taskId || r.requester !== requester));
-      // Opcional: atualizar a tarefa para incluir o novo participante
     } catch (error) {
       console.warn('Erro ao aceitar pedido de participação:', error);
     }
   };
 
-  // Recusar pedido de participação
   const rejectParticipation = async (requestId, taskId, requester) => {
     try {
       await api.rejectParticipationRequest(requestId);
@@ -262,7 +281,5 @@ const KanbanProvider = ({ children }) => {
       {children}
     </KanbanContext.Provider>
   );
-
 };
-
 export default KanbanProvider;

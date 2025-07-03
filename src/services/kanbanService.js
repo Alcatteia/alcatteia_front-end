@@ -1,99 +1,105 @@
 import axios from 'axios';
 
-
-const API_BASE = 'http://localhost:8080/api'; // Altere para sua URL real quando o back estiver pronto
+const API_BASE = 'http://localhost:8080'; // URL base do backend
 
 // 🔹 CATEGORIAS
-export const getCategories = () => axios.get(`${API_BASE}/categories`);
+export const getCategories = () => axios.get(`${API_BASE}/kanbancategorias`);
 
-export const createCategory = (title) =>
-  axios.post(`${API_BASE}/categories`, { title });
+export const createCategory = (categoryData) =>
+  axios.post(`${API_BASE}/kanbancategorias`, {
+    nome: categoryData.title,
+    descricao: categoryData.description || '',
+    cor: categoryData.color || '#000000',
+    ordem: categoryData.order || 0,
+    usuarioId: categoryData.usuarioId || 'mockUser',
+    timeId: categoryData.timeId || 'mockTime'
+  });
 
 export const deleteCategory = (id) =>
-  axios.delete(`${API_BASE}/categories/${id}`);
+  axios.delete(`${API_BASE}/kanbancategorias/${id}`);
 
+export const updateCategory = (id, categoryData) =>
+  axios.put(`${API_BASE}/kanbancategorias/${id}`, {
+    nome: categoryData.title || categoryData.nome,
+    descricao: categoryData.description || categoryData.descricao,
+    cor: categoryData.color || categoryData.cor,
+    ordem: categoryData.order || categoryData.ordem,
+    usuarioId: categoryData.usuarioId,
+    timeId: categoryData.timeId
+  });
 
 // 🔹 TAREFAS
+export const getTasks = () => axios.get(`${API_BASE}/api/tarefas`);
+
 export const createTask = (taskData) =>
-  axios.post(`${API_BASE}/tasks`, taskData);
-// taskData esperado:
-// {
-//   title, description, status, priority, progress,
-//   dueDate, participants: [], comments: [], categoryId
-// }
+  axios.post(`${API_BASE}/api/tarefas`, {
+    titulo: taskData.title,
+    descricao: taskData.description,
+    categoriaId: taskData.categoryId,
+    responsavelId: taskData.responsavelId || 'mockUser',
+    dataEntrega: taskData.dueDate || null,
+    prioridade: taskData.priority || 'normal',
+    status: taskData.status || 'TODO'
+  });
 
 export const deleteTask = (taskId) =>
-  axios.delete(`${API_BASE}/tasks/${taskId}`);
+  axios.delete(`${API_BASE}/api/tarefas/${taskId}`);
 
 export const updateTask = (taskId, updates) =>
-  axios.put(`${API_BASE}/tasks/${taskId}`, updates);
-// updates pode incluir: title, description, progress, dueDate, priority, etc
-// participants: []
+  axios.put(`${API_BASE}/api/tarefas/${taskId}`, {
+    titulo: updates.title || updates.titulo,
+    descricao: updates.description || updates.descricao,
+    categoriaId: updates.categoryId || updates.categoriaId,
+    responsavelId: updates.responsavelId || 'mockUser',
+    dataEntrega: updates.dueDate || updates.dataEntrega || null,
+    prioridade: updates.priority || updates.prioridade || 'normal',
+    status: updates.status
+  });
 
 export const moveTask = (taskId, newStatus, extra = {}) =>
-  // O back-end deve registrar status, statusChangedAt, completedAt e late (se enviados)
-  axios.put(`${API_BASE}/tasks/${taskId}/status`, { status: newStatus, ...extra });
+  axios.put(`${API_BASE}/api/tarefas/${taskId}/status`, {
+    status: newStatus,
+    ...extra
+  });
 
-
-// 🔹 COMENTÁRIOS
+// 🔹 COMENTÁRIOS (se implementado no back-end)
 export const addComment = (taskId, comment) =>
-  axios.post(`${API_BASE}/tasks/${taskId}/comments`, comment);
-// comment: { text: '...', author: '...' }
+  axios.post(`${API_BASE}/api/tarefas/${taskId}/comments`, comment);
 
-
-// 🔹 USUÁRIOS ATRIBUÍDOS
-// (Agora padronizado para participants)
+// 🔹 PARTICIPANTES
 export const assignUser = (taskId, user) =>
-  axios.post(`${API_BASE}/tasks/${taskId}/assign`, { user });
-// user: { id: '...', name: '...' }
+  axios.post(`${API_BASE}/api/tarefas/${taskId}/assign`, { user });
 
 export const removeUser = (taskId, user) =>
-  axios.post(`${API_BASE}/tasks/${taskId}/unassign`, { user });
+  axios.post(`${API_BASE}/api/tarefas/${taskId}/unassign`, { user });
 
+// 🔹 PARTICIPAÇÃO EM TAREFAS
+export const sendParticipationRequest = (taskId, requester) =>
+  axios.post(`${API_BASE}/api/participation-requests`, { taskId, requester });
 
-// 🔹 PEDIDOS DE PARTICIPAÇÃO (Sugestão: implemente os endpoints correspondentes no back-end)
-// Enviar um pedido de participação para uma tarefa
-export function sendParticipationRequest(taskId, requester) {
-  // Espera-se que o back-end crie um registro de pedido de participação
-  // requester: nome ou id do usuário solicitante
-  return axios.post(`${API_BASE}/participation-requests`, { taskId, requester });
-}
+export const getParticipationRequests = (userId) =>
+  axios.get(`${API_BASE}/api/participation-requests?userId=${userId}`);
 
-// Listar pedidos de participação pendentes para um usuário
-export function getParticipationRequests(userId) {
-  // O back-end deve retornar todos os pedidos de participação pendentes para o usuário informado
-  return axios.get(`${API_BASE}/participation-requests?userId=${userId}`);
-}
+export const acceptParticipationRequest = (requestId) =>
+  axios.post(`${API_BASE}/api/participation-requests/${requestId}/accept`);
 
-// Aceitar um pedido de participação
-export function acceptParticipationRequest(requestId) {
-  // O back-end deve adicionar o usuário à tarefa e remover o pedido
-  return axios.post(`${API_BASE}/participation-requests/${requestId}/accept`);
-}
+export const rejectParticipationRequest = (requestId) =>
+  axios.post(`${API_BASE}/api/participation-requests/${requestId}/reject`);
 
-// Recusar um pedido de participação
-export function rejectParticipationRequest(requestId) {
-  // O back-end deve apenas remover o pedido
-  return axios.post(`${API_BASE}/participation-requests/${requestId}/reject`);
-}
+// 🔹 NOTIFICAÇÕES
+export const getNotifications = (userId) =>
+  axios.get(`${API_BASE}/api/notifications?userId=${userId}`);
 
-// 🔹 NOTIFICAÇÕES (Sugestão: implemente os endpoints correspondentes no back-end)
-// Listar notificações do usuário
-export function getNotifications(userId) {
-  // O back-end deve retornar todas as notificações do usuário
-  return axios.get(`${API_BASE}/notifications?userId=${userId}`);
-}
+export const markNotificationAsRead = (notificationId) =>
+  axios.post(`${API_BASE}/api/notifications/${notificationId}/read`);
 
-// Marcar notificação como lida
-export function markNotificationAsRead(notificationId) {
-  // O back-end deve marcar a notificação como lida
-  return axios.post(`${API_BASE}/notifications/${notificationId}/read`);
-}
-
+// 🔹 Exportação principal (opcional)
 const kanbanService = {
   getCategories,
   createCategory,
+  updateCategory,
   deleteCategory,
+  getTasks,
   createTask,
   deleteTask,
   updateTask,

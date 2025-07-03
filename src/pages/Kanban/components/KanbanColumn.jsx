@@ -18,7 +18,6 @@ export default function KanbanColumn({
   const [{ isOver }, dropRef] = useDrop({
     accept: ITEM_TYPES.TASK,
     drop: (item) => {
-      // Verifica se a tarefa está sendo movida para outra coluna
       if (item.status !== status) {
         onMoveTask(item.id, item.status, status, item.categoryId);
       }
@@ -33,17 +32,17 @@ export default function KanbanColumn({
   return (
     <div
       ref={dropRef}
-      className={`bg-[#1C122A] rounded-xl p-4 sm:p-5 flex flex-col flex-shrink-0 w-[260px] sm:w-[300px] border-2 transition-all duration-200 ${
+      className={`flex flex-col flex-shrink-0 min-w-[240px] sm:min-w-[280px] w-[280px] bg-[#1C122A] rounded-xl p-4 sm:p-5 border-2 transition-all duration-200 ${
         isOver ? 'brightness-110 scale-[1.01]' : ''
       }`}
       style={{ borderColor: config.borderHex }}
     >
+      {/* Título da coluna */}
       <div className="flex justify-between items-center mb-4">
         <h3 className="flex items-center gap-2 text-lg font-semibold" style={{ color: config.color }}>
           {status === 'done' && <FiCheckCircle className="text-green-400" />}
           {config.label}
         </h3>
-
         <span
           className="text-sm px-2 py-1 rounded-full bg-opacity-20"
           style={{
@@ -55,6 +54,7 @@ export default function KanbanColumn({
         </span>
       </div>
 
+      {/* Lista de tarefas */}
       <div className="space-y-4 flex-1 min-h-[100px]">
         {tasks.length === 0 ? (
           <div className="text-gray-500 text-sm text-center py-6">Sem tarefas</div>
@@ -73,6 +73,7 @@ export default function KanbanColumn({
         )}
       </div>
 
+      {/* Botão de adicionar tarefa */}
       <AddTaskButton status={status} category={categoryId} />
     </div>
   );
@@ -87,5 +88,3 @@ KanbanColumn.propTypes = {
   onDeleteTask: PropTypes.func.isRequired,
   onParticipate: PropTypes.func.isRequired
 };
-
-

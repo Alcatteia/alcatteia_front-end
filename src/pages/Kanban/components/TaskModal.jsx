@@ -42,8 +42,8 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
       participants: Array.isArray(task.participants)
         ? task.participants
         : task.participants
-          ? [task.participants]
-          : []
+        ? [task.participants]
+        : []
     });
   }, [task]);
 
@@ -112,7 +112,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
           >
             {initials}
           </div>
-          <span>{user}</span>
+          <span className="truncate max-w-[100px]">{user}</span>
           <button
             onClick={() => toggleUser(user)}
             className="ml-1 text-red-400 hover:text-red-500 text-xs"
@@ -127,8 +127,8 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-[#1F152D] w-full max-w-xl rounded-xl p-6 border border-[#3A2C4A] text-white relative shadow-xl">
+    <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex lg:items-center lg:justify-center p-4 overflow-x-hidden overflow-y-auto">
+      <div className="bg-[#1F152D] w-full max-w-[95vw] sm:max-w-xl rounded-xl p-6 border border-[#3A2C4A] text-white relative shadow-xl max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"
@@ -138,7 +138,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
 
         <h2 className="text-xl font-bold mb-4">Editar Tarefa</h2>
 
-        {/* TÍTULO */}
+        {/* Título */}
         <div className="mb-4">
           <label htmlFor="title" className="text-sm text-gray-300 mb-1 block">Título</label>
           <input
@@ -146,31 +146,31 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
             type="text"
             value={editedTask.title}
             onChange={handleChange}
-            className="w-full bg-[#2A1C3A] text-white rounded-md px-3 py-2 border border-[#3A2C4A] focus:border-yellow-400"
+            className="w-full bg-[#2A1C3A] text-white rounded-md px-3 py-2 border border-[#3A2C4A] focus:border-yellow-400 focus:outline-none"
           />
         </div>
 
-        {/* DESCRIÇÃO */}
+        {/* Descrição */}
         <div className="mb-4">
           <label htmlFor="description" className="text-sm text-gray-300 mb-1 block">Descrição</label>
           <textarea
             id="description"
             value={editedTask.description}
             onChange={handleChange}
-            className="w-full bg-[#2A1C3A] text-white rounded-md px-3 py-2 border border-[#3A2C4A] focus:border-yellow-400"
+            className="w-full bg-[#2A1C3A] text-white rounded-md px-3 py-2 border border-[#3A2C4A] focus:border-yellow-400 focus:outline-none"
             rows={3}
           />
         </div>
 
-        {/* STATUS + DATA */}
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div className="w-1/2">
+        {/* Status e data */}
+        <div className="mb-4 flex flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-1/2">
             <label htmlFor="status" className="text-sm text-gray-300 block mb-1">Status</label>
             <select
               id="status"
               value={editedTask.status}
               onChange={handleStatusChange}
-              className="bg-[#2A1C3A] text-white border border-[#3A2C4A] px-3 py-2 rounded-md w-full"
+              className="bg-[#2A1C3A] text-white border border-[#3A2C4A] px-3 py-2 rounded-md w-full focus:outline-none"
             >
               {STATUS_ORDER.map((statusKey) => (
                 <option key={statusKey} value={statusKey}>
@@ -180,7 +180,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
             </select>
           </div>
 
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <label className="text-sm text-gray-300 block mb-1">Data de Entrega</label>
             <div className="flex items-center gap-2 text-sm text-gray-300">
               <FiClock className="text-gray-400" />
@@ -191,42 +191,13 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
           </div>
         </div>
 
-        {/* PARTICIPANTES */}
-        <div className="mb-4">
+        {/* Participantes */}
+        <div className="mb-6">
           <label className="text-sm text-gray-300 block mb-1">Participantes</label>
-          <div className="flex flex-wrap gap-2 mb-2">{renderAvatars()}</div>
-          {/* PROGRESSO */}
-          <div className="mb-4">
-            <label htmlFor="progress" className="text-sm text-gray-300 block mb-1">Progresso</label>
-            <div className="flex items-center gap-4">
-              <input
-                id="progress"
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={editedTask.progress || 0}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value, 10);
-                  setEditedTask((prev) => ({
-                    ...prev,
-                    progress: value,
-                    status: value >= 100 ? 'done' : prev.status
-                  }));
-                }}
-                className="w-full h-2 bg-[#3A2C4A] rounded-lg appearance-none cursor-pointer accent-yellow-400"
-              />
-              <span className="w-12 text-sm text-right text-gray-300">
-                {editedTask.progress || 0}%
-              </span>
-            </div>
-          </div>
+          <div className="flex flex-wrap gap-2 mb-3">{renderAvatars()}</div>
 
-
-          {/* Dropdown para adicionar */}
-          <div className="relative w-full max-w-full">
-
-
+          {/* Dropdown */}
+          <div className="relative w-full">
             <button
               onClick={() => setDropdownOpen((prev) => !prev)}
               className="flex items-center gap-2 px-3 py-1 bg-[#2A1C3A] border border-gray-600 text-white rounded-full text-sm hover:bg-yellow-400 hover:text-black"
@@ -234,9 +205,7 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
               <FiPlus /> Adicionar Participante
             </button>
             {dropdownOpen && (
-  <div className="absolute left-0 right-0 bottom-full mb-2 z-50 bg-[#1F152D] border border-[#3A2C4A] rounded-lg shadow-xl p-2 max-h-60 overflow-auto">
-
-
+              <div className="absolute left-0 mt-2 w-full bg-[#1F152D] border border-[#3A2C4A] rounded-lg shadow-xl p-2 max-h-60 overflow-auto z-50">
                 {users.map((user, index) => {
                   const initials = user.name
                     .split(' ')
@@ -265,16 +234,43 @@ export default function TaskModal({ task, isOpen, onClose, onSave, onDelete }) {
           </div>
         </div>
 
-        {/* AÇÕES */}
-        <div className="flex justify-between items-center mt-6">
+        {/* Progresso */}
+        <div className="mb-6">
+          <label htmlFor="progress" className="text-sm text-gray-300 block mb-1">Progresso</label>
+          <div className="flex items-center gap-4">
+            <input
+              id="progress"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value={editedTask.progress || 0}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                setEditedTask((prev) => ({
+                  ...prev,
+                  progress: value,
+                  status: value >= 100 ? 'done' : prev.status
+                }));
+              }}
+              className="w-full h-2 bg-[#3A2C4A] rounded-lg appearance-none cursor-pointer accent-yellow-400"
+            />
+            <span className="w-12 text-sm text-right text-gray-300">
+              {editedTask.progress || 0}%
+            </span>
+          </div>
+        </div>
+
+        {/* Ações */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
           <button
             onClick={handleDelete}
-            className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm flex items-center gap-1"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm flex items-center justify-center gap-1"
           >
             <FiTrash2 /> Deletar
           </button>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto justify-end">
             {!isAssigned && (
               <button
                 onClick={handleParticipate}

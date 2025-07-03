@@ -40,39 +40,39 @@ export default function KanbanBoard({ category, onParticipate }) {
 
   return (
     <div className="w-full overflow-x-auto">
-    <div className="flex gap-4 sm:gap-6 min-w-[600px] sm:min-w-0 px-2 sm:px-4 scrollbar-thin scrollbar-thumb-[#2D1B4F] scrollbar-track-transparent">
-      {STATUS_ORDER.map((status) => {
-        const tasks = category.columns[status] || [];
-        const config = STATUS_CONFIG[status];
+      <div className="min-w-[768px] sm:min-w-full flex gap-4 sm:gap-6 w-fit px-2 sm:px-4 lg:px-6 scrollbar-thin scrollbar-thumb-[#2D1B4F] scrollbar-track-transparent">
+        {STATUS_ORDER.map((status) => {
+          const tasks = category.columns[status] || [];
+          const config = STATUS_CONFIG[status];
 
-        return (
-          <KanbanColumn
-            key={status}
-            title={config.label}
-            color={config.color}
-            borderColor={config.color}
-            tasks={tasks}
-            status={status}
-            categoryId={category.id}
-            onCardClick={openModal}
-            onMoveTask={handleMove}
-            onDeleteTask={handleDeleteTask}
-            onParticipate={onParticipate}
-          />
-        );
-      })}
+          return (
+            <KanbanColumn
+              key={status}
+              title={config.label}
+              color={config.color}
+              borderColor={config.color}
+              tasks={tasks}
+              status={status}
+              categoryId={category.id}
+              onCardClick={openModal}
+              onMoveTask={handleMove}
+              onDeleteTask={handleDeleteTask}
+              onParticipate={onParticipate}
+            />
+          );
+        })}
+      </div>
+
+      {selectedTask && (
+        <TaskModal
+          task={selectedTask}
+          isOpen={!!selectedTask}
+          onClose={closeModal}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
-
-    {selectedTask && (
-      <TaskModal
-        task={selectedTask}
-        isOpen={!!selectedTask}
-        onClose={closeModal}
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
-    )}
-  </div>
   );
 }
 
@@ -85,5 +85,6 @@ KanbanBoard.propTypes = {
       doing: PropTypes.array,
       done: PropTypes.array
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  onParticipate: PropTypes.func
 };

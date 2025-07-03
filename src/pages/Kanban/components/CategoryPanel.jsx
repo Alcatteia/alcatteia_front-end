@@ -35,10 +35,8 @@ export default function CategoryPanel() {
     }
   };
 
-  // Função para passar para o KanbanBoard e TaskCard
   const handleParticipate = (taskId) => {
-    // Substitua 'SeuNome' pelo nome do usuário logado
-    receiveParticipationRequest('SeuNome', taskId);
+    receiveParticipationRequest('SeuNome', taskId); // Substitua por usuário real
   };
 
   return (
@@ -48,7 +46,7 @@ export default function CategoryPanel() {
         <h2 className="text-3xl md:text-4xl font-extrabold">Categorias</h2>
         <button
           onClick={() => setIsAdding(prev => !prev)}
-          className="flex items-center justify-center bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-300 transition w-full sm:w-auto"
+          className="flex items-center justify-center bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-300 transition w-full sm:w-auto max-w-xs"
         >
           <FiPlus className="mr-2" />
           Adicionar Categoria
@@ -67,7 +65,7 @@ export default function CategoryPanel() {
           />
           <button
             onClick={handleAddCategory}
-            className="bg-green-500 px-4 py-2 rounded hover:bg-green-400 transition font-medium w-full sm:w-auto"
+            className="bg-green-500 px-4 py-2 rounded hover:bg-green-400 transition font-medium w-full sm:w-auto max-w-xs"
             disabled={!newCategoryTitle.trim()}
           >
             Criar
@@ -83,14 +81,18 @@ export default function CategoryPanel() {
               className="flex justify-between items-center px-4 py-3 cursor-pointer hover:bg-[#352445] transition"
               onClick={() => handleToggleCategory(cat.id)}
             >
-              <div className="flex items-center gap-2 text-lg font-bold">
+              <div className="flex flex-wrap items-center gap-2 text-lg font-bold">
                 {expandedCategory === cat.id ? <FiChevronDown /> : <FiChevronRight />}
                 {cat.title}
-                <span className="ml-3 bg-stone-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <span
+                  title="Número de tarefas a fazer"
+                  className="ml-3 bg-stone-600 text-white text-xs font-bold px-2 py-1 rounded-full"
+                >
                   {cat.columns.todo.length}
                 </span>
               </div>
               <button
+                aria-label="Excluir categoria"
                 onClick={(e) => {
                   e.stopPropagation();
                   confirmDelete(cat.id);
@@ -101,9 +103,12 @@ export default function CategoryPanel() {
               </button>
             </div>
 
+            {/* Conteúdo expandido com correção de overflow horizontal */}
             {expandedCategory === cat.id && (
-              <div className="p-4 pt-0 overflow-x-auto">
-                <KanbanBoard category={cat} onParticipate={handleParticipate} />
+              <div className="p-4 pt-0 overflow-x-auto w-full">
+                <div className="min-w-[360px] sm:min-w-full">
+                  <KanbanBoard category={cat} onParticipate={handleParticipate} />
+                </div>
               </div>
             )}
           </div>
@@ -113,7 +118,7 @@ export default function CategoryPanel() {
       {/* Modal de exclusão */}
       {categoryToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-          <div className="bg-[#2A1C3A] p-6 rounded-lg border border-[#3A2C4A] w-full max-w-md text-center">
+          <div className="bg-[#2A1C3A] p-6 rounded-lg border border-[#3A2C4A] w-full max-w-xs sm:max-w-md text-center text-sm">
             <h4 className="text-lg font-semibold mb-4">Confirmar Exclusão</h4>
             <p className="text-gray-300 mb-6">
               Tem certeza que deseja excluir esta categoria? Essa ação não poderá ser desfeita.
@@ -138,3 +143,4 @@ export default function CategoryPanel() {
     </div>
   );
 }
+

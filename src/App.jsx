@@ -26,6 +26,7 @@ import Plans from "./pages/Plans/Plans";
 import UserProfile from "./pages/UserProfile/UserProfile";
 
 import Kanban from "./pages/Kanban/Kanban";
+import KanbanProvider from './contexts/KanbanContext';
 
 import LeaderDashboard from "./pages/Dashboard/LeaderDashboard";
 import HrDashboard from "./pages/Dashboard/HrDashboard";
@@ -134,6 +135,17 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
+                        {/* Rota para página Kanban */}
+                        <Route
+                            path="/kanban"
+                            element={
+                                <LayoutWithSidebar>
+                                    <KanbanProvider>
+                                        <Kanban />
+                                    </KanbanProvider>
+                                </LayoutWithSidebar>
+                            }
+                        />
 
 
                     {/* Rota para página Kanban */}
