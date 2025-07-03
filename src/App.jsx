@@ -6,6 +6,10 @@ import "./styles.css";
 
 import { BrowserRouter, Route, Routes } from "react-router";
 
+// Context
+
+import { CheckProvider } from "./contexts/CheckContext";
+
 // Components
 
 import Sidebar from "./components/Sidebar";
@@ -36,6 +40,9 @@ import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
 import Team from "./pages/TeamArea/LeaderTeamArea";
+import Check from "./pages/Check-in/Check";
+
+
 
 
 function LayoutWithSidebar({ children }) {
@@ -135,17 +142,17 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
-                        {/* Rota para página Kanban */}
-                        <Route
-                            path="/kanban"
-                            element={
-                                <LayoutWithSidebar>
-                                    <KanbanProvider>
-                                        <Kanban />
-                                    </KanbanProvider>
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rota para página Kanban */}
+                    <Route
+                        path="/kanban"
+                        element={
+                            <LayoutWithSidebar>
+                                <KanbanProvider>
+                                    <Kanban />
+                                </KanbanProvider>
+                            </LayoutWithSidebar>
+                        }
+                    />
 
 
                     {/* Rota para página Kanban */}
@@ -177,6 +184,16 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
+
+
+                    {/* Rota para página Check-in */}
+                    <Route path="/check-in" element={
+                        <LayoutWithSidebar>
+                            <CheckProvider>
+                                <Check />
+                            </CheckProvider>
+                        </LayoutWithSidebar>
+                    } />
 
 
                     {/* Rota para página Perfil do Usuário */}

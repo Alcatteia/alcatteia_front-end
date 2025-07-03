@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiClipboard, FiBarChart2, FiPhone, FiUsers, FiMenu } from 'react-icons/fi';
+import { FiClipboard, FiBarChart2, FiPhone, FiUsers, FiMenu, FiSmile } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router';
 
 export default function Sidebar() {
@@ -10,6 +10,7 @@ export default function Sidebar() {
     { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard/leader" },
     { label: "Kanban", icon: <FiClipboard />, active: true, link: "/kanban" },
     { label: "Reuniões", icon: <FiPhone />, link: "/meetings" },
+    { label: "Check-in", icon: <FiSmile />, link: "/check-in" },
     { label: "Equipe", icon: <FiUsers />, link: "/team/leader" }
   ];
 
