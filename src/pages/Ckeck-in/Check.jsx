@@ -33,9 +33,9 @@ export default function Check() {
   }
 
   return (
-    <div className="flex h-screen  bg-[#1d142e] pt-6 pb-6 text-white overflow-hidden">
+    <div className="flex h-screen  bg-[#1d142e] pt-6 pb-32  text-white overflow-hidden">
       <div className="flex-1 flex flex-col min-h-screen">
-        <main className="flex-1  md:p-8 overflow-y-auto flex justify-center-safe items-center">
+        <main className="flex-1  md:p-8 overflow-y-auto flex justify-center">
           <div className="w-full max-w-[1100px]">
 
             {/* Saudação com mascote */}
@@ -59,21 +59,6 @@ export default function Check() {
               <MessageInput />
               <QuickMessages messages={messages} />
             </div>
-
-
-            <button
-              onClick={() => {
-                localStorage.setItem('mock_messages', JSON.stringify([
-                  { user: 'Ana', avatar: null, text: 'Mensagem teste', createdAt: new Date().toISOString() }
-                ]));
-                localStorage.setItem('mock_mood', 'Motivado(a)');
-                localStorage.setItem('mock_mood_time', new Date().toISOString());
-                window.location.reload();
-              }}
-              className="bg-blue-600 text-white px-2 py-1 rounded"
-            >
-              Popular dados mock
-            </button>
           </div>
         </main>
       </div>
