@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../../../assets/home/images/logotipo364.png";
+import logo from "../assets/home/images/logotipo364.png";
+import { Link } from "react-router";
 
 function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -9,10 +10,13 @@ function Header() {
   return (
     <header className="fixed top-0 left-0 w-full p-4 flex justify-between items-center bg-gradient-to-t from-transparent to-black text-white z-50">
       {/* Logo */}
-      <div className="flex gap-0.5 items-center ml-5">
+      <Link
+        className="flex gap-0.5 items-center ml-5"
+        to="/"
+      >
         <img src={logo} alt="logotipo" className="w-17 mr-4 " />
         <span className="text-3xl">Alcatteia</span>
-      </div>
+      </Link>
 
       {/* Botão Hamburger */}
       <button
@@ -25,9 +29,9 @@ function Header() {
       {/* Menu Desktop */}
       <nav className="text-lg gap-5 relative hidden lg:flex">
         {["Início", "Sobre", "Planos"].map((item, index) => (
-          <a
+          <Link
             key={index}
-            href="#"
+            to="/account-access"
             className="relative group px-5 py-5 transition-transform duration-500 ease-in-out cursor-pointer"
           >
             {item}
@@ -36,11 +40,11 @@ function Header() {
                          bg-gradient-to-r from-indigo-600 to-fuchsia-400 h-[3px] rounded-3xl
                          group-hover:w-15 transition-all duration-500 ease-in-out"
             />
-          </a>
+          </Link>
         ))}
 
-        <a
-          href="#"
+        <Link
+          to="/account-access"
           className="mr-3 ml-3 mt-3 mb-5 
                bg-gradient-to-r from-indigo-600 to-fuchsia-400 font-semibold
                px-8 py-2 flex items-center rounded-2xl 
@@ -52,9 +56,9 @@ function Header() {
                hover:font-semibold hover:text-blue-950 cursor-pointer"
         >
           Entrar
-        </a>
+        </Link>
 
-        <button
+        <Link
           className="mr-7 ml-1 mt-3 mb-5
         bg-transparent font-semibold border-2 shadow-[0_0_15px] shadow-purple-600 border-purple-400
         text-purple-300
@@ -65,9 +69,11 @@ function Header() {
         duration-100 ease-in-out 
         focus:outline-none active:scale-110
         hover:font-semibold hover:text-yellow-700
-        cursor-pointer">
+        cursor-pointer"
+
+          to="/account-access">
           Cadastre-se
-        </button>
+        </Link>
       </nav>
 
       {/* Menu Mobile/Tablet: lateral overlay */}

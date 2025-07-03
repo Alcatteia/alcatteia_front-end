@@ -10,6 +10,8 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 // Pages
 
@@ -31,8 +33,6 @@ import Calls from "./pages/Calls/Calls";
 
 import UserProfile from "./pages/UserProfile/UserProfile";
 
-import { UserProvider } from "./contexts/UserContext";
-
 
 function LayoutWithSidebar({ children }) {
     return (
@@ -46,6 +46,16 @@ function LayoutWithSidebar({ children }) {
     );
 }
 
+function LayoutWithHeaderAndFooter({ children }) {
+    return (
+        <>
+            <Header />
+            {children}
+            <Footer />
+        </>
+    );
+}
+
 
 function App() {
     return (
@@ -53,15 +63,27 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={
+                        <LayoutWithHeaderAndFooter>
+                            <Home />
+                        </LayoutWithHeaderAndFooter>
+                    } />
 
 
                     {/* Rota para página Sobre  */}
-                    <Route path="/about" element={<About />} />
+                    <Route path="/about" element={
+                        <LayoutWithHeaderAndFooter>
+                            <About />
+                        </LayoutWithHeaderAndFooter>
+                    } />
 
 
                     {/* Rota para página Entrar/Cadastrar  */}
-                    <Route path="/account-access" element={<AccountAccess />} />
+                    <Route path="/account-access" element={
+                        <LayoutWithHeaderAndFooter>
+                            <AccountAccess />
+                        </LayoutWithHeaderAndFooter>
+                    } />
 
 
                     {/* Rotas para páginas de Dashboard */}
@@ -92,7 +114,7 @@ function App() {
                         }
                     />
 
-                    {/* Rota para página equipe do lider */}
+                    {/* Rota para página Equipes */}
                     <Route
                         path="/team/leader"
                         element={
@@ -109,17 +131,6 @@ function App() {
                         element={
                             <LayoutWithSidebar>
                                 <Kanban />
-                            </LayoutWithSidebar>
-                        }
-                    />
-
-
-                    {/* Rota para página Perfil do Usuário */}
-                    <Route
-                        path="/user-profile"
-                        element={
-                            <LayoutWithSidebar>
-                                <UserProfile />
                             </LayoutWithSidebar>
                         }
                     />
@@ -144,6 +155,16 @@ function App() {
                         }
                     />
 
+
+                    {/* Rota para página Perfil do Usuário */}
+                    <Route
+                        path="/user-profile"
+                        element={
+                            <LayoutWithSidebar>
+                                <UserProfile />
+                            </LayoutWithSidebar>
+                        }
+                    />
                 </Routes>
             </BrowserRouter>
         </>

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaInstagram, FaLinkedin, FaGithub, FaDiscord } from "react-icons/fa";
-import logo from "../../../assets/home/images/logotipo364.png";
+import logo from "../assets/home/images/logotipo364.png";
 
 export default function Footer() {
   return (
