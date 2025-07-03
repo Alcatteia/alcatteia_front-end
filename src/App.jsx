@@ -36,6 +36,7 @@ import Meetings from "./pages/Meetings/Meetings";
 import Calls from "./pages/Calls/Calls";
 
 import Team from "./pages/TeamArea/LeaderTeamArea";
+import { CheckProvider } from "./contexts/CheckContext";
 
 
 function LayoutWithSidebar({ children }) {
@@ -135,17 +136,17 @@ function App() {
                             </LayoutWithSidebar>
                         }
                     />
-                        {/* Rota para página Kanban */}
-                        <Route
-                            path="/kanban"
-                            element={
-                                <LayoutWithSidebar>
-                                    <KanbanProvider>
-                                        <Kanban />
-                                    </KanbanProvider>
-                                </LayoutWithSidebar>
-                            }
-                        />
+                    {/* Rota para página Kanban */}
+                    <Route
+                        path="/kanban"
+                        element={
+                            <LayoutWithSidebar>
+                                <KanbanProvider>
+                                    <Kanban />
+                                </KanbanProvider>
+                            </LayoutWithSidebar>
+                        }
+                    />
 
 
                     {/* Rota para página Kanban */}
@@ -179,7 +180,7 @@ function App() {
                     />
 
 
-                         {/* Rota para página Check-in */}
+                    {/* Rota para página Check-in */}
                     <Route path="/check-in" element={
                         <LayoutWithSidebar>
                             <CheckProvider>
