@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../../../assets/home/images/logotipo364.png";
+import logo from "../assets/home/images/logotipo364.png";
 
 function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
