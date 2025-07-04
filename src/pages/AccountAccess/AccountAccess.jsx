@@ -22,33 +22,33 @@ const AccountAccess = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const response = await userService.loginUsuario({
-                email: inputEmail,
-                senha: inputPassword,
-            });
-            console.log("Logado!", response.data);
-            setSessionUser(response.data);
-            navigate("/kanban");
-        } catch (erro) {
-            console.error("Erro ao logar:", erro);
-        }
+        // try {
+        //     const response = await userService.loginUsuario({
+        //         email: inputEmail,
+        //         senha: inputPassword,
+        //     });
+        //     console.log("Logado!", response.data);
+        //     setSessionUser(response.data);
+            navigate("/check-in");
+        // } catch (erro) {
+        //     console.error("Erro ao logar:", erro);
+        // }
     };
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        try {
-            const response = await userService.criarUsuario({
-                nome: inputName,
-                email: inputEmail,
-                senha: inputPassword,
-                tipo_usuario: inputRole,
-            });
-            console.log("Cadastrado!", response.data);
-            navigate("/kanban");
-        } catch (erro) {
-            console.error("Erro ao cadastrar:", erro);
-        }
+        // try {
+        //     const response = await userService.criarUsuario({
+        //         nome: inputName,
+        //         email: inputEmail,
+        //         senha: inputPassword,
+        //         tipo_usuario: inputRole,
+        //     });
+        //     console.log("Cadastrado!", response.data);
+            navigate("/check-in");
+        // } catch (erro) {
+        //     console.error("Erro ao cadastrar:", erro);
+        // }
     };
 
 
