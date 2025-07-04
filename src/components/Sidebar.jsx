@@ -1,20 +1,44 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FiClipboard, FiBarChart2, FiPhone, FiUsers, FiMenu, FiSmile } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router';
+import { KanbanContext } from '../contexts/KanbanContext';
+
+
+
+
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
- const items = [
-    { label: "Dashboard", icon: <FiBarChart2 />, link: "/dashboard/leader" },
+  const { inputRole } = useContext(KanbanContext);
+
+  const getDashboardLink = () => {
+    switch (inputRole) {
+      case "LIDER":
+        return "/dashboard/leader";
+      case "FUNC":
+        return "/dashboard/member";
+      case "RH":
+        return "/dashboard/rh";
+      default:
+        return "/dashboard/leader";
+    }
+  };
+
+  const items = [
+    {
+      label: "Dashboard",
+      icon: <FiBarChart2 />,
+      link: getDashboardLink()
+    },
     { label: "Kanban", icon: <FiClipboard />, active: true, link: "/kanban" },
     { label: "Reuniões", icon: <FiPhone />, link: "/meetings" },
     { label: "Check-in", icon: <FiSmile />, link: "/check-in" },
     { label: "Equipe", icon: <FiUsers />, link: "/team/leader" }
   ];
 
-  
+
   return (
     <div className="flex h-screen bg-[#160F23] text-white overflow-hidden">
       {/* Botão menu visível só no mobile */}

@@ -8,16 +8,16 @@ import { useEffect, useState } from "react";
 import { getSessionUser } from "../../utils/sessionUser";
 import { Link } from "react-router";
 
-const tipoUsuarioMap = {
-    FUNC: "Funcionário",
-    RH: "Recursos Humanos (RH)",
-    LIDER: "Líder",
-};
+// const tipoUsuarioMap = {
+//     FUNC: "Funcionário",
+//     RH: "Recursos Humanos (RH)",
+//     LIDER: "Líder",
+// };
 
 const UserProfile = () => {
     const [editProfile, setEditProfile] = useState(false);
     const usuario = getSessionUser();
-    const cargoUsuario = tipoUsuarioMap[usuario?.tipo_usuario] || usuario?.tipo_usuario;
+    // const cargoUsuario = tipoUsuarioMap[usuario?.tipo_usuario] || usuario?.tipo_usuario;
 
     useEffect(() => {
         window.scrollTo(0, 0);

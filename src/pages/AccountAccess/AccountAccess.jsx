@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from "react";
 import { FaLock } from "react-icons/fa";
 import { IoMdPerson } from "react-icons/io";
 import { FiAtSign } from "react-icons/fi";
@@ -10,14 +11,18 @@ import Lobo from "../../assets/login/logo_login.svg";
 import userService from "../../services/userservice";
 import { setSessionUser } from "../../utils/sessionUser";
 import { useNavigate } from "react-router";
+import { KanbanContext } from "../../contexts/KanbanContext";
 
 const AccountAccess = () => {
+
+    const { inputRole, setInputRole } = useContext(KanbanContext);
+
     const [isLogin, setIsLogin] = useState(true);
 
     const [inputName, setInputName] = useState("");
     const [inputEmail, setInputEmail] = useState("");
     const [inputPassword, setInputPassword] = useState("");
-    const [inputRole, setInputRole] = useState("");
+    // const [inputRole, setInputRole] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -41,7 +46,7 @@ const AccountAccess = () => {
         if (inputRole == "FUNC") {
             navigate("/dashboard/member");
         }
-          
+
         // } catch (erro) {
         //     console.error("Erro ao logar:", erro);
         // }
@@ -57,16 +62,26 @@ const AccountAccess = () => {
         //         tipo_usuario: inputRole,
         //     });
         //     console.log("Cadastrado!", response.data);
-            navigate("/check-in");
-        // } catch (erro) {
-        //     console.error("Erro ao cadastrar:", erro);
-        // }
-    };
+        if (inputRole == "RH") {
+            navigate("/dashboard/rh");
+        }
 
+        if (inputRole == "LIDER") {
+            navigate("/dashboard/leader");
+        }
+
+        if (inputRole == "FUNC") {
+            navigate("/dashboard/member");
+            // } catch (erro) {
+            //     console.error("Erro ao cadastrar:", erro);
+            // }
+        };
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
 
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4 bg-gradient-to-bl from-gray-900 via-[#2f0846] to-black">

@@ -8,6 +8,10 @@ export const KanbanProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [participationRequests, setParticipationRequests] = useState([]);
 
+  
+  const [inputRole, setInputRole] = useState("");
+
+
   useEffect(() => {
     api.getCategories()
       .then(res => {
@@ -85,12 +89,12 @@ export const KanbanProvider = ({ children }) => {
       prev.map(cat =>
         cat.id === categoryId
           ? {
-              ...cat,
-              columns: {
-                ...cat.columns,
-                [status]: [...cat.columns[status], task]
-              }
+            ...cat,
+            columns: {
+              ...cat.columns,
+              [status]: [...cat.columns[status], task]
             }
+          }
           : cat
       )
     );
@@ -276,6 +280,7 @@ export const KanbanProvider = ({ children }) => {
         receiveParticipationRequest,
         acceptParticipation,
         rejectParticipation
+        , inputRole, setInputRole
       }}
     >
       {children}

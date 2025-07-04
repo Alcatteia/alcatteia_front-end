@@ -70,7 +70,7 @@ function LayoutWithHeaderAndFooter({ children }) {
 
 function App() {
     return (
-        <>
+        <KanbanProvider>
             <BrowserRouter>
                 <Routes>
                     {/* Rota para Home */}
@@ -147,9 +147,9 @@ function App() {
                         path="/kanban"
                         element={
                             <LayoutWithSidebar>
-                                <KanbanProvider>
+                                
                                     <Kanban />
-                                </KanbanProvider>
+                                
                             </LayoutWithSidebar>
                         }
                     />
@@ -196,7 +196,7 @@ function App() {
                     />
                 </Routes>
             </BrowserRouter>
-        </>
+        </KanbanProvider>
     )
 }
 

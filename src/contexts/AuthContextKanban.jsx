@@ -6,10 +6,11 @@ export function AuthProviderKanban({ children }) {
   // Usuário mockado (substitua pelo login real depois)
   const [user, setUser] = useState({ id: '1', name: 'Gabriel Cabral' });
 
+
   // Funções de login/logout podem ser adicionadas aqui
 
   return (
-    <AuthContextKanban.Provider value={{ user, setUser }}>
+    <AuthContextKanban.Provider value={{ user, setUser}}>
       {children}
     </AuthContextKanban.Provider>
   );
