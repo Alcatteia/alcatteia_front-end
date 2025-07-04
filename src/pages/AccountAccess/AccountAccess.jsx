@@ -29,7 +29,19 @@ const AccountAccess = () => {
         //     });
         //     console.log("Logado!", response.data);
         //     setSessionUser(response.data);
-            navigate("/check-in");
+
+        if (inputRole == "RH") {
+            navigate("/dashboard/rh");
+        }
+
+        if (inputRole == "LIDER") {
+            navigate("/dashboard/leader");
+        }
+
+        if (inputRole == "FUNC") {
+            navigate("/dashboard/member");
+        }
+          
         // } catch (erro) {
         //     console.error("Erro ao logar:", erro);
         // }
