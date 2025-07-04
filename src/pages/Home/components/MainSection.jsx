@@ -4,6 +4,11 @@ import "../styles.css";
 import { motion } from 'framer-motion';
 import { Link } from "react-router";
 
+import video from "../../../../src/assets/home/images/videobackground.mp4";
+
+import lobinhoEscuro from "../../../../src/assets/home/images/lobinho_escuro.png";
+import lobinhoBranco from "../../../../src/assets/home/images/lobinho.png";
+
 
 function MainSection() {
   const palavras = [
@@ -89,7 +94,7 @@ function MainSection() {
     <section className="pt-40 md:pt-50 lg:pt-45 z-0 w-full h-157 flex items-center justify-center overflow-hidden">
       <video
         className="absolute top-0 left-0 w-full h-210 object-cover"
-        src="../../../../src/assets/home/images/videobackground.mp4"
+        src={video}
         autoPlay loop muted playsInline
       />
 
@@ -130,7 +135,7 @@ function MainSection() {
                 onMouseLeave={() => setHoverLobo(false)}
               >
                 <img
-                  src={hoverLobo ? "../../../../src/assets/home/images/lobinho_escuro.png" : "../../../../src/assets/home/images/lobinho.png"}
+                  src={hoverLobo ? lobinhoEscuro : lobinhoBranco}
                   alt="Lobo uivando"
                   className="w-5 h-5 mr-0.5 mb-1 transition duration-300 ease-in-out"
                 />

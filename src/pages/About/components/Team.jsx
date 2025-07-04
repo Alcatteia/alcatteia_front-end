@@ -112,7 +112,7 @@ const Team = () => {
                 </div>
 
                 <div className="mt-24 px-8 text-center">
-                    <p className="text-2xl text-white md:text-3xl md:leading-11">A <span className="text-[#ED1515]">Alcateia</span> representa muito mais do que um grupo de lobos — simboliza <span className="text-[#196EFF]">união</span>, <span className="text-[#00BE63]">liderança estratégica</span>, <span className="text-[#ECAB06]">proteção</span> e <span className="text-[#FA3AAB]">inteligência emocional</span>  Da sua equipe</p>
+                    <p className="text-2xl text-white md:text-3xl md:leading-11">A <span className="text-[#ED1515]">Alcatteia</span> representa muito mais do que um grupo de lobos — simboliza <span className="text-[#196EFF]">união</span>, <span className="text-[#00BE63]">liderança estratégica</span>, <span className="text-[#ECAB06]">proteção</span> e <span className="text-[#FA3AAB]">inteligência emocional</span>  Da sua equipe</p>
                     <Link to="/account-access" className="mt-10 inline-block py-3 cursor-pointer text-2xl text-white px-8 rounded-full bg-[#9A00FF] shadow-2xl shadow-[#aa7cff4b] font-semibold">Começar Agora</Link>
                 </div>
             </div>

@@ -30,17 +30,14 @@ export default function Footer() {
 
         {/* Redes sociais */}
         <div className="flex gap-4 text-2xl">
-          <a href="#" className="hover:scale-110 transition-transform text-pink-400 hover:text-pink-300">
+          <a href="#" target="_blank" className="hover:scale-110 transition-transform text-pink-400 hover:text-pink-300">
             <FaInstagram />
           </a>
-          <a href="#" className="hover:scale-110 transition-transform text-blue-400 hover:text-blue-300">
+          <a href="https://www.linkedin.com/company/alcatteia/" target="_blank" className="hover:scale-110 transition-transform text-blue-400 hover:text-blue-300">
             <FaLinkedin />
           </a>
-          <a href="#" className="hover:scale-110 transition-transform text-gray-300 hover:text-gray-100">
+          <a href="#" target="_blank" className="hover:scale-110 transition-transform text-gray-300 hover:text-gray-100">
             <FaGithub />
-          </a>
-          <a href="#" className="hover:scale-110 transition-transform text-indigo-400 hover:text-indigo-300">
-            <FaDiscord />
           </a>
         </div>
       </div>
