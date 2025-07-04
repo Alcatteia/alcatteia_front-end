@@ -1,6 +1,8 @@
 import { FaUsers, FaRocket } from 'react-icons/fa';
 import { Link } from 'react-router';
 
+import coworking from "../../../assets/home/images/coworking.jpg"
+
 export default function Explanation() {
   return (
     <section className="w-full pt-16 md:pt-20 mt-60 h-160 lg:pt-24 px-6 md:px-16 bg-gradient-to-br from-gray-900 via-[#2f0846] to-black text-white">
@@ -64,7 +66,7 @@ export default function Explanation() {
         {/* IMAGEM */}
         <div className="order-first md:order-none opacity-75">
           <img
-            src="src/assets/home/images/coworking.jpg"
+            src={coworking}
             alt="Equipe reunida"
             className="w-full rounded-3xl shadow-xl "
           />
