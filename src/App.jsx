@@ -155,17 +155,6 @@ function App() {
                     />
 
 
-                    {/* Rota para página Kanban */}
-                    <Route
-                        path="/kanban"
-                        element={
-                            <LayoutWithSidebar>
-                                <Kanban />
-                            </LayoutWithSidebar>
-                        }
-                    />
-
-
                     {/* Rota para página Reuniões */}
                     <Route
                         path="/meetings"

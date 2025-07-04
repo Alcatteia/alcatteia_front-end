@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUsers, FaCrown, FaUserFriends } from "react-icons/fa";
 import { MdCheckCircle, MdCancel } from "react-icons/md";
 
@@ -71,6 +71,11 @@ const Plans = () => {
       hoverMsg: "Caso queira adicionar mais pessoas: R$6,00 por pessoa",
     },
   ];
+
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <section className="h-screen flex items-center justify-center px-4 bg-gradient-to-br from-violet-950 via-black to-blue-900 text-white">

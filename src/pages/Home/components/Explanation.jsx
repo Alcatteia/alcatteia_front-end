@@ -1,4 +1,5 @@
-import { FaUsers, FaRocket} from 'react-icons/fa';
+import { FaUsers, FaRocket } from 'react-icons/fa';
+import { Link } from 'react-router';
 
 export default function Explanation() {
   return (
@@ -16,7 +17,7 @@ export default function Explanation() {
           {/* Título */}
           <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             Gestão ágil com propósito <br />
-             <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
               Conecte
             </span>{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-green-600 bg-clip-text text-transparent">
@@ -35,8 +36,8 @@ export default function Explanation() {
           {/* Botões */}
           <div className="flex flex-wrap gap-4 mt-5">
             {/* Botão primário */}
-            <a
-              href=""
+            <Link
+              to="/account-access"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white 
                          bg-gradient-to-r from-purple-600 to-pink-500
                          hover:from-pink-500 hover:to-yellow-400
@@ -45,18 +46,18 @@ export default function Explanation() {
             >
               <FaRocket className="text-lg" />
               Desperte o instinto
-            </a>
+            </Link>
 
             {/* Botão secundário */}
-            <a
-              href=""
+            <Link
+              to="/about"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-pink-500 
                          text-pink-400 hover:text-white hover:bg-pink-500/10
                          hover:border-pink-400 transition-all duration-300"
             >
               <FaUsers className="text-lg" />
               Sobre nossa equipe
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -69,7 +70,7 @@ export default function Explanation() {
           />
         </div>
       </div>
-    </section> 
-  
+    </section>
+
   );
 }

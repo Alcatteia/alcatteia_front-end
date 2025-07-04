@@ -19,6 +19,7 @@ import Intregrante5 from "../../../assets/about/members/integrante_5.png";
 import Intregrante6 from "../../../assets/about/members/integrante_6.png";
 import Intregrante7 from "../../../assets/about/members/integrante_7.png";
 import Intregrante8 from "../../../assets/about/members/integrante_8.png";
+import { Link } from "react-router";
 
 
 const Team = () => {
@@ -112,7 +113,7 @@ const Team = () => {
 
                 <div className="mt-24 px-8 text-center">
                     <p className="text-2xl text-white md:text-3xl md:leading-11">A <span className="text-[#ED1515]">Alcateia</span> representa muito mais do que um grupo de lobos — simboliza <span className="text-[#196EFF]">união</span>, <span className="text-[#00BE63]">liderança estratégica</span>, <span className="text-[#ECAB06]">proteção</span> e <span className="text-[#FA3AAB]">inteligência emocional</span>  Da sua equipe</p>
-                    <button className="mt-8 py-3 cursor-pointer text-2xl text-white px-8 rounded-full bg-[#9A00FF] shadow-2xl shadow-[#aa7cff4b] font-semibold">Começar Agora</button>
+                    <Link to="/account-access" className="mt-10 inline-block py-3 cursor-pointer text-2xl text-white px-8 rounded-full bg-[#9A00FF] shadow-2xl shadow-[#aa7cff4b] font-semibold">Começar Agora</Link>
                 </div>
             </div>
         </section>

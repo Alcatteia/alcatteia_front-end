@@ -1,6 +1,7 @@
 import React from "react";
 import { FaInstagram, FaLinkedin, FaGithub, FaDiscord } from "react-icons/fa";
 import logo from "../assets/home/images/logotipo364.png";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (
@@ -22,10 +23,9 @@ export default function Footer() {
 
         {/* Links de navegação */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center text-sm md:text-base">
-          <a href="#" className="hover:text-red-400 transition-colors">Início</a>
-          <a href="#" className="hover:text-purple-400 transition-colors">Sobre</a>
-          <a href="#" className="hover:text-emerald-400 transition-colors">Planos</a>
-          <a href="#" className="hover:text-yellow-400 transition-colors">Contato</a>
+          <Link to="/" className="hover:text-red-400 transition-colors">Início</Link>
+          <Link to="/about" className="hover:text-purple-400 transition-colors">Sobre</Link>
+          <Link to="/plans" className="hover:text-emerald-400 transition-colors">Planos</Link>
         </div>
 
         {/* Redes sociais */}

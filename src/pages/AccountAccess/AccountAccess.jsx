@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaLock } from "react-icons/fa";
 import { IoMdPerson } from "react-icons/io";
 import { FiAtSign } from "react-icons/fi";
@@ -50,6 +50,11 @@ const AccountAccess = () => {
             console.error("Erro ao cadastrar:", erro);
         }
     };
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className="h-screen bg-image w-full flex items-center justify-center px-4 bg-gradient-to-bl from-gray-900 via-[#2f0846] to-black">

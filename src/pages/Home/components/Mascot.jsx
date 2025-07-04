@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import lupinImage from "../../../assets/home/images/lupin_acenando.gif";
+import { Link } from "react-router";
 
 export default function Mascot() {
   return (
@@ -28,18 +29,19 @@ export default function Mascot() {
             O Lupin é mais do que um mascote: ele simboliza a união, coragem e o espírito colaborativo da Alcatteia. Com sua energia contagiante, ele inspira times a manterem-se conectados, produtivos e focados no bem-estar coletivo.
           </p>
 
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white 
-                       bg-gradient-to-r from-purple-600 to-pink-500
-                       hover:from-pink-500 hover:to-yellow-400
-                       hover:shadow-[0_0_10px_4px_rgba(236,72,153,0.4)]
-                       transition-all duration-300 ease-in-out"
-          >
-            Saiba mais sobre a Alcatteia
-          </motion.a>
+          <Link to="/about">
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white
+                         bg-gradient-to-r from-purple-600 to-pink-500
+                         hover:from-pink-500 hover:to-yellow-400
+                         hover:shadow-[0_0_10px_4px_rgba(236,72,153,0.4)]
+                         transition-all duration-300 ease-in-out"
+            >
+              Saiba mais sobre a Alcatteia
+            </motion.span>
+          </Link>
         </motion.div>
 
         {/* IMAGEM */}

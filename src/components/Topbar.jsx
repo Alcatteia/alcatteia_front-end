@@ -7,10 +7,10 @@ import { Link } from 'react-router';
 
 export default function Topbar({ participationRequests = [], acceptParticipation, rejectParticipation }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
+  // const [showNotification, setShowNotification] = useState(false);
 
-  const hasRequests = participationRequests.length > 0;
-  const currentRequest = participationRequests[0];
+  // const hasRequests = participationRequests.length > 0;
+  // const currentRequest = participationRequests[0];
 
   return (
     <header className="sticky top-0 z-10 bg-[#160F23]/90 flex justify-between border-b-4 border-[#220731] items-center p-4 
@@ -27,8 +27,8 @@ export default function Topbar({ participationRequests = [], acceptParticipation
       {/* Controles do usuário */}
       <div className="flex gap-2 md:gap-4 items-center"
       >
-        {/* Notificações */}
-        <button
+    
+        {/* <button
           className="p-2 rounded-full hover:bg-[#2A1C3A] transition-colors duration-200 relative"
           aria-label="Notificações"
           onClick={() => setShowNotification((prev) => !prev)}
@@ -39,7 +39,6 @@ export default function Topbar({ participationRequests = [], acceptParticipation
           )}
         </button>
 
-        {/* Modal de notificação */}
         {showNotification && hasRequests && currentRequest && (
           <NotificationModal
             requester={currentRequest.requester}
@@ -52,8 +51,10 @@ export default function Topbar({ participationRequests = [], acceptParticipation
               setShowNotification(false);
             }}
           />
-        )}
-        {showNotification && !hasRequests && (
+        )} */}
+
+
+        {/* {showNotification && !hasRequests && (
           <div className="absolute right-4 z-50 flex justify-end" style={{ top: 72 }}>
             <div className="bg-[#1F152D] p-6 rounded-lg border border-[#3A2C4A] w-full max-w-sm text-white relative shadow-xl mt-2">
               <h3 className="text-lg font-bold mb-4">Notificações</h3>
@@ -62,14 +63,13 @@ export default function Topbar({ participationRequests = [], acceptParticipation
           </div>
         )}
 
-        {/* Tema */}
+ 
         <button
           className="p-2 rounded-full hover:bg-[#2A1C3A] transition-colors duration-200"
           aria-label="Alternar tema"
-          onClick={() => {/* Lógica de tema */ }}
         >
           <FiMoon size={25} className="text-gray-300 hover:text-white" />
-        </button>
+        </button> */}
 
         {/* Avatar + Menu */}
         <div className="relative">
